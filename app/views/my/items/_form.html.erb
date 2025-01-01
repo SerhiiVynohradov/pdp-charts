@@ -1,0 +1,26 @@
+<%= turbo_frame_tag dom_id(item, item.persisted? ? :edit : :new) do %>
+  <%= form_with model: item, url: my_items_path, data: { turbo_frame: dom_id(item) }, class: "flex items-center space-x-4" do |f| %>
+    <!-- Name -->
+    <div>
+      <%= f.label :name, "Name", class: "block text-sm font-medium mb-1" %>
+      <%= f.text_field :name, class: "rounded bg-gray-900 border border-gray-500 px-2 py-1 text-white" %>
+    </div>
+
+    <!-- Category -->
+    <div>
+      <%= f.label :category, "Category", class: "block text-sm font-medium mb-1" %>
+      <%= f.text_field :category, class: "rounded bg-gray-900 border border-gray-500 px-2 py-1 text-white" %>
+    </div>
+
+    <!-- Progress -->
+    <div>
+      <%= f.label :progress, "Progress %", class: "block text-sm font-medium mb-1" %>
+      <%= f.number_field :progress, in: 0..100, class: "w-20 rounded bg-gray-900 border border-gray-500 px-2 py-1 text-white" %>
+    </div>
+
+    <div class="pt-5">
+      <%= f.submit item.persisted? ? "Update" : "Create",
+            class: "bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded" %>
+    </div>
+  <% end %>
+<% end %>

@@ -1,0 +1,12 @@
+<turbo-stream action="append" target="items-container">
+  <template>
+    <%= render partial: 'item_row', locals: { item: @item }, formats: [:html] %>
+  </template>
+</turbo-stream>
+
+<!-- Optional: Clear the form fields or re-render the form with a new blank item -->
+<turbo-stream action="replace" target="<%= dom_id(Item.new, :new) %>">
+  <template>
+    <%= render partial: "form", locals: { item: Item.new }, formats: [:html] %>
+  </template>
+</turbo-stream>
