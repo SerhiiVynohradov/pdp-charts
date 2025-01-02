@@ -17,8 +17,16 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_01_184056) do
   create_table "items", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "name", null: false
+    t.string "description"
+    t.string "link"
+    t.string "reason"
     t.string "category"
+    t.string "status"
+    t.string "expected_results"
     t.integer "progress", default: 0
+    t.integer "effort", default: 1
+    t.string "result"
+    t.string "certificate_link"
     t.integer "position"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

@@ -1,26 +1,39 @@
-<%= turbo_frame_tag dom_id(item, item.persisted? ? :edit : :new) do %>
-  <%= form_with model: item, url: my_items_path, data: { turbo_frame: dom_id(item) }, class: "flex items-center space-x-4" do |f| %>
-    <!-- Name -->
-    <div>
-      <%= f.label :name, "Name", class: "block text-sm font-medium mb-1" %>
-      <%= f.text_field :name, class: "rounded bg-gray-900 border border-gray-500 px-2 py-1 text-white" %>
+<%= turbo_frame_tag dom_id(Item.new, :new) do %>
+  <%= form_with model: item, url: my_items_path,
+                data: { turbo_frame: dom_id(Item.new, :new) },
+                class: "flex items-center space-x-6 bg-gray-900 text-white p-4 rounded" do |f| %>
+
+    <!-- Example fields: name, reason, effort, progress -->
+    <div class="flex items-center space-x-2">
+      <label class="text-sm text-gray-300">Name</label>
+      <%= f.text_field :name, class: "rounded bg-gray-800 border border-gray-500 px-2 py-1 text-white w-40" %>
     </div>
 
-    <!-- Category -->
-    <div>
-      <%= f.label :category, "Category", class: "block text-sm font-medium mb-1" %>
-      <%= f.text_field :category, class: "rounded bg-gray-900 border border-gray-500 px-2 py-1 text-white" %>
+    <div class="flex items-center px-2 space-x-2">
+      <label class="text-sm text-gray-300">Category</label>
+      <%= f.text_field :category, class: "rounded bg-gray-800 border border-gray-500 px-2 py-1 text-white w-56" %>
     </div>
 
-    <!-- Progress -->
-    <div>
-      <%= f.label :progress, "Progress %", class: "block text-sm font-medium mb-1" %>
-      <%= f.number_field :progress, in: 0..100, class: "w-20 rounded bg-gray-900 border border-gray-500 px-2 py-1 text-white" %>
+    <div class="flex items-center space-x-2">
+      <label class="text-sm text-gray-300">Reason</label>
+      <%= f.text_field :reason, class: "rounded bg-gray-800 border border-gray-500 px-2 py-1 text-white w-56" %>
     </div>
 
-    <div class="pt-5">
-      <%= f.submit item.persisted? ? "Update" : "Create",
-            class: "bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded" %>
+    <div class="flex items-center space-x-2 px-2">
+      <label class="text-sm text-gray-300">Effort</label>
+      <%= f.select :effort,
+            [["5 - Very Hard", "5"],
+             ["4 - Hard", "4"],
+             ["3 - Medium", "3"],
+             ["2 - Easy", "2"],
+             ["1 - Very Easy", "1"]],
+            { prompt: "Select" },
+            class: "rounded bg-gray-800 border border-gray-500 px-2 py-1 text-white w-36" %>
+    </div>
+
+    <div>
+      <%= f.submit "Create",
+        class: "bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded" %>
     </div>
   <% end %>
 <% end %>

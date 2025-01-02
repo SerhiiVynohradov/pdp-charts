@@ -1,36 +1,357 @@
-<tr class="border-b border-gray-600 hover:bg-gray-700">
-  <!-- NAME Column -->
+<tr id="<%= dom_id(item) %>" class="border-b border-gray-600 hover:bg-gray-700">
+  <!-- 1) NAME -->
   <td class="px-4 py-2 align-top">
-    <!-- Display State -->
-    <span
-        data-controller="inline-edit"
-        data-action="click->inline-edit#toggleEdit"
-        data-inline-edit-target="display">
-        <%= item.name %>
-    </span>
-
-    <!-- Inline Form (hidden by default) -->
-    <div data-inline-edit-target="form" class="hidden">
-      <%= form_with model: item, url: my_item_path(item), method: :patch, data: { action: "submit->inline-edit#submit" } do |f| %>
-        <%= f.text_field :name, class: "w-full rounded bg-gray-900 border border-gray-500 px-2 py-1 text-white" %>
-        <button type="submit" class="ml-2 bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded">Save</button>
-      <% end %>
+    <div
+      class="cursor-pointer"
+      data-controller="cell-edit"
+      data-action="click->cell-edit#enableEdit"
+      data-cell-edit-url-value="<%= my_item_path(item) %>"
+      data-cell-edit-field-name-value="name"
+      data-cell-edit-initial-value-value="<%= item.name || '' %>"
+    >
+      <!-- Display -->
+      <span data-cell-edit-target="display">
+        <%= item.name.presence || "-" %>
+      </span>
+      <!-- Inline form (hidden) -->
+      <form
+        data-cell-edit-target="form"
+        class="hidden flex items-center space-x-2 mt-1"
+        data-action="submit->cell-edit#submit"
+      >
+        <input
+          type="text"
+          class="rounded bg-gray-800 border border-gray-500 px-2 py-1 text-white"
+          data-cell-edit-target="input"
+        >
+        <button
+          type="submit"
+          class="bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded"
+        >
+          Save
+        </button>
+      </form>
     </div>
   </td>
 
-  <!-- CATEGORY Column -->
+  <!-- 2) DESCRIPTION -->
   <td class="px-4 py-2 align-top">
-    <%= item.category.presence || "-" %>
+    <div
+      class="cursor-pointer"
+      data-controller="cell-edit"
+      data-action="click->cell-edit#enableEdit"
+      data-cell-edit-url-value="<%= my_item_path(item) %>"
+      data-cell-edit-field-name-value="description"
+      data-cell-edit-initial-value-value="<%= item.description || '' %>"
+    >
+      <span data-cell-edit-target="display">
+        <%= item.description.presence || "-" %>
+      </span>
+      <form
+        data-cell-edit-target="form"
+        class="hidden flex items-center space-x-2 mt-1"
+        data-action="submit->cell-edit#submit"
+      >
+        <input
+          type="text"
+          class="rounded bg-gray-800 border border-gray-500 px-2 py-1 text-white w-60"
+          data-cell-edit-target="input"
+        >
+        <button
+          type="submit"
+          class="bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded"
+        >
+          Save
+        </button>
+      </form>
+    </div>
   </td>
 
-  <!-- PROGRESS Column -->
+  <!-- 3) LINK (clickable anchor; if user clicks link, no edit) -->
   <td class="px-4 py-2 align-top">
-    <%= item.progress %>%
+    <div
+      class="cursor-pointer"
+      data-controller="cell-edit"
+      data-action="click->cell-edit#enableEdit"
+      data-cell-edit-url-value="<%= my_item_path(item) %>"
+      data-cell-edit-field-name-value="link"
+      data-cell-edit-initial-value-value="<%= item.link || '' %>"
+    >
+      <span data-cell-edit-target="display">
+        <% if item.link.present? %>
+          <a href="<%= item.link %>"
+             target="_blank"
+             class="underline text-blue-400"
+             data-cell-edit-target="linkPreventer"  <!-- skip edit if click this -->
+          >
+            <%= item.link %>
+          </a>
+        <% else %>
+          -
+        <% end %>
+      </span>
+      <form
+        data-cell-edit-target="form"
+        class="hidden flex items-center space-x-2 mt-1"
+        data-action="submit->cell-edit#submit"
+      >
+        <input
+          type="text"
+          class="rounded bg-gray-800 border border-gray-500 px-2 py-1 text-white w-64"
+          data-cell-edit-target="input"
+        >
+        <button type="submit"
+                class="bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded"
+        >
+          Save
+        </button>
+      </form>
+    </div>
   </td>
 
-  <!-- ACTIONS Column -->
+  <!-- 4) REASON -->
+  <td class="px-4 py-2 align-top">
+    <div
+      class="cursor-pointer"
+      data-controller="cell-edit"
+      data-action="click->cell-edit#enableEdit"
+      data-cell-edit-url-value="<%= my_item_path(item) %>"
+      data-cell-edit-field-name-value="reason"
+      data-cell-edit-initial-value-value="<%= item.reason || '' %>"
+    >
+      <span data-cell-edit-target="display">
+        <%= item.reason.presence || "-" %>
+      </span>
+      <form
+        data-cell-edit-target="form"
+        class="hidden flex items-center space-x-2 mt-1"
+        data-action="submit->cell-edit#submit"
+      >
+        <input
+          type="text"
+          class="rounded bg-gray-800 border border-gray-500 px-2 py-1 text-white w-60"
+          data-cell-edit-target="input"
+        >
+        <button
+          type="submit"
+          class="bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded"
+        >
+          Save
+        </button>
+      </form>
+    </div>
+  </td>
+
+  <!-- 5) EXPECTED RESULTS -->
+  <td class="px-4 py-2 align-top">
+    <div
+      class="cursor-pointer"
+      data-controller="cell-edit"
+      data-action="click->cell-edit#enableEdit"
+      data-cell-edit-url-value="<%= my_item_path(item) %>"
+      data-cell-edit-field-name-value="expected_results"
+      data-cell-edit-initial-value-value="<%= item.expected_results || '' %>"
+    >
+      <span data-cell-edit-target="display">
+        <%= item.expected_results.presence || "-" %>
+      </span>
+      <form
+        data-cell-edit-target="form"
+        class="hidden flex items-center space-x-2 mt-1"
+        data-action="submit->cell-edit#submit"
+      >
+        <input
+          type="text"
+          class="rounded bg-gray-800 border border-gray-500 px-2 py-1 text-white w-60"
+          data-cell-edit-target="input"
+        >
+        <button
+          type="submit"
+          class="bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded"
+        >
+          Save
+        </button>
+      </form>
+    </div>
+  </td>
+
+  <!-- 6) CATEGORY -->
+  <td class="px-4 py-2 align-top">
+    <div
+      class="cursor-pointer"
+      data-controller="cell-edit"
+      data-action="click->cell-edit#enableEdit"
+      data-cell-edit-url-value="<%= my_item_path(item) %>"
+      data-cell-edit-field-name-value="category"
+      data-cell-edit-initial-value-value="<%= item.category || '' %>"
+    >
+      <span data-cell-edit-target="display">
+        <%= item.category.presence || "-" %>
+      </span>
+      <form
+        data-cell-edit-target="form"
+        class="hidden flex items-center space-x-2 mt-1"
+        data-action="submit->cell-edit#submit"
+      >
+        <input
+          type="text"
+          class="rounded bg-gray-800 border border-gray-500 px-2 py-1 text-white w-60"
+          data-cell-edit-target="input"
+        >
+        <button
+          type="submit"
+          class="bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded"
+        >
+          Save
+        </button>
+      </form>
+    </div>
+  </td>
+
+  <!-- 7) PROGRESS (number) -->
+  <td class="px-4 py-2 align-top">
+    <div
+      class="cursor-pointer"
+      data-controller="cell-edit"
+      data-action="click->cell-edit#enableEdit"
+      data-cell-edit-url-value="<%= my_item_path(item) %>"
+      data-cell-edit-field-name-value="progress"
+      data-cell-edit-initial-value-value="<%= item.progress.present? ? item.progress.to_s : '' %>"
+    >
+      <span data-cell-edit-target="display">
+        <%= item.progress.present? ? "#{item.progress}%" : "-" %>
+      </span>
+      <form
+        data-cell-edit-target="form"
+        class="hidden flex items-center space-x-2 mt-1"
+        data-action="submit->cell-edit#submit"
+      >
+        <input
+          type="number"
+          min="0"
+          max="100"
+          class="w-16 rounded bg-gray-800 border border-gray-500 px-2 py-1 text-white"
+          data-cell-edit-target="input"
+        >
+        <button
+          type="submit"
+          class="bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded"
+        >
+          Save
+        </button>
+      </form>
+    </div>
+  </td>
+
+  <!-- 8) EFFORT (select with full-time day descriptions) -->
+  <td class="px-4 py-2 align-top">
+    <div
+      class="cursor-pointer"
+      data-controller="cell-edit"
+      data-action="click->cell-edit#enableEdit"
+      data-cell-edit-url-value="<%= my_item_path(item) %>"
+      data-cell-edit-field-name-value="effort"
+      data-cell-edit-initial-value-value="<%= item.effort || '' %>"
+    >
+      <span data-cell-edit-target="display">
+        <%= effort_full_label(item.effort) %>
+      </span>
+      <form
+        data-cell-edit-target="form"
+        class="hidden flex items-center space-x-2 mt-1"
+        data-action="submit->cell-edit#submit"
+      >
+        <select data-cell-edit-target="input"
+                class="rounded bg-gray-800 border border-gray-500 px-2 py-1 text-white w-72"
+        >
+          <option value="">Select Effort</option>
+          <option value="5">5 - Very Hard (10+ full-time days)</option>
+          <option value="4">4 - Hard (5-10 full-time days)</option>
+          <option value="3">3 - Medium (3-5 full-time days)</option>
+          <option value="2">2 - Easy (2-3 full-time days)</option>
+          <option value="1">1 - Very Easy (&lt;1 full-time day)</option>
+        </select>
+        <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded">
+          Save
+        </button>
+      </form>
+    </div>
+  </td>
+
+  <!-- 9) RESULT (string) -->
+  <td class="px-4 py-2 align-top">
+    <div
+      class="cursor-pointer"
+      data-controller="cell-edit"
+      data-action="click->cell-edit#enableEdit"
+      data-cell-edit-url-value="<%= my_item_path(item) %>"
+      data-cell-edit-field-name-value="result"
+      data-cell-edit-initial-value-value="<%= item.result || '' %>"
+    >
+      <span data-cell-edit-target="display">
+        <%= item.result.presence || "-" %>
+      </span>
+      <form
+        data-cell-edit-target="form"
+        class="hidden flex items-center space-x-2 mt-1"
+        data-action="submit->cell-edit#submit"
+      >
+        <input
+          type="text"
+          class="rounded bg-gray-800 border border-gray-500 px-2 py-1 text-white w-60"
+          data-cell-edit-target="input"
+        >
+        <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded">
+          Save
+        </button>
+      </form>
+    </div>
+  </td>
+
+  <!-- 10) CERTIFICATE LINK (URL) -->
+  <td class="px-4 py-2 align-top">
+    <div
+      class="cursor-pointer"
+      data-controller="cell-edit"
+      data-action="click->cell-edit#enableEdit"
+      data-cell-edit-url-value="<%= my_item_path(item) %>"
+      data-cell-edit-field-name-value="certificate_link"
+      data-cell-edit-initial-value-value="<%= item.certificate_link || '' %>"
+    >
+      <span data-cell-edit-target="display">
+        <% if item.certificate_link.present? %>
+          <a href="<%= item.certificate_link %>"
+             target="_blank"
+             class="underline text-blue-400"
+             data-cell-edit-target="linkPreventer"
+          >
+            <%= item.certificate_link %>
+          </a>
+        <% else %>
+          -
+        <% end %>
+      </span>
+      <form
+        data-cell-edit-target="form"
+        class="hidden flex items-center space-x-2 mt-1"
+        data-action="submit->cell-edit#submit"
+      >
+        <input
+          type="text"
+          class="rounded bg-gray-800 border border-gray-500 px-2 py-1 text-white w-60"
+          data-cell-edit-target="input"
+        >
+        <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded">
+          Save
+        </button>
+      </form>
+    </div>
+  </td>
+
+  <!-- 11) ACTIONS (Delete button) -->
   <td class="px-4 py-2 align-top text-right space-x-2">
-    <%= link_to "Delete", my_item_path(item),
+    <%= link_to "Delete",
+      my_item_path(item),
       method: :delete,
       data: { confirm: "Are you sure?" },
       class: "bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded" %>

@@ -1,23 +1,30 @@
 <div class="bg-gray-900 text-white min-h-screen p-6">
   <h1 class="text-2xl font-bold mb-4">My Items</h1>
 
-  <!-- "New Item" form on top, or you can place a button that toggles it -->
+  <!-- New Item Form up top -->
   <div class="mb-6">
     <%= render partial: "form", locals: { item: Item.new } %>
   </div>
 
-  <!-- Table -->
   <table class="min-w-full border-collapse bg-gray-800 text-gray-50">
     <thead>
       <tr class="bg-gray-700 border-b border-gray-600">
         <th class="px-4 py-2 text-left">Name</th>
+        <th class="px-4 py-2 text-left">Description</th>
+        <th class="px-4 py-2 text-left">Link</th>
+        <th class="px-4 py-2 text-left">Reason</th>
+        <th class="px-4 py-2 text-left">Expected Results</th>
         <th class="px-4 py-2 text-left">Category</th>
         <th class="px-4 py-2 text-left">Progress</th>
-        <th class="px-4 py-2">Actions</th>
+        <th class="px-4 py-2 text-left">Effort</th>
+        <th class="px-4 py-2 text-left">Result</th>
+        <th class="px-4 py-2 text-left">Certificate</th>
+        <th class="px-4 py-2 text-left">Actions</th>
       </tr>
     </thead>
     <tbody id="items-container">
       <%= render @items %>
+      <!-- Calls _item_row.html.erb for each item, 1 <tr> each -->
     </tbody>
   </table>
 </div>
