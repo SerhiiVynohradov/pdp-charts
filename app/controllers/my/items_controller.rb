@@ -30,6 +30,15 @@ module My
       end
     end
 
+    def destroy
+      @item = current_user.items.find(params[:id])
+      respond_to do |format|
+        format.turbo_stream # => destroy.turbo_stream.erb
+        format.html { redirect_to my_items_path, notice: "Item deleted." }
+      end
+      @item.destroy
+    end
+
     def update
       @item = current_user.items.find(params[:id])
 
