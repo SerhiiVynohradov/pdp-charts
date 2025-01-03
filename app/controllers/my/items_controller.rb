@@ -4,6 +4,7 @@ module My
 
     def index
       @items = current_user.items.order(created_at: :desc)
+      @chart_data = build_pdp_charts_data(@items)
     end
 
     def create
@@ -62,6 +63,69 @@ module My
     end
 
     private
+
+    # Produces the arrays for #Items, Weighted Average, and PDP Effort
+    def build_pdp_charts_data(items)
+      # Let’s define 4 quarters in 2024 (Q1..Q4).
+      # You can adapt for any real logic or multiple years.
+      quarters = [
+        { name: "Q1 2024", start: Date.new(2024,1,1),  end: Date.new(2024,3,31) },
+        { name: "Q2 2024", start: Date.new(2024,4,1),  end: Date.new(2024,6,30) },
+        { name: "Q3 2024", start: Date.new(2024,7,1),  end: Date.new(2024,9,30) },
+        { name: "Q4 2024", start: Date.new(2024,10,1), end: Date.new(2024,12,31) }
+      ]
+
+      itemsData  = []
+      waData     = []
+      effortData = []
+
+      quarters.each_with_index do |q, idx|
+        items_count                  = 0
+        sum_of_diff_times_effort     = 0.0
+        sum_of_effort_for_active     = 0.0
+
+        items.each do |item|
+          current_progress = item.quarter_progress(q[:start], q[:end]) || 0
+
+          prev_progress = if idx == 0
+            0 # No previous quarter for Q1
+          else
+            prev_q = quarters[idx - 1]
+            item.quarter_progress(prev_q[:start], prev_q[:end]) || 0
+          end
+
+          diff = current_progress - prev_progress
+          if diff > 0
+            # If there's an actual increase, we count the item
+            items_count += 1
+
+            w = item.effort.to_f  # the weight
+            sum_of_diff_times_effort += (diff * w)
+            sum_of_effort_for_active  += w
+          end
+        end
+
+        wa  = 0.0
+        if sum_of_effort_for_active > 0
+          wa = sum_of_diff_times_effort / sum_of_effort_for_active
+        end
+
+        pdp_eff = wa * sum_of_effort_for_active
+
+        # We'll pick the start of the quarter as the x-value
+        x_date = q[:start]
+
+        itemsData  << { x: x_date, y: items_count }
+        waData     << { x: x_date, y: wa.round(2) }
+        effortData << { x: x_date, y: pdp_eff.round(2) }
+      end
+
+      {
+        items_data:  itemsData,
+        wa_data:     waData,
+        effort_data: effortData
+      }
+    end
 
     def item_params
       # All the columns you want to allow

@@ -1,6 +1,9 @@
 <div class="bg-gray-900 text-white min-h-screen p-6">
   <h1 class="text-2xl font-bold mb-4">My Items</h1>
 
+  <!-- The partial for charts -->
+  <%= render "pdp_charts" %>
+
   <!-- New Item Form up top -->
   <div class="mb-6">
     <%= render partial: "form", locals: { item: Item.new } %>
