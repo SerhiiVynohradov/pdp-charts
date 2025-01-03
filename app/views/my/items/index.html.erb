@@ -2,7 +2,7 @@
   <h1 class="text-2xl font-bold mb-4">My Items</h1>
 
   <!-- The partial for charts -->
-  <%= render "pdp_charts" %>
+  <%= render partial: "shared/pdp_charts", locals: { chart_data: @chart_data } %>
 
   <!-- New Item Form up top -->
   <div class="mb-6">
