@@ -9,4 +9,20 @@ class Item < ApplicationRecord
   def status_label
     'Status Label'
   end
+
+  def progress_updates
+    4.times.map do
+      {
+        date: random_date_2024,
+        percent: rand(0..100)
+      }
+    end.sort_by { |point| point[:date] }
+  end
+
+  private
+
+  def random_date_2024
+    day_of_year = rand(1..365)
+    Date.new(2024, 1, 1) + (day_of_year - 1)
+  end
 end

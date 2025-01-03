@@ -56,6 +56,11 @@ module My
       end
     end
 
+    def chart
+      @item = current_user.items.find(params[:id])
+      @chart_data = @item.progress_updates
+    end
+
     private
 
     def item_params

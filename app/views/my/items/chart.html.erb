@@ -1,0 +1,58 @@
+<div class="p-6">
+  <h1 class="text-2xl mb-4">
+    Progress Chart for <%= @item.name %>
+  </h1>
+
+  <div id="chartContainer" style="height: 500px; width: 100%;"></div>
+</div>
+
+<script type="text/javascript">
+document.addEventListener("DOMContentLoaded", function() {
+  const rawData = <%= raw @chart_data.to_json %>
+
+  const dataPoints = rawData.map((pt) => {
+    return {
+      x: new Date(pt.date),
+      y: pt.percent
+    }
+  })
+
+  const stockChart = new CanvasJS.StockChart("chartContainer", {
+    theme: "dark2",
+    backgroundColor: "#1f2937",
+
+    title: {
+      text: "Progress Over Time"
+    },
+    // You can define multiple "charts" for advanced usage
+    // We'll do just one line series in the main chart
+    charts: [{
+      axisX: {
+        labelFontColor: "#ccc"
+      },
+      axisY: {
+        title: "Completion (%)",
+        labelFontColor: "#ccc",
+        minimum: 0,
+        maximum: 100
+      },
+      data: [{
+        type: "line",
+        name: "Progress",
+        color: "#66bb6a",
+        lineThickness: 3,
+        markerSize: 5,
+        dataPoints: dataPoints
+      }]
+    }],
+    navigator: {
+      slider: {
+        minimum: new Date(2024, 0, 1),
+        maximum: new Date(2024, 11, 31)
+      }
+    }
+  })
+
+  stockChart.render()
+})
+</script>
