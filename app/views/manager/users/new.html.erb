@@ -1,0 +1,14 @@
+<h1 class="text-2xl mb-4">Add New Member to <%= @team.name %></h1>
+
+<%= form_with url: manager_team_users_path(@team), local: true, class: "space-y-4" do |f| %>
+  <div>
+    <%= f.label :name, "Name", class: "block text-sm" %>
+    <%= f.text_field :name, class: "border rounded px-2 py-1 w-64" %>
+  </div>
+  <div>
+    <%= f.label :email, "Email", class: "block text-sm" %>
+    <%= f.email_field :email, class: "border rounded px-2 py-1 w-64" %>
+  </div>
+  <!-- etc. -->
+  <%= f.submit "Create User", class: "bg-green-600 text-white px-3 py-1 rounded" %>
+<% end %>

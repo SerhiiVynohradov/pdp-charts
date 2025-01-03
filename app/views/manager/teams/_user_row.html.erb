@@ -1,0 +1,98 @@
+<%= turbo_frame_tag dom_id(user) do %>
+  <tr id="<%= dom_id(user) %>" class="border-b border-gray-600 hover:bg-gray-700">
+    <!-- Actions (View Chart, Settings, etc.) -->
+    <td class="px-4 py-2 align-top">
+      <%= link_to "Chart", charts_manager_team_user_path(@team, user), class: "bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded", target: "_blank" %>
+    </td>
+
+    <!-- Name -->
+    <td class="px-4 py-2 align-top">
+      <div
+        class="cursor-pointer"
+        data-controller="cell-edit"
+        data-action="click->cell-edit#enableEdit"
+        data-cell-edit-url-value="<%= manager_team_user_path(@team, user) %>"
+        data-cell-edit-field-name-value="name"
+        data-cell-edit-initial-value-value="<%= user.name || '' %>"
+      >
+        <span data-cell-edit-target="display">
+          <%= user.name.presence || "-" %>
+        </span>
+        <form
+          data-cell-edit-target="form"
+          class="hidden flex items-center space-x-2 mt-1"
+          data-action="submit->cell-edit#submit"
+        >
+          <input
+            type="text"
+            class="rounded bg-gray-800 border border-gray-500 px-2 py-1 text-white"
+            data-cell-edit-target="input"
+            value="<%= user.name %>"
+            required
+          >
+          <button
+            type="submit"
+            class="bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded"
+          >
+            Save
+          </button>
+        </form>
+      </div>
+    </td>
+
+    <!-- Email -->
+    <td class="px-4 py-2 align-top">
+      <div
+        class="cursor-pointer"
+        data-controller="cell-edit"
+        data-action="click->cell-edit#enableEdit"
+        data-cell-edit-url-value="<%= manager_team_user_path(@team, user) %>"
+        data-cell-edit-field-name-value="email"
+        data-cell-edit-initial-value-value="<%= user.email || '' %>"
+      >
+        <span data-cell-edit-target="display">
+          <%= user.email.presence || "-" %>
+        </span>
+        <form
+          data-cell-edit-target="form"
+          class="hidden flex items-center space-x-2 mt-1"
+          data-action="submit->cell-edit#submit"
+        >
+          <input
+            type="email"
+            class="rounded bg-gray-800 border border-gray-500 px-2 py-1 text-white w-60"
+            data-cell-edit-target="input"
+            value="<%= user.email %>"
+            required
+          >
+          <button
+            type="submit"
+            class="bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded"
+          >
+            Save
+          </button>
+        </form>
+      </div>
+    </td>
+
+    <!-- Status -->
+    <td class="px-4 py-2 align-top">
+      <div class="flex items-center space-x-2">
+        <span class="text-sm <%= user.paused? ? 'text-red-500' : 'text-green-500' %>">
+          <%= user.paused? ? "Paused" : "Active" %>
+        </span>
+        <%= link_to (user.paused? ? "Unpause" : "Pause"),
+                    pause_manager_team_user_path(@team, user),
+                    method: :patch,
+                    class: (user.paused? ? "bg-green-600" : "bg-yellow-600") + " text-white px-2 py-1 rounded" %>
+      </div>
+    </td>
+
+    <!-- Manage Actions -->
+    <td class="px-4 py-2 align-top text-right space-x-2">
+      <%= link_to "Generate Meeting", generate_meeting_manager_team_user_path(@team, user), class: "bg-purple-600 hover:bg-purple-700 text-white px-2 py-1 rounded" %>
+      <%= link_to "External Calendar", external_calendar_manager_team_user_path(@team, user), class: "bg-indigo-600 hover:bg-indigo-700 text-white px-2 py-1 rounded" %>
+      <%= link_to "Delete", manager_team_user_path(@team, user), method: :delete, data: { confirm: "Are you sure?" }, class: "bg-red-600 hover:bg-red-700 text-white px-2 py-1 rounded" %>
+    </td>
+  </tr>
+<% end %>

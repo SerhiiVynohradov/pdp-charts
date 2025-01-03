@@ -1,0 +1,23 @@
+<h1 class="text-2xl mb-4">Invoices for <%= @payer.name %></h1>
+<table class="min-w-full border-collapse bg-gray-800 text-gray-50">
+  <thead>
+    <tr>
+      <th>Invoice #</th>
+      <th>Amount</th>
+      <th>Status</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @invoices.each do |inv| %>
+      <tr>
+        <td><%= inv.id %></td>
+        <td><%= inv.amount %></td>
+        <td><%= inv.status %></td>
+        <td>
+          <%= link_to "View", superadmin_payer_invoice_path(@payer, inv), class: "bg-green-600 px-2 py-1 rounded text-white" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

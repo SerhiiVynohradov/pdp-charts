@@ -1,0 +1,25 @@
+<h1 class="text-2xl mb-4">All Companies</h1>
+
+<table class="min-w-full border-collapse bg-gray-800 text-gray-50">
+  <thead>
+    <tr>
+      <th class="px-4 py-2 text-left">Name</th>
+      <th class="px-4 py-2 text-left">Created At</th>
+      <th class="px-4 py-2">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @companies.each do |c| %>
+      <tr>
+        <td class="px-4 py-2"><%= c.name %></td>
+        <td class="px-4 py-2"><%= c.created_at.strftime("%Y-%m-%d") %></td>
+        <td class="px-4 py-2 text-right">
+          <%= link_to "Settings", settings_superadmin_company_path(c), class: "bg-blue-600 px-2 py-1 rounded text-white" %>
+          <%= link_to "Delete", superadmin_company_path(c), method: :delete, data: { confirm: "Sure?" }, class: "bg-red-600 px-2 py-1 rounded text-white" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to "Add Company", new_superadmin_company_path, class: "bg-green-600 px-3 py-1 rounded" %>

@@ -1,0 +1,26 @@
+<h1 class="text-2xl mb-4">Manage Pricing (Superadmin)</h1>
+
+<h2 class="text-xl">Firms</h2>
+<table class="min-w-full border-collapse bg-gray-800 text-gray-50 mb-6">
+  <thead>
+    <tr>
+      <th>Firm Name</th>
+      <th>$/User</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @firms.each do |firm| %>
+      <tr>
+        <td><%= firm.name %></td>
+        <td><%= firm.user_price %></td>
+        <td>
+          <%= link_to "Edit", edit_superadmin_pricing_firm_path(firm), class: "bg-blue-600 px-2 py-1 text-white rounded" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<h2 class="text-xl">Self-Employed</h2>
+<!-- similarly a table for self-employed pricing -->

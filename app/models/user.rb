@@ -4,8 +4,33 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  belongs_to :company, optional: true
+  belongs_to :team, optional: true
+
   has_many :items
 
-  enum role: { selfemployed: 0, employee: 1, manager: 2, companyowner: 3, superadmin: 4 }
+  enum role: {
+    user: 0,
+    manager: 1,
+    company_owner: 2,
+    superadmin: 3
+  }
 
+  def name
+    "#{first_name} #{last_name}"
+  end
+
+  def managed_teams
+    Team.where(id: team_id)
+  end
+
+  def subordinates_ids
+    if manager?
+      team.users.where.not(id: id).pluck(:id)
+    elsif company_owner?
+      company.teams.joins(:users).where.not(users: { id: id }).pluck(:id)
+    else
+      []
+    end
+  end
 end

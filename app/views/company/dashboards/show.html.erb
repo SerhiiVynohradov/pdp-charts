@@ -1,0 +1,8 @@
+<h1 class="text-2xl mb-4">Company Dashboard: <%= current_user.company.name %></h1>
+
+<p>Welcome, <%= current_user.name %> (Company Owner)</p>
+<ul>
+  <li><%= link_to "Teams", company_teams_path %></li>
+  <li><%= link_to "Company Charts", charts_company_dashboard_path %></li>
+  <li><%= link_to "Company Events", company_company_events_path %></li>
+</ul>

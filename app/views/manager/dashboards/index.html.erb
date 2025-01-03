@@ -1,0 +1,8 @@
+<h1 class="text-2xl mb-4">Manager Dashboard</h1>
+<p>Welcome, <%= current_user.name %>! Here’s an overview of your teams.</p>
+
+<% current_user.managed_teams.each do |team| %>
+  <div>
+    <%= link_to team.name, manager_team_path(team) %>
+  </div>
+<% end %>

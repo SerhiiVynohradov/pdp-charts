@@ -1,0 +1,23 @@
+<h1 class="text-2xl mb-4">All Payers</h1>
+<table class="min-w-full border-collapse bg-gray-800 text-gray-50">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Who Pays</th>
+      <th>Subscription End</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @payers.each do |payer| %>
+      <tr>
+        <td><%= payer.name %></td>
+        <td><%= payer.paying_company? ? payer.company.name : "Self" %></td>
+        <td><%= payer.subscription_end_date %></td>
+        <td>
+          <%= link_to "Invoices", superadmin_payer_invoices_path(payer), class: "bg-blue-600 px-2 py-1 text-white rounded" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -1,0 +1,20 @@
+<h1 class="text-2xl mb-4">Settings for Team <%= @team.name %></h1>
+
+<form action="<%= manager_team_path(@team) %>" method="post">
+  <%= hidden_field_tag :_method, "patch" %>
+  <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+
+  <div class="mb-2">
+    <label class="block text-sm">Team Name</label>
+    <input type="text" name="team[name]" value="<%= @team.name %>" class="border rounded px-2 py-1 w-64" />
+  </div>
+
+  <div class="mb-2">
+    <label class="block text-sm">Visibility of charts to all members</label>
+    <input type="checkbox" name="team[charts_visible]" <%= @team.charts_visible? ? "checked" : "" %> />
+    <span class="text-sm">Enable/Disable chart visibility</span>
+  </div>
+
+  <!-- etc. -->
+  <button type="submit" class="bg-blue-600 text-white px-3 py-1 rounded">Update Settings</button>
+</form>

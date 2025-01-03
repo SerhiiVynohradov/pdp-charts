@@ -1,0 +1,11 @@
+<turbo-stream action="append" target="users-container">
+  <template>
+    <%= render partial: "manager/teams/user_row", locals: { user: @user }, formats: [:html] %>
+  </template>
+</turbo-stream>
+
+<turbo-stream action="replace" target="<%= dom_id(User.new, :new) %>">
+  <template>
+    <%= render partial: "manager/teams/form", locals: { user: User.new, team: @team }, formats: [:html] %>
+  </template>
+</turbo-stream>

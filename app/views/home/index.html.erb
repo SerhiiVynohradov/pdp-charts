@@ -1,0 +1,19 @@
+<h1> Welcome to PDP Carts </h1>
+
+<% if user_signed_in? %>
+  <ul>
+    <li><%= link_to "My Items", my_items_path %></li>
+    <% if current_user.manager? %>
+      <li><%= link_to "My team", manager_team_path(current_user.team) %></li>
+    <% end %>
+    <% if current_user.company_owner? %>
+      <li><%= link_to "My company", company_dashboard_path %></li>
+    <% end %>
+    <% if current_user.superadmin? %>
+      <li><%= link_to "Companies", superadmin_companies_path %></li>
+    <% end %>
+    <li><%= link_to "Sign out", destroy_user_session_path, data: { turbo_method: :delete } %></li>
+  </ul>
+<% else %>
+  <%= link_to "Sign in", new_user_session_path %>
+<% end %>

@@ -1,0 +1,25 @@
+<h1 class="text-2xl mb-4">Company Events for <%= current_user.company.name %></h1>
+
+<table class="min-w-full border-collapse bg-gray-800 text-gray-50">
+  <thead>
+    <tr>
+      <th class="px-4 py-2 text-left">Event Name</th>
+      <th class="px-4 py-2 text-left">Date</th>
+      <th class="px-4 py-2">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @events.each do |evt| %>
+      <tr>
+        <td class="px-4 py-2"><%= evt.name %></td>
+        <td class="px-4 py-2"><%= evt.date %></td>
+        <td class="px-4 py-2 text-right">
+          <%= link_to "Edit", edit_company_company_event_path(evt), class: "bg-yellow-600 px-2 py-1 rounded text-white" %>
+          <%= link_to "Delete", company_company_event_path(evt), method: :delete, data: { confirm: "Really?" }, class: "bg-red-600 px-2 py-1 rounded text-white" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to "Add Event", new_company_company_event_path, class: "bg-green-600 px-3 py-1 rounded" %>

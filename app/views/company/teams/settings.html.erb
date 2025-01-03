@@ -1,0 +1,9 @@
+<h1 class="text-2xl mb-4">Edit Team <%= @team.name %> Settings (Company Owner)</h1>
+
+<%= form_with url: company_team_path(@team), method: :patch, local: true do |f| %>
+  <div class="mb-2">
+    <%= f.label :name, "Team Name" %>
+    <%= f.text_field :name, class: "border rounded px-2 py-1 w-64", value: @team.name %>
+  </div>
+  <%= f.submit "Update", class: "bg-blue-600 text-white px-3 py-1 rounded" %>
+<% end %>

@@ -1,0 +1,6 @@
+<h1 class="text-2xl mb-4">Team <%= @team.name %> (Company View)</h1>
+
+<p>Manager: <%= @team.users.find_by(role: :manager)&.name %></p>
+
+<!-- Possibly embed the manager's "show" partial or do your own layout. -->
+<%= link_to "Go to Manager View", manager_team_path(@team), class: "bg-green-600 rounded px-2 py-1" %>
