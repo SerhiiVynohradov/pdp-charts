@@ -1,5 +1,7 @@
 <%= turbo_frame_tag dom_id(user, :new) do %>
-  <%= form_with model: [ :manager, @team, user ], local: true,
+  <%= form_with model: user,
+                url: manager_team_users_path(@team),
+                local: true,
                 data: { turbo_frame: dom_id(user, :new) },
                 class: "flex items-center space-x-6 bg-gray-900 text-white p-4 rounded" do |f| %>
 
@@ -13,12 +15,6 @@
     <div class="flex items-center space-x-2">
       <label class="text-sm text-gray-300">Email</label>
       <%= f.email_field :email, class: "rounded bg-gray-800 border border-gray-500 px-2 py-1 text-white w-40", required: true %>
-    </div>
-
-    <!-- Role Field -->
-    <div class="flex items-center space-x-2">
-      <label class="text-sm text-gray-300">Role</label>
-      <%= f.select :role, [["User", "user"], ["Manager", "manager"]], { prompt: "Select Role" }, class: "rounded bg-gray-800 border border-gray-500 px-2 py-1 text-white w-36", required: true %>
     </div>
 
     <!-- Submit Button -->

@@ -8,7 +8,7 @@
 
   <!-- New User Form -->
   <div class="mb-6">
-    <%= render partial: "manager/teams/form", locals: { user: User.new, team: @team } %>
+    <%= render partial: "shared/users/form", locals: { user: User.new, team: @team } %>
   </div>
 
   <!-- Team Members Table -->
@@ -26,9 +26,4 @@
       <%= render @team.users %>
     </tbody>
   </table>
-
-  <!-- Add User Button -->
-  <div class="mt-4">
-    <%= link_to "Add User", new_manager_team_user_path(@team), class: "bg-green-600 px-4 py-2 rounded text-white" %>
-  </div>
 </div>

@@ -1,3 +1,5 @@
+# app/controllers/manager/teams/users_controller.rb
+
 module Manager
   module Teams
     class UsersController < ApplicationController
@@ -6,7 +8,7 @@ module Manager
       before_action :set_user, only: [:edit, :update, :destroy, :pause, :generate_meeting, :external_calendar]
 
       def index
-        @users = @team.users
+        redirect_to manager_team_path(@team)
       end
 
       def new
@@ -15,6 +17,9 @@ module Manager
 
       def create
         @user = @team.users.new(user_params)
+        @user.password = 'password'
+        @user.password_confirmation = 'password'
+
         if @user.save
           respond_to do |format|
             format.html { redirect_to manager_team_path(@team), notice: "User added successfully." }
@@ -40,11 +45,11 @@ module Manager
       end
 
       def destroy
-        @user.destroy
         respond_to do |format|
           format.html { redirect_to manager_team_path(@team), notice: "User removed successfully." }
           format.turbo_stream
         end
+        @user.destroy
       end
 
       def pause
@@ -71,7 +76,7 @@ module Manager
       private
 
       def require_manager!
-        redirect_to root_path, alert: "Access denied." unless current_user&.manager?
+        redirect_to root_path unless user_signed_in? && current_user.manager?
       end
 
       def set_team

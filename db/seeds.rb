@@ -8,19 +8,19 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
-regular_user = User.create email: 'user@gmail.com', password: 'password', password_confirmation: 'password', role: :user, company_id: nil, team_id: nil, first_name: 'User', last_name: 'User'
+regular_user = User.create email: 'user@gmail.com', password: 'password', password_confirmation: 'password', role: :user, company_id: nil, team_id: nil, name: 'User User'
 
 company = Company.create name: 'Company'
 
 team_without_company = Team.create name: 'Team without company', company_id: nil
 team_with_company = Team.create name: 'Team with company', company_id: company.id
 
-manager_of_team_without_company = User.create email: 'manager_of_team_without_company@gmail.com', password: 'password', password_confirmation: 'password', role: :manager, company_id: nil, team_id: team_without_company.id, first_name: 'Manager', last_name: 'Manager'
-user_of_team_without_company = User.create email: 'user_of_team_without_company@gmail.com', password: 'password', password_confirmation: 'password', role: :user, company_id: nil, team_id: team_without_company.id, first_name: 'User', last_name: 'User'
+manager_of_team_without_company = User.create email: 'manager_of_team_without_company@gmail.com', password: 'password', password_confirmation: 'password', role: :manager, company_id: nil, team_id: team_without_company.id, name: 'Manager Manager'
+user_of_team_without_company = User.create email: 'user_of_team_without_company@gmail.com', password: 'password', password_confirmation: 'password', role: :user, company_id: nil, team_id: team_without_company.id, name: 'User User'
 
-manager_of_team_with_company = User.create email: 'manager_of_team_with_company@gmail.com', password: 'password', password_confirmation: 'password', role: :manager, company_id: company.id, team_id: team_with_company.id, first_name: 'Manager', last_name: 'Manager'
-user_of_team_with_company = User.create email: 'user_of_team_with_company@gmail.com', password: 'password', password_confirmation: 'password', role: :user, company_id: company.id, team_id: team_with_company.id, first_name: 'User', last_name: 'User'
-owner_of_team_with_company = User.create email: 'owner_of_team_with_company@gmail.com', password: 'password', password_confirmation: 'password', role: :company_owner, company_id: company.id, team_id: team_with_company.id, first_name: 'Owner', last_name: 'Owner'
+manager_of_team_with_company = User.create email: 'manager_of_team_with_company@gmail.com', password: 'password', password_confirmation: 'password', role: :manager, company_id: company.id, team_id: team_with_company.id, name: 'Manager Manager'
+user_of_team_with_company = User.create email: 'user_of_team_with_company@gmail.com', password: 'password', password_confirmation: 'password', role: :user, company_id: company.id, team_id: team_with_company.id, name: 'User User'
+owner_of_team_with_company = User.create email: 'owner_of_team_with_company@gmail.com', password: 'password', password_confirmation: 'password', role: :company_owner, company_id: company.id, team_id: team_with_company.id, name: 'Owner Owner'
 
 Item.create user_id: regular_user.id, name: 'Item', description: 'Description', link: 'Link', reason: 'Reason', category: 'Category', status: 'Status', expected_results: 'Expected results', progress: 0, effort: 1, result: 'Result', certificate_link: 'Certificate link', position: 1
 Item.create user_id: manager_of_team_without_company.id, name: 'Item', description: 'Description', link: 'Link', reason: 'Reason', category: 'Category', status: 'Status', expected_results: 'Expected results', progress: 0, effort: 1, result: 'Result', certificate_link: 'Certificate link', position: 1

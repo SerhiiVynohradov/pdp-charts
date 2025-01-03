@@ -56,8 +56,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_03_061815) do
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
     t.integer "role", default: 0, null: false
-    t.string "first_name"
-    t.string "last_name"
+    t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "company_id"

@@ -28,7 +28,7 @@ Rails.application.routes.draw do
   # 2) Manager interface -> Team-level
   # e.g. /manager/teams/ :id => manager can see his team
   namespace :manager do
-    resources :teams, only: [:show, :edit, :update] do
+    resources :teams, only: [:show, :edit, :update], module: 'teams' do
       member do
         get :charts
         get :settings

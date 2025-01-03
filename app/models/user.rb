@@ -16,10 +16,6 @@ class User < ApplicationRecord
     superadmin: 3
   }
 
-  def name
-    "#{first_name} #{last_name}"
-  end
-
   def managed_teams
     Team.where(id: team_id)
   end
@@ -32,5 +28,9 @@ class User < ApplicationRecord
     else
       []
     end
+  end
+
+  def paused?
+    false
   end
 end
