@@ -13,10 +13,13 @@
       data-cell-edit-url-value="<%= manager_team_user_path(@team, user) %>"
       data-cell-edit-field-name-value="name"
       data-cell-edit-initial-value-value="<%= user.name || '' %>"
+      data-cell-edit-resource-name-value="user"
     >
+      <!-- Display -->
       <span data-cell-edit-target="display">
         <%= user.name.presence || "-" %>
       </span>
+      <!-- Inline form (hidden) -->
       <form
         data-cell-edit-target="form"
         class="hidden flex items-center space-x-2 mt-1"
@@ -48,6 +51,7 @@
       data-cell-edit-url-value="<%= manager_team_user_path(@team, user) %>"
       data-cell-edit-field-name-value="email"
       data-cell-edit-initial-value-value="<%= user.email || '' %>"
+      data-cell-edit-resource-name-value="user"
     >
       <span data-cell-edit-target="display">
         <%= user.email.presence || "-" %>

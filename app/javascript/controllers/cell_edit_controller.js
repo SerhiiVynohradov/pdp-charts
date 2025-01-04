@@ -2,9 +2,10 @@ import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
   static values = {
-    url: String,          // e.g. /my/items/1
-    fieldName: String,    // e.g. "name" or "progress"
-    initialValue: String  // The old value for the input
+    url: String,          // e.g. /manager/teams/1/users/12
+    fieldName: String,    // e.g. "name" or "email"
+    initialValue: String, // The old value for the input
+    resourceName: String  // e.g. "user" or "item"
   }
 
   static targets = [
@@ -15,8 +16,6 @@ export default class extends Controller {
   ]
 
   connect() {
-    // Load the old value into the input. Must match your data attribute.
-    // If initialValue is blank, we do "" so the user sees an empty field.
     this.setInputValue(this.initialValueValue || "")
   }
 
@@ -26,7 +25,7 @@ export default class extends Controller {
       return
     }
 
-    // Already editing? do nothing
+    // Already editing? Do nothing
     if (!this.formTarget.classList.contains("hidden")) return
 
     // Show form, hide display
@@ -54,7 +53,7 @@ export default class extends Controller {
     }
 
     const formData = new FormData()
-    formData.append(`item[${this.fieldNameValue}]`, newValue)
+    formData.append(`${this.resourceNameValue}[${this.fieldNameValue}]`, newValue)
 
     fetch(this.urlValue, {
       method: "PATCH",
@@ -72,7 +71,6 @@ export default class extends Controller {
       })
       .then(data => {
         const updatedRaw = data[this.fieldNameValue] ?? ""
-        // Convert raw to something display-friendly
         const displayString = this.computeDisplayValue(updatedRaw)
 
         // Update the <span> text
@@ -112,29 +110,7 @@ export default class extends Controller {
   computeDisplayValue(raw) {
     if (!raw) return "-"
 
-    if (this.fieldNameValue === "progress") {
-      return `${raw}%`
-    }
-    if (this.fieldNameValue === "effort") {
-      return this.effortLabel(raw)
-    }
+    // General case: return raw
     return raw
-  }
-
-  effortLabel(code) {
-    switch (code) {
-      case "5":
-        return "5 - Very Hard (10+ full-time days)"
-      case "4":
-        return "4 - Hard (5-10 full-time days)"
-      case "3":
-        return "3 - Medium (3-5 full-time days)"
-      case "2":
-        return "2 - Easy (2-3 full-time days)"
-      case "1":
-        return "1 - Very Easy (<1 full-time day)"
-      default:
-        return "-"
-    }
   }
 }

@@ -34,13 +34,25 @@ module Manager
       end
 
       def update
-        if @user.update(user_params)
-          respond_to do |format|
-            format.html { redirect_to manager_team_path(@team), notice: "User updated successfully." }
-            format.turbo_stream
+        if request.format.json?
+          # This is the partial cell edit
+          if @user.update(user_params)
+            # Return just the updated fields as JSON
+            render json: @user.slice(
+              :id,
+              :name,
+              :email
+            ), status: :ok
+          else
+            render json: { errors: @user.errors.full_messages }, status: :unprocessable_entity
           end
         else
-          render :edit
+          # Normal HTML fallback
+          if @user.update(user_params)
+            redirect_to manager_team_path(@team), notice: "Item updated."
+          else
+            render :edit, status: :unprocessable_entity
+          end
         end
       end
 

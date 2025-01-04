@@ -12,6 +12,7 @@
       data-cell-edit-url-value="<%= my_item_path(item) %>"
       data-cell-edit-field-name-value="name"
       data-cell-edit-initial-value-value="<%= item.name || '' %>"
+      data-cell-edit-resource-name-value="item"
     >
       <!-- Display -->
       <span data-cell-edit-target="display">
@@ -47,6 +48,7 @@
       data-cell-edit-url-value="<%= my_item_path(item) %>"
       data-cell-edit-field-name-value="description"
       data-cell-edit-initial-value-value="<%= item.description || '' %>"
+      data-cell-edit-resource-name-value="item"
     >
       <span data-cell-edit-target="display">
         <%= item.description.presence || "-" %>
@@ -80,6 +82,7 @@
       data-cell-edit-url-value="<%= my_item_path(item) %>"
       data-cell-edit-field-name-value="link"
       data-cell-edit-initial-value-value="<%= item.link || '' %>"
+      data-cell-edit-resource-name-value="item"
     >
       <span data-cell-edit-target="display">
         <% if item.link.present? %>
@@ -122,6 +125,7 @@
       data-cell-edit-url-value="<%= my_item_path(item) %>"
       data-cell-edit-field-name-value="reason"
       data-cell-edit-initial-value-value="<%= item.reason || '' %>"
+      data-cell-edit-resource-name-value="item"
     >
       <span data-cell-edit-target="display">
         <%= item.reason.presence || "-" %>
@@ -155,6 +159,7 @@
       data-cell-edit-url-value="<%= my_item_path(item) %>"
       data-cell-edit-field-name-value="expected_results"
       data-cell-edit-initial-value-value="<%= item.expected_results || '' %>"
+      data-cell-edit-resource-name-value="item"
     >
       <span data-cell-edit-target="display">
         <%= item.expected_results.presence || "-" %>
@@ -188,6 +193,7 @@
       data-cell-edit-url-value="<%= my_item_path(item) %>"
       data-cell-edit-field-name-value="category"
       data-cell-edit-initial-value-value="<%= item.category || '' %>"
+      data-cell-edit-resource-name-value="item"
     >
       <span data-cell-edit-target="display">
         <%= item.category.presence || "-" %>
@@ -221,6 +227,7 @@
       data-cell-edit-url-value="<%= my_item_path(item) %>"
       data-cell-edit-field-name-value="progress"
       data-cell-edit-initial-value-value="<%= item.progress.present? ? item.progress.to_s : '' %>"
+      data-cell-edit-resource-name-value="item"
     >
       <span data-cell-edit-target="display">
         <%= item.progress.present? ? "#{item.progress}%" : "-" %>
@@ -256,6 +263,7 @@
       data-cell-edit-url-value="<%= my_item_path(item) %>"
       data-cell-edit-field-name-value="effort"
       data-cell-edit-initial-value-value="<%= item.effort || '' %>"
+      data-cell-edit-resource-name-value="item"
     >
       <span data-cell-edit-target="display">
         <%= effort_full_label(item.effort) %>
@@ -291,6 +299,7 @@
       data-cell-edit-url-value="<%= my_item_path(item) %>"
       data-cell-edit-field-name-value="result"
       data-cell-edit-initial-value-value="<%= item.result || '' %>"
+      data-cell-edit-resource-name-value="item"
     >
       <span data-cell-edit-target="display">
         <%= item.result.presence || "-" %>
@@ -321,6 +330,7 @@
       data-cell-edit-url-value="<%= my_item_path(item) %>"
       data-cell-edit-field-name-value="certificate_link"
       data-cell-edit-initial-value-value="<%= item.certificate_link || '' %>"
+      data-cell-edit-resource-name-value="item"
     >
       <span data-cell-edit-target="display">
         <% if item.certificate_link.present? %>
