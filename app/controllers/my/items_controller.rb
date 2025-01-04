@@ -13,13 +13,21 @@ module My
       #   build_pdp_charts_data([i], label: i.name)
       # end
       # @chart_label = "Multiple PDP Charts"
+
+      @new_item_form_url = my_items_path
+
+      respond_to do |format|
+        format.html { render 'shared/items/index' }
+      end
     end
 
     def create
       @item = current_user.items.build(item_params)
+
+      @new_item_form_url = my_items_path # for new form
       if @item.save
         respond_to do |format|
-          format.turbo_stream # => create.turbo_stream.erb
+          format.turbo_stream { render partial: "shared/items/create", locals: { item: @item }, formats: [:turbo_stream] }
           format.html { redirect_to my_items_path, notice: "Item created." }
         end
       else
@@ -33,7 +41,7 @@ module My
     def destroy
       @item = current_user.items.find(params[:id])
       respond_to do |format|
-        format.turbo_stream # => destroy.turbo_stream.erb
+        format.turbo_stream { render partial: "shared/items/destroy", locals: { item: @item }, formats: [:turbo_stream] }
         format.html { redirect_to my_items_path, notice: "Item deleted." }
       end
       @item.destroy
@@ -74,10 +82,12 @@ module My
       end
     end
 
-    def chart
+    def show
       @item = current_user.items.find(params[:id])
       @chart_data = [build_pdp_charts_data([@item], label: @item.name)]
       @chart_label = "PDP Chart for #{@item.name}"
+
+      render "shared/items/show", locals: { chart_data: @chart_data }
     end
 
     private
