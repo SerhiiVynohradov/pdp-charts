@@ -1,6 +1,6 @@
 <turbo-stream action="append" target="items-container">
   <template>
-    <%= render partial: "item_row",
+    <%= render partial: "shared/items/item_row",
                locals: { item: @item },
                formats: [:html] %>
   </template>
@@ -8,7 +8,7 @@
 
 <turbo-stream action="replace" target="<%= dom_id(Item.new, :new) %>">
   <template>
-    <%= render partial: "form",
+    <%= render partial: "shared/items/form",
                locals: { item: Item.new },
                formats: [:html] %>
   </template>

@@ -1,6 +1,8 @@
+<% the_item_path = (current_user.manager? && @team.present? && @user.present?) ? manager_team_user_item_path(@team, @user, item) : my_item_path(item) %>
+
 <tr id="<%= dom_id(item) %>" class="border-b border-gray-600 hover:bg-gray-700">
   <td class="px-4 py-2 align-top">
-    <%= link_to "Chart", chart_my_item_path(item), class: "bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded", target: "_blank" %>
+    <%= link_to "Details", the_item_path, class: "bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded", target: "_blank" %>
   </td>
 
   <!-- 1) NAME -->
@@ -9,7 +11,7 @@
       class="cursor-pointer"
       data-controller="cell-edit"
       data-action="click->cell-edit#enableEdit"
-      data-cell-edit-url-value="<%= my_item_path(item) %>"
+      data-cell-edit-url-value="<%= the_item_path %>"
       data-cell-edit-field-name-value="name"
       data-cell-edit-initial-value-value="<%= item.name || '' %>"
       data-cell-edit-resource-name-value="item"
@@ -45,7 +47,7 @@
       class="cursor-pointer"
       data-controller="cell-edit"
       data-action="click->cell-edit#enableEdit"
-      data-cell-edit-url-value="<%= my_item_path(item) %>"
+      data-cell-edit-url-value="<%= the_item_path %>"
       data-cell-edit-field-name-value="description"
       data-cell-edit-initial-value-value="<%= item.description || '' %>"
       data-cell-edit-resource-name-value="item"
@@ -79,7 +81,7 @@
       class="cursor-pointer"
       data-controller="cell-edit"
       data-action="click->cell-edit#enableEdit"
-      data-cell-edit-url-value="<%= my_item_path(item) %>"
+      data-cell-edit-url-value="<%= the_item_path %>"
       data-cell-edit-field-name-value="link"
       data-cell-edit-initial-value-value="<%= item.link || '' %>"
       data-cell-edit-resource-name-value="item"
@@ -122,7 +124,7 @@
       class="cursor-pointer"
       data-controller="cell-edit"
       data-action="click->cell-edit#enableEdit"
-      data-cell-edit-url-value="<%= my_item_path(item) %>"
+      data-cell-edit-url-value="<%= the_item_path %>"
       data-cell-edit-field-name-value="reason"
       data-cell-edit-initial-value-value="<%= item.reason || '' %>"
       data-cell-edit-resource-name-value="item"
@@ -156,7 +158,7 @@
       class="cursor-pointer"
       data-controller="cell-edit"
       data-action="click->cell-edit#enableEdit"
-      data-cell-edit-url-value="<%= my_item_path(item) %>"
+      data-cell-edit-url-value="<%= the_item_path %>"
       data-cell-edit-field-name-value="expected_results"
       data-cell-edit-initial-value-value="<%= item.expected_results || '' %>"
       data-cell-edit-resource-name-value="item"
@@ -190,7 +192,7 @@
       class="cursor-pointer"
       data-controller="cell-edit"
       data-action="click->cell-edit#enableEdit"
-      data-cell-edit-url-value="<%= my_item_path(item) %>"
+      data-cell-edit-url-value="<%= the_item_path %>"
       data-cell-edit-field-name-value="category"
       data-cell-edit-initial-value-value="<%= item.category || '' %>"
       data-cell-edit-resource-name-value="item"
@@ -224,7 +226,7 @@
       class="cursor-pointer"
       data-controller="cell-edit"
       data-action="click->cell-edit#enableEdit"
-      data-cell-edit-url-value="<%= my_item_path(item) %>"
+      data-cell-edit-url-value="<%= the_item_path %>"
       data-cell-edit-field-name-value="progress"
       data-cell-edit-initial-value-value="<%= item.progress.present? ? item.progress.to_s : '' %>"
       data-cell-edit-resource-name-value="item"
@@ -260,7 +262,7 @@
       class="cursor-pointer"
       data-controller="cell-edit"
       data-action="click->cell-edit#enableEdit"
-      data-cell-edit-url-value="<%= my_item_path(item) %>"
+      data-cell-edit-url-value="<%= the_item_path %>"
       data-cell-edit-field-name-value="effort"
       data-cell-edit-initial-value-value="<%= item.effort || '' %>"
       data-cell-edit-resource-name-value="item"
@@ -296,7 +298,7 @@
       class="cursor-pointer"
       data-controller="cell-edit"
       data-action="click->cell-edit#enableEdit"
-      data-cell-edit-url-value="<%= my_item_path(item) %>"
+      data-cell-edit-url-value="<%= the_item_path %>"
       data-cell-edit-field-name-value="result"
       data-cell-edit-initial-value-value="<%= item.result || '' %>"
       data-cell-edit-resource-name-value="item"
@@ -327,7 +329,7 @@
       class="cursor-pointer"
       data-controller="cell-edit"
       data-action="click->cell-edit#enableEdit"
-      data-cell-edit-url-value="<%= my_item_path(item) %>"
+      data-cell-edit-url-value="<%= the_item_path %>"
       data-cell-edit-field-name-value="certificate_link"
       data-cell-edit-initial-value-value="<%= item.certificate_link || '' %>"
       data-cell-edit-resource-name-value="item"
@@ -365,7 +367,7 @@
   <!-- 11) ACTIONS (Delete button) -->
   <td class="px-4 py-2 align-top text-right space-x-2">
     <%= link_to "Delete",
-      my_item_path(item),
+      the_item_path,
       data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' },
       class: "bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded" %>
   </td>

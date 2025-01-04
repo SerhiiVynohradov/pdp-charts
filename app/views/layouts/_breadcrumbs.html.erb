@@ -3,8 +3,6 @@
   <%# You might parse request path or store some kind of breadcrumb logic.
       For demonstration, let's do a trivial example. %>
   <span class="text-gray-300">
-    <%= link_to "Home", root_path %>
-    / <%= controller_name.humanize %>
-    / <%= action_name %>
+    <%= breadcrumbs %>
   </span>
 </div>

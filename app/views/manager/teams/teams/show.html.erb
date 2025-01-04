@@ -23,7 +23,9 @@
       </tr>
     </thead>
     <tbody id="users-container">
-      <%= render @team.users %>
+      <% @team.users.each do |user| %>
+        <%= render partial: "shared/users/user_row", locals: { user: user } %>
+      <% end %>
     </tbody>
   </table>
 </div>

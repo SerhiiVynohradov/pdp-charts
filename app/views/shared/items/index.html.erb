@@ -6,7 +6,7 @@
 
   <!-- New Item Form up top -->
   <div class="mb-6">
-    <%= render partial: "form", locals: { item: Item.new } %>
+    <%= render partial: "shared/items/form", locals: { item: Item.new } %>
   </div>
 
   <table class="min-w-full border-collapse bg-gray-800 text-gray-50">
@@ -27,8 +27,9 @@
       </tr>
     </thead>
     <tbody id="items-container">
-      <%= render @items %>
-      <!-- Calls _item_row.html.erb for each item, 1 <tr> each -->
+      <% @items.each do |item| %>
+        <%= render partial: "shared/items/item_row", locals: { item: item } %>
+      <% end %>
     </tbody>
   </table>
 </div>

@@ -1,7 +1,6 @@
 <tr id="<%= dom_id(user) %>" class="border-b border-gray-600 hover:bg-gray-700">
-  <!-- Actions (View Chart, Settings, etc.) -->
   <td class="px-4 py-2 align-top">
-    <%= link_to "Chart", manager_team_user_path(@team, user), class: "bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded", target: "_blank" %>
+    <%= link_to "Details", manager_team_user_path(@team, user), class: "bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded", target: "_blank" %>
   </td>
 
   <!-- Name -->

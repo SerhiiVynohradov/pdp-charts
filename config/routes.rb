@@ -38,11 +38,17 @@ Rails.application.routes.draw do
         get :external_calendar, to: 'teams#external_calendar' # integrate with external calendar
       end
 
-      resources :users, only: [:index, :new, :create, :edit, :update, :destroy] do
+      resources :users, only: [:index, :new, :create, :edit, :update, :destroy, :show], module: 'users' do
         member do
           patch :pause
           get :generate_meeting
           get :external_calendar
+        end
+
+        resources :items, only: [:index, :create, :update, :destroy, :show], module: 'items' do
+          member do
+            patch :pause
+          end
         end
       end
     end
