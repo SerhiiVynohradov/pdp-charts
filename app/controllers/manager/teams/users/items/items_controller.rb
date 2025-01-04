@@ -40,6 +40,11 @@ module Manager
           end
 
           def show
+            @item = @user.items.find(params[:id])
+            @chart_data = [build_pdp_charts_data([@item], label: @item.name)]
+            @chart_label = "PDP Chart for #{@item.name}"
+
+            render "shared/items/show", locals: { chart_data: @chart_data }
           end
 
           def pause
