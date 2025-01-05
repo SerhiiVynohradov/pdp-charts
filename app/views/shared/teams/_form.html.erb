@@ -1,6 +1,6 @@
 <%= turbo_frame_tag dom_id(team, :new) do %>
   <%= form_with model: team,
-                url: company_owner_company_teams_path(@company),
+                url: @new_team_form_url,
                 local: true,
                 data: { turbo_frame: dom_id(team, :new) },
                 class: "flex flex-col space-y-4 bg-gray-800 p-4 rounded" do |f| %>
@@ -14,18 +14,9 @@
       <% end %>
     </div>
 
-    <!-- Status Field -->
-    <div class="flex flex-col">
-      <%= f.label :status, "Status", class: "mb-1 text-sm" %>
-      <%= f.select :status, [["Active", "active"], ["Inactive", "inactive"]], {}, class: "rounded bg-gray-700 border border-gray-600 px-2 py-1 text-white" %>
-      <% if team.errors[:status].any? %>
-        <span class="text-red-500 text-sm"><%= team.errors[:status].first %></span>
-      <% end %>
-    </div>
-
     <!-- Submit Button -->
     <div>
-      <%= f.submit team.persisted? ? "Update Team" : "Create Team", class: "bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded" %>
+      <%= f.submit "Create Team", class: "bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded" %>
     </div>
   <% end %>
 <% end %>

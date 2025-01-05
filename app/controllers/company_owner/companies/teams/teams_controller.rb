@@ -13,6 +13,7 @@ module CompanyOwner
         def index
           @company = current_user.company
           @teams = @company.teams
+          @new_team_form_url = company_owner_company_teams_path(@company)
 
           @chart_data = @teams.map do |t|
             team_users = t.users
@@ -25,7 +26,20 @@ module CompanyOwner
         end
 
         def create
-          # ...
+          @team = @company.teams.build(team_params)
+          @new_team_form_url = company_owner_company_teams_path(@company)
+
+          if @team.save
+            respond_to do |format|
+              format.turbo_stream { render partial: "shared/teams/create", locals: { team: @team }, formats: [:turbo_stream] }
+              format.html { redirect_to my_items_path, notice: "Item created." }
+            end
+          else
+            respond_to do |format|
+              format.turbo_stream { render :new, status: :unprocessable_entity }
+              format.html { render :new, status: :unprocessable_entity }
+            end
+          end
         end
 
         def update
@@ -70,6 +84,12 @@ module CompanyOwner
 
         def authorize_manage_team!
           redirect_to root_path unless @team.present? && (can? :manage, @team)
+        end
+
+        def team_params
+          params.require(:team).permit(
+            :name
+          )
         end
       end
     end
