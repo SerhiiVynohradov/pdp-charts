@@ -20,14 +20,12 @@ class User < ApplicationRecord
     Team.where(id: team_id)
   end
 
+  def managed_team_ids
+    managed_teams.pluck(:id)
+  end
+
   def subordinates_ids
-    if manager?
-      team.users.where.not(id: id).pluck(:id)
-    elsif company_owner?
-      company.teams.joins(:users).where.not(users: { id: id }).pluck(:id)
-    else
-      []
-    end
+    team.users.pluck(:id)
   end
 
   def owned_teams

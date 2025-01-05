@@ -10,8 +10,8 @@ class Ability
 
     if user.manager?
       can :manage, Item, user_id: user.subordinates_ids
-      can :manage, User, team_id: user.managed_team_ids
-      can [:read, :update], Team, id: user.managed_team_ids
+      can :manage, User, id: user.subordinates_ids
+      can :manage, Team, id: user.managed_team_ids # todo: restrict only to [:read, :update] - for now it seems too hard for DRY concerns reasons
     end
 
     if user.company_owner?
