@@ -3,6 +3,11 @@ module TeamManagement
 
   included do
     include PdpChartsHelper
+
+    before_action :set_teams, only: [:index]
+
+    before_action :set_team, only: [:show, :update, :destroy]
+    before_action :authorize_manage_team!, only: [:show, :update, :destroy]
   end
 
   def index
@@ -66,6 +71,7 @@ module TeamManagement
   #   # recommended items CRUD
   # end
 
+  private
   def team_params
     params.require(:team).permit(
       :name
@@ -73,7 +79,7 @@ module TeamManagement
   end
 
   def chart_data
-    @chart_data = @teams.map do |t|
+    @teams.map do |t|
       team_users = t.users
       team_items = Item.where(user: team_users)
 
@@ -82,6 +88,18 @@ module TeamManagement
   end
 
   def chart_label
-    @chart_label = "PDP Chart for company #{@company.name}"
+    "PDP Chart for company #{@company.name}"
+  end
+
+  def set_team
+    @team = @company.teams.find(params[:id])
+  end
+
+  def set_teams
+    @teams = @company.teams
+  end
+
+  def authorize_manage_team!
+    redirect_to root_path unless @team.present? && (can? :manage, @team)
   end
 end
