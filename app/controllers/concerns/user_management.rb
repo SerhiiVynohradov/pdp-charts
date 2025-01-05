@@ -1,4 +1,4 @@
-module ItemManagement
+module UserManagement
   extend ActiveSupport::Concern
 
   def index

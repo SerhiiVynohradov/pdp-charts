@@ -2,72 +2,19 @@ module CompanyOwner
   module Companies
     module Teams
       class TeamsController < ApplicationController
-        include PdpChartsHelper
+        include TeamManagement
 
         before_action :require_company_owner!
         before_action :set_company
-        before_action :authorize_company_owner!
+        before_action :authorize_read_company!
+
+        before_action :set_teams, only: [:index]
+
         before_action :set_team, only: [:show, :update, :destroy]
-        before_action :authorize_manage_team!, only: [:update, :destroy]
-
-        def index
-          @company = current_user.company
-          @teams = @company.teams
-          @new_team_form_url = company_owner_company_teams_path(@company)
-
-          @chart_data = @teams.map do |t|
-            team_users = t.users
-            team_items = Item.where(user: team_users)
-
-            build_pdp_charts_data(team_items, label: t.name)
-          end
-
-          @chart_label = "PDP Chart for company #{@company.name}"
-        end
-
-        def create
-          @team = @company.teams.build(team_params)
-          @new_team_form_url = company_owner_company_teams_path(@company)
-
-          if @team.save
-            respond_to do |format|
-              format.turbo_stream { render partial: "shared/teams/create", locals: { team: @team }, formats: [:turbo_stream] }
-              format.html { redirect_to my_items_path, notice: "Item created." }
-            end
-          else
-            respond_to do |format|
-              format.turbo_stream { render :new, status: :unprocessable_entity }
-              format.html { render :new, status: :unprocessable_entity }
-            end
-          end
-        end
-
-        def update
-          # ...
-        end
-
-        def destroy
-          respond_to do |format|
-            format.turbo_stream { render partial: "shared/teams/destroy", locals: { team: @team }, formats: [:turbo_stream] }
-            format.html { redirect_to my_items_path, notice: "Item deleted." }
-          end
-          @team.destroy
-        end
+        before_action :authorize_manage_team!, only: [:show, :update, :destroy]
 
         def show
           redirect_to company_owner_company_team_users_path(@company, @team)
-        end
-
-        def details
-          # open manager-like view but from company perspective
-        end
-
-        def settings
-          # ...
-        end
-
-        def recommended
-          # ...
         end
 
         private
@@ -79,24 +26,20 @@ module CompanyOwner
           @company = current_user.company
         end
 
-        def authorize_company_owner!
-          # redirect_to root_path unless can? :read, @company
-          true
+        def authorize_read_company!
+          redirect_to root_path unless can? :read, @company
         end
 
         def set_team
           @team = @company.teams.find(params[:id])
         end
 
-        def authorize_manage_team!
-          true
-          # redirect_to root_path unless @team.present? && (can? :manage, @team)
+        def set_teams
+          @teams = @company.teams
         end
 
-        def team_params
-          params.require(:team).permit(
-            :name
-          )
+        def authorize_manage_team!
+          redirect_to root_path unless @team.present? && (can? :manage, @team)
         end
       end
     end

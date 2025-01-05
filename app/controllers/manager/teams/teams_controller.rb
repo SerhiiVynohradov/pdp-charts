@@ -1,37 +1,27 @@
 module Manager
   module Teams
     class TeamsController < ApplicationController
-      include PdpChartsHelper
+      include TeamManagement
 
       before_action :require_manager!
-      # load_and_authorize_resource if using CanCan
+      before_action :set_team, only: [:show, :update, :destroy]
+      before_action :authorize_manage_team!, only: [:show, :update, :destroy]
 
       def show
-        @team = current_user.managed_teams.find(params[:id])
-
-        @chart_data = @team.users.map do |u|
-          build_pdp_charts_data(u.items, label: u.name)
-        end
-        @chart_label = "PDP Chart for team #{@team.name}"
-      end
-
-      def charts
-        @team = current_user.managed_teams.find(params[:id])
-        # build multi-line chart for each user in the team
-      end
-
-      def settings
-        @team = current_user.managed_teams.find(params[:id])
-      end
-
-      def recommended
-        @team = current_user.managed_teams.find(params[:id])
-        # recommended items CRUD
+        redirect_to manager_team_users_path(params[:id])
       end
 
       private
       def require_manager!
         redirect_to root_path unless user_signed_in? && current_user.manager?
+      end
+
+      def set_team
+        @team = Team.find(params[:id])
+      end
+
+      def authorize_manage_team!
+        redirect_to root_path unless @team.present? && (can? :manage, @team)
       end
     end
   end
