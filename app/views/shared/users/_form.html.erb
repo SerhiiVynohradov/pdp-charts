@@ -1,6 +1,14 @@
+<%
+create_user_path = if @company.present?
+                     company_owner_company_team_users_path(@company, @team)
+                   else
+                     manager_team_users_path(@team)
+                   end
+%>
+
 <%= turbo_frame_tag dom_id(user, :new) do %>
   <%= form_with model: user,
-                url: manager_team_users_path(@team),
+                url: create_user_path,
                 local: true,
                 data: { turbo_frame: dom_id(user, :new) },
                 class: "flex items-center space-x-6 bg-gray-900 text-white p-4 rounded" do |f| %>

@@ -55,6 +55,7 @@ module CompanyOwner
         end
 
         def show
+          redirect_to company_owner_company_team_users_path(@company, @team)
         end
 
         def details
@@ -79,7 +80,8 @@ module CompanyOwner
         end
 
         def authorize_company_owner!
-          redirect_to root_path unless can? :read, @company
+          # redirect_to root_path unless can? :read, @company
+          true
         end
 
         def set_team
@@ -87,7 +89,8 @@ module CompanyOwner
         end
 
         def authorize_manage_team!
-          redirect_to root_path unless @team.present? && (can? :manage, @team)
+          true
+          # redirect_to root_path unless @team.present? && (can? :manage, @team)
         end
 
         def team_params

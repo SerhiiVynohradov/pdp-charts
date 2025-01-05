@@ -63,12 +63,23 @@ Rails.application.routes.draw do
         member do
           patch :toggle_status
           get :members # For listing team members (users)
+
+          get :charts
+          get :settings
+          get :recommended
+          patch :pause_user, to: 'teams#pause_user' # for pausing a user
+          get :generate_meeting, to: 'teams#generate_meeting' # generate Google Meet link
+          get :external_calendar, to: 'teams#external_calendar' # integrate with external calendar
         end
 
         resources :users, only: [:index, :new, :create, :edit, :update, :destroy, :show], module: 'users' do
           member do
             patch :deactivate
             get :profile
+
+            patch :pause
+            get :generate_meeting
+            get :external_calendar
           end
 
           resources :items, only: [:index, :create, :update, :destroy, :show], module: 'items' do

@@ -1,6 +1,10 @@
+<%
+create_team_path = company_owner_company_teams_path(@company)
+%>
+
 <%= turbo_frame_tag dom_id(team, :new) do %>
   <%= form_with model: team,
-                url: @new_team_form_url,
+                url: create_team_path,
                 local: true,
                 data: { turbo_frame: dom_id(team, :new) },
                 class: "flex flex-col space-y-4 bg-gray-800 p-4 rounded" do |f| %>

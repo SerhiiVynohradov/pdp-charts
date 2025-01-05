@@ -1,6 +1,34 @@
+<%
+the_user_path = if @company.present?
+                  company_owner_company_team_user_path(@company, @team, user)
+                else
+                  manager_team_user_path(@team, user)
+                end
+
+the_pause_user_path = if @company.present?
+                        pause_company_owner_company_team_user_path(@company, @team, user)
+                      else
+                        pause_manager_team_user_path(@team, user)
+                      end
+
+
+the_generate_meeting_path = if @company.present?
+                              generate_meeting_company_owner_company_team_user_path(@company, @team, user)
+                            else
+                              generate_meeting_manager_team_user_path(@team, user)
+                            end
+
+the_external_calendar_path = if @company.present?
+                               external_calendar_manager_team_user_path(@company, @team, user)
+                             else
+                               external_calendar_manager_team_user_path(@team, user)
+                             end
+%>
+
+
 <tr id="<%= dom_id(user) %>" class="border-b border-gray-600 hover:bg-gray-700">
   <td class="px-4 py-2 align-top">
-    <%= link_to "Details", manager_team_user_path(@team, user), class: "bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded", target: "_blank" %>
+    <%= link_to "Details", the_user_path, class: "bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded", target: "_blank" %>
   </td>
 
   <!-- Name -->
@@ -9,7 +37,7 @@
       class="cursor-pointer"
       data-controller="cell-edit"
       data-action="click->cell-edit#enableEdit"
-      data-cell-edit-url-value="<%= manager_team_user_path(@team, user) %>"
+      data-cell-edit-url-value="<%= the_user_path %>"
       data-cell-edit-field-name-value="name"
       data-cell-edit-initial-value-value="<%= user.name || '' %>"
       data-cell-edit-resource-name-value="user"
@@ -47,7 +75,7 @@
       class="cursor-pointer"
       data-controller="cell-edit"
       data-action="click->cell-edit#enableEdit"
-      data-cell-edit-url-value="<%= manager_team_user_path(@team, user) %>"
+      data-cell-edit-url-value="<%= the_user_path %>"
       data-cell-edit-field-name-value="email"
       data-cell-edit-initial-value-value="<%= user.email || '' %>"
       data-cell-edit-resource-name-value="user"
@@ -84,7 +112,7 @@
         <%= user.paused? ? "Paused" : "Active" %>
       </span>
       <%= link_to (user.paused? ? "Unpause" : "Pause"),
-                  pause_manager_team_user_path(@team, user),
+                  the_pause_user_path,
                   method: :patch,
                   class: (user.paused? ? "bg-green-600" : "bg-yellow-600") + " text-white px-2 py-1 rounded" %>
     </div>
@@ -92,8 +120,8 @@
 
   <!-- Manage Actions -->
   <td class="px-4 py-2 align-top text-right space-x-2">
-    <%= link_to "Generate Meeting", generate_meeting_manager_team_user_path(@team, user), class: "bg-purple-600 hover:bg-purple-700 text-white px-2 py-1 rounded" %>
-    <%= link_to "External Calendar", external_calendar_manager_team_user_path(@team, user), class: "bg-indigo-600 hover:bg-indigo-700 text-white px-2 py-1 rounded" %>
-    <%= link_to "Delete", manager_team_user_path(@team, user), data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: "bg-red-600 hover:bg-red-700 text-white px-2 py-1 rounded" %>
+    <%= link_to "Generate Meeting", the_generate_meeting_path, class: "bg-purple-600 hover:bg-purple-700 text-white px-2 py-1 rounded" %>
+    <%= link_to "External Calendar", the_external_calendar_path, class: "bg-indigo-600 hover:bg-indigo-700 text-white px-2 py-1 rounded" %>
+    <%= link_to "Delete", the_user_path, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: "bg-red-600 hover:bg-red-700 text-white px-2 py-1 rounded" %>
   </td>
 </tr>
