@@ -30,6 +30,10 @@ class User < ApplicationRecord
     end
   end
 
+  def owned_teams
+    Team.where(company_id: company_id)
+  end
+
   def paused?
     false
   end

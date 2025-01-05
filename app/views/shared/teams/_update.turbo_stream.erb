@@ -1,0 +1,5 @@
+<turbo-stream action="replace" target="<%= dom_id(team) %>">
+  <template>
+    <%= render partial: "shared/teams/team_row", locals: { team: team }, formats: [:html] %>
+  </template>
+</turbo-stream>

@@ -1,9 +1,9 @@
-module Company
+module CompanyOwner
   class DashboardsController < ApplicationController
     before_action :require_company_owner!
 
-    def show
-      # show a “list of teams”, or a “company summary”
+    def index
+      redirect_to company_owner_company_path(current_user.company)
     end
 
     def charts

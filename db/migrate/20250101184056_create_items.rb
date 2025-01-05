@@ -8,7 +8,7 @@ class CreateItems < ActiveRecord::Migration[7.2]
       t.string :link
       t.string :reason
       t.string :category
-      t.string :status
+      t.boolean :status, default: true
       t.string :expected_results
       t.integer :progress, default: 0
       t.integer :effort, default: 1

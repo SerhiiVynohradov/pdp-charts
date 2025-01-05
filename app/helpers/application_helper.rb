@@ -16,64 +16,118 @@ module ApplicationHelper
     end
   end
 
+
   def breadcrumbs
     crumbs = []
 
     # Always start with Dashboard
     crumbs << { name: "Dashboard", path: root_path }
 
-    # Manager Namespace
-    if controller_path.start_with?("manager/")
-      # Split the controller path into its components
-      parts = controller_path.split("/")[1..-1] # Removes "manager/"
-
-      # Handle Teams
-      if parts.include?("teams")
-        crumbs << { name: "Teams", path: manager_root_path }
-        if @team
-          crumbs << { name: @team.name, path: manager_team_path(@team) }
-        end
-      end
-
-      # Handle Users
-      if parts.include?("users")
-        crumbs << { name: "Users", path: manager_team_users_path(@team) }
-        if @user
-          crumbs << { name: @user.name, path: manager_team_user_path(@team, @user) }
-        end
-      end
-
-      # Handle Items
-      if parts.include?("items")
-        crumbs << { name: "Items", path: manager_team_user_items_path(@team, @user) }
-        if @item
-          crumbs << { name: @item.name, path: nil } # Current page, no link
-        end
-      end
-
-    # My Namespace
-    elsif controller_path.start_with?("my/")
-      # Split the controller path into its components
-      parts = controller_path.split("/")[1..-1] # Removes "my/"
-
-      # Handle My Items
-      if parts.include?("items")
-        crumbs << { name: "My Items", path: my_items_path }
-        if @item
-          crumbs << { name: @item.name, path: nil } # Current page, no link
-        end
-      end
+    # Determine the namespace and build breadcrumbs accordingly
+    case controller_path.split('/').first
+    when "manager"
+      crumbs += manager_breadcrumbs
+    when "company"
+      crumbs += company_breadcrumbs
+    when "my"
+      crumbs += my_breadcrumbs
+    else
+      # Default breadcrumbs for other namespaces or main app
+      crumbs << { name: controller_name.titleize, path: nil }
+      crumbs << { name: action_name.titleize, path: nil } unless action_name == 'index'
     end
 
     # Render the breadcrumbs
-    content_tag(:nav, class: "breadcrumbs flex space-x-2 text-sm text-gray-500") do
+    content_tag(:nav, class: "breadcrumbs flex items-center space-x-2 text-sm text-gray-400") do
       crumbs.map.with_index do |crumb, index|
         if crumb[:path]
-          link_to(crumb[:name], crumb[:path], class: "text-blue-600 hover:underline")
+          link_to(crumb[:name], crumb[:path], class: "text-blue-500 hover:underline")
         else
-          content_tag(:span, crumb[:name], class: "current")
+          content_tag(:span, crumb[:name], class: "current text-gray-200")
         end
       end.join(" / ").html_safe
     end
+  end
+
+  private
+
+  def manager_breadcrumbs
+    crumbs = []
+    # Extract the parts after 'manager'
+    parts = controller_path.split('/')[1..-1]
+
+    # Handle Teams
+    if parts.include?("teams")
+      crumbs << { name: "Teams", path: manager_teams_path }
+      if @team
+        crumbs << { name: @team.name, path: manager_team_path(@team) }
+      end
+    end
+
+    # Handle Users
+    if parts.include?("users")
+      crumbs << { name: "Users", path: manager_team_users_path(@team) }
+      if @user
+        crumbs << { name: @user.name, path: manager_team_user_path(@team, @user) }
+      end
+    end
+
+    # Handle Items
+    if parts.include?("items")
+      crumbs << { name: "Items", path: manager_team_user_items_path(@team, @user) }
+      if @item
+        crumbs << { name: @item.name, path: nil } # Current page, no link
+      end
+    end
+
+    crumbs
+  end
+
+  def company_breadcrumbs
+    crumbs = []
+    # Extract the parts after 'company'
+    parts = controller_path.split('/')[1..-1]
+
+    # Handle Teams
+    if parts.include?("teams")
+      crumbs << { name: "Teams", path: company_teams_path }
+      if @team
+        crumbs << { name: @team.name, path: company_team_path(@team) }
+      end
+    end
+
+    # Handle Users
+    if parts.include?("users")
+      crumbs << { name: "Users", path: company_team_users_path(@team) }
+      if @user
+        crumbs << { name: @user.name, path: company_team_user_path(@team, @user) }
+      end
+    end
+
+    # Handle Items
+    if parts.include?("items")
+      crumbs << { name: "Items", path: company_team_user_items_path(@team, @user) }
+      if @item
+        crumbs << { name: @item.name, path: nil } # Current page, no link
+      end
+    end
+
+    crumbs
+  end
+
+  def my_breadcrumbs
+    crumbs = []
+    # Extract the parts after 'my'
+    parts = controller_path.split('/')[1..-1]
+
+    # Handle My Items
+    if parts.include?("items")
+      crumbs << { name: "My Items", path: my_items_path }
+      if @item
+        crumbs << { name: @item.name, path: nil } # Current page, no link
+      end
+    end
+
+    crumbs
   end
 end

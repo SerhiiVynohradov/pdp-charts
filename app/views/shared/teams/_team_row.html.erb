@@ -1,0 +1,61 @@
+<tr id="<%= dom_id(team) %>" class="border-b border-gray-600 hover:bg-gray-700">
+  <td class="px-4 py-2 align-top">
+    <%= link_to "Details", company_owner_company_team_path(@company, team), class: "bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded", target: "_blank" %>
+  </td>
+
+  <!-- Name -->
+  <td class="px-4 py-2 align-top">
+    <div
+      class="cursor-pointer"
+      data-controller="cell-edit"
+      data-action="click->cell-edit#enableEdit"
+      data-cell-edit-url-value="<%= company_owner_company_team_path(@company, team) %>"
+      data-cell-edit-field-name-value="name"
+      data-cell-edit-initial-value-value="<%= team.name || '' %>"
+      data-cell-edit-resource-name-value="team"
+    >
+      <!-- Display -->
+      <span data-cell-edit-target="display">
+        <%= team.name.presence || "-" %>
+      </span>
+      <!-- Inline form (hidden) -->
+      <form
+        data-cell-edit-target="form"
+        class="hidden flex items-center space-x-2 mt-1"
+        data-action="submit->cell-edit#submit"
+      >
+        <input
+          type="text"
+          class="rounded bg-gray-800 border border-gray-500 px-2 py-1 text-white"
+          data-cell-edit-target="input"
+          value="<%= team.name %>"
+          required
+        >
+        <button
+          type="submit"
+          class="bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded"
+        >
+          Save
+        </button>
+      </form>
+    </div>
+  </td>
+
+  <!-- Status -->
+  <td class="px-4 py-2 align-top">
+    <div class="flex items-center space-x-2">
+      <span class="text-sm <%= team.active? ? 'text-green-500' : 'text-red-500' %>">
+        <%= team.active? ? "Active" : "Inactive" %>
+      </span>
+      <%= link_to (team.active? ? "Deactivate" : "Activate"),
+                  toggle_status_company_owner_company_team_path(@company, team),
+                  data: { turbo_method: :patch },
+                  class: (team.active? ? "bg-red-600" : "bg-green-600") + " text-white px-2 py-1 rounded" %>
+    </div>
+  </td>
+
+  <!-- Manage Actions -->
+  <td class="px-4 py-2 align-top text-right space-x-2">
+    <%= link_to "Delete", company_owner_company_team_path(@company, team), data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: "bg-red-600 hover:bg-red-700 text-white px-2 py-1 rounded" %>
+  </td>
+</tr>

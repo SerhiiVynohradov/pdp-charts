@@ -17,6 +17,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_03_061815) do
   create_table "companies", force: :cascade do |t|
     t.string "name"
     t.boolean "charts_visible", default: false
+    t.boolean "status", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -28,7 +29,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_03_061815) do
     t.string "link"
     t.string "reason"
     t.string "category"
-    t.string "status"
+    t.boolean "status", default: true
     t.string "expected_results"
     t.integer "progress", default: 0
     t.integer "effort", default: 1
@@ -43,6 +44,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_03_061815) do
   create_table "teams", force: :cascade do |t|
     t.string "name"
     t.boolean "charts_visible", default: false
+    t.boolean "status", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "company_id"

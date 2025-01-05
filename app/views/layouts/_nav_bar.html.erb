@@ -6,8 +6,7 @@
     <%= link_to "All Companies Chart", superadmin_all_companies_chart_path, class: "text-white hover:text-blue-300" %>
     <!-- etc. -->
   <% elsif current_user.company_owner? %>
-    <%= link_to "Company Dash", company_dashboard_path, class: "text-white hover:text-blue-300" %>
-    <%= link_to "Teams", company_teams_path, class: "text-white hover:text-blue-300" %>
+    <%= link_to "Company Dash", company_owner_root_path, class: "text-white hover:text-blue-300" %>
     <!-- etc. -->
   <% elsif current_user.manager? %>
     <%= link_to "Manager Dash", manager_root_path, class: "text-white hover:text-blue-300" %>

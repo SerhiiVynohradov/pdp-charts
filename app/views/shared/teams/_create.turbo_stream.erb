@@ -1,0 +1,11 @@
+<turbo-stream action="append" target="teams-container">
+  <template>
+    <%= render partial: "shared/teams/team_row", locals: { team: team }, formats: [:html] %>
+  </template>
+</turbo-stream>
+
+<turbo-stream action="replace" target="<%= dom_id(Team.new, :new) %>">
+  <template>
+    <%= render partial: "shared/teams/form", locals: { team: Team.new } %>
+  </template>
+</turbo-stream>

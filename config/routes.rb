@@ -26,7 +26,6 @@ Rails.application.routes.draw do
   end
 
   # 2) Manager interface -> Team-level
-  # e.g. /manager/teams/ :id => manager can see his team
   namespace :manager do
     resources :teams, only: [:show, :edit, :update], module: 'teams' do
       member do
@@ -56,23 +55,32 @@ Rails.application.routes.draw do
   end
 
   # 3) Company Owner interface
-  namespace :company do
-    # The company's main routes
-    resource :dashboard, only: [:show]
-    resources :teams, only: [:index, :create, :update, :destroy] do
-      member do
-        get :details
-        get :settings
-        get :recommended
-        # ...
+
+  # Company Namespace (new)
+  namespace :company_owner do
+    resources :companies, only: [:show], module: 'companies' do
+      resources :teams, module: 'teams' do
+        member do
+          patch :toggle_status
+          get :members # For listing team members (users)
+        end
+
+        resources :users, only: [:index, :new, :create, :edit, :update, :destroy, :show], module: 'users' do
+          member do
+            patch :deactivate
+            get :profile
+          end
+
+          resources :items, only: [:index, :create, :update, :destroy, :show], module: 'items' do
+            member do
+              patch :archive
+            end
+          end
+        end
       end
     end
-    resources :company_events, only: [:index, :create, :update, :destroy]
 
-    get :charts, to: "dashboards#charts"
-    # etc.
-
-    root to: "dashboards#show"
+    root to: "dashboards#index"
   end
 
   # 4) Superadmin interface

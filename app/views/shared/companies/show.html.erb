@@ -1,0 +1,14 @@
+<div class="bg-gray-900 text-white min-h-screen p-6">
+  <h1 class="text-2xl mb-4">Company Dashboard</h1>
+  <p>Welcome, <%= current_user.name %>! Here’s an overview of your teams.</p>
+
+  <!-- Teams Overview -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
+    <% @teams.each do |team| %>
+      <div class="bg-gray-800 p-4 rounded shadow">
+        <h2 class="text-xl font-semibold mb-2"><%= link_to team.name, company_owner_company_team_path(team), class: "text-blue-500 hover:underline" %></h2>
+      </div>
+    <% end %>
+  </div>
+</div>
+
