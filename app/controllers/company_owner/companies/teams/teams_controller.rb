@@ -47,7 +47,11 @@ module CompanyOwner
         end
 
         def destroy
-          # ...
+          respond_to do |format|
+            format.turbo_stream { render partial: "shared/teams/destroy", locals: { team: @team }, formats: [:turbo_stream] }
+            format.html { redirect_to my_items_path, notice: "Item deleted." }
+          end
+          @team.destroy
         end
 
         def show
