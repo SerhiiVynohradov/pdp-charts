@@ -4,7 +4,7 @@ create_item_path = if @company.present?
                    elsif @team.present?
                      manager_team_user_items_path(@team, @user)
                    else
-                     my_items_path(@user)
+                     my_items_path
                    end
 %>
 

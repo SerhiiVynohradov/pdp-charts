@@ -34,7 +34,16 @@ module TeamManagement
   end
 
   def update
-    # ...
+    if request.format.json?
+      if @team.update(team_params)
+        render json: @team.slice(
+          :id,
+          :name
+        ), status: :ok
+      else
+        render json: { errors: @team.errors.full_messages }, status: :unprocessable_entity
+      end
+    end
   end
 
   def destroy

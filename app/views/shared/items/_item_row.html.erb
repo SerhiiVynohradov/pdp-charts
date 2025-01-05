@@ -1,8 +1,16 @@
-<% the_item_path = (current_user.manager? && @team.present? && @user.present?) ? manager_team_user_item_path(@team, @user, item) : my_item_path(item) %>
+<%
+the_item_path = if @company.present?
+                  company_owner_company_team_user_item_path(@company, @team, @user, item)
+                elsif @team.present?
+                  manager_team_user_item_path(@team, @user, item)
+                else
+                  my_item_path(item)
+                end
+%>
 
 <tr id="<%= dom_id(item) %>" class="border-b border-gray-600 hover:bg-gray-700">
   <td class="px-4 py-2 align-top">
-    <%= link_to "Details", the_item_path, class: "bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded", target: "_blank" %>
+    <%= link_to "Details", the_item_path, class: "bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded" %>
   </td>
 
   <!-- 1) NAME -->
