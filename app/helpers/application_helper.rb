@@ -27,8 +27,8 @@ module ApplicationHelper
     case controller_path.split('/').first
     when "manager"
       crumbs += manager_breadcrumbs
-    when "company"
-      crumbs += company_breadcrumbs
+    when "company_owner"
+      crumbs += company_owner_breadcrumbs
     when "my"
       crumbs += my_breadcrumbs
     else
@@ -58,7 +58,7 @@ module ApplicationHelper
 
     # Handle Teams
     if parts.include?("teams")
-      crumbs << { name: "Teams", path: manager_teams_path }
+      crumbs << { name: "Teams", path: manager_root_path }
       if @team
         crumbs << { name: @team.name, path: manager_team_path(@team) }
       end
@@ -83,30 +83,38 @@ module ApplicationHelper
     crumbs
   end
 
-  def company_breadcrumbs
+  def company_owner_breadcrumbs
     crumbs = []
-    # Extract the parts after 'company'
+    # Extract the parts after 'company_owner'
     parts = controller_path.split('/')[1..-1]
+
+    # Handle Companies
+    if parts.include?("companies")
+      crumbs << { name: "Companies", path: company_owner_root_path }
+      if @team
+        crumbs << { name: @company.name, path: company_owner_company_path(@team) }
+      end
+    end
 
     # Handle Teams
     if parts.include?("teams")
-      crumbs << { name: "Teams", path: company_teams_path }
+      crumbs << { name: "Teams", path: company_owner_company_teams_path(@company) }
       if @team
-        crumbs << { name: @team.name, path: company_team_path(@team) }
+        crumbs << { name: @team.name, path: company_owner_company_team_path(@company, @team) }
       end
     end
 
     # Handle Users
     if parts.include?("users")
-      crumbs << { name: "Users", path: company_team_users_path(@team) }
+      crumbs << { name: "Users", path: company_owner_company_team_users_path(@company, @team) }
       if @user
-        crumbs << { name: @user.name, path: company_team_user_path(@team, @user) }
+        crumbs << { name: @user.name, path: company_owner_company_team_user_path(@company, @team, @user) }
       end
     end
 
     # Handle Items
     if parts.include?("items")
-      crumbs << { name: "Items", path: company_team_user_items_path(@team, @user) }
+      crumbs << { name: "Items", path: company_owner_company_team_user_items_path(@company, @team, @user) }
       if @item
         crumbs << { name: @item.name, path: nil } # Current page, no link
       end
