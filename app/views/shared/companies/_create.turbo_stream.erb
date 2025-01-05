@@ -1,0 +1,11 @@
+<turbo-stream action="append" target="companies-container">
+  <template>
+    <%= render partial: "shared/companies/company_row", locals: { company: company }, formats: [:html] %>
+  </template>
+</turbo-stream>
+
+<turbo-stream action="replace" target="<%= dom_id(Company.new, :new) %>">
+  <template>
+    <%= render partial: "shared/companies/form", locals: { company: Company.new }, formats: [:html] %>
+  </template>
+</turbo-stream>

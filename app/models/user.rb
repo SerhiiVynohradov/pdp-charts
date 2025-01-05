@@ -7,7 +7,7 @@ class User < ApplicationRecord
   belongs_to :company, optional: true
   belongs_to :team, optional: true
 
-  has_many :items
+  has_many :items, dependent: :destroy
 
   enum role: {
     user: 0,

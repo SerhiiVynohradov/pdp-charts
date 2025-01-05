@@ -1,5 +1,7 @@
 <%
-create_user_path = if @company.present?
+create_user_path = if @superadmin
+                     superadmin_company_team_users_path(@company, @team)
+                   elsif @company.present?
                      company_owner_company_team_users_path(@company, @team)
                    else
                      manager_team_users_path(@team)

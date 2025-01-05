@@ -1,24 +1,32 @@
 <%
-the_user_path = if @company.present?
+the_user_path = if @superadmin
+                  superadmin_company_team_user_path(@company, @team, user)
+                elsif @company.present?
                   company_owner_company_team_user_path(@company, @team, user)
                 else
                   manager_team_user_path(@team, user)
                 end
 
-the_pause_user_path = if @company.present?
+the_pause_user_path = if @superadmin
+                        pause_superadmin_company_team_user_path(@company, @team, user)
+                      elsif @company.present?
                         pause_company_owner_company_team_user_path(@company, @team, user)
                       else
                         pause_manager_team_user_path(@team, user)
                       end
 
 
-the_generate_meeting_path = if @company.present?
+the_generate_meeting_path = if @superadmin
+                              generate_meeting_superadmin_company_team_user_path(@company, @team, user)
+                            elsif @company.present?
                               generate_meeting_company_owner_company_team_user_path(@company, @team, user)
                             else
                               generate_meeting_manager_team_user_path(@team, user)
                             end
 
-the_external_calendar_path = if @company.present?
+the_external_calendar_path = if @superadmin
+                               generate_meeting_superadmin_company_team_user_path(@company, @team, user)
+                             elsif @company.present?
                                external_calendar_manager_team_user_path(@company, @team, user)
                              else
                                external_calendar_manager_team_user_path(@team, user)

@@ -1,5 +1,7 @@
 <%
-the_item_path = if @company.present?
+the_item_path = if @superadmin
+                  superadmin_company_team_user_item_path(@company, @team, @user, item)
+                elsif @company.present?
                   company_owner_company_team_user_item_path(@company, @team, @user, item)
                 elsif @team.present?
                   manager_team_user_item_path(@team, @user, item)

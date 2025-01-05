@@ -1,0 +1,28 @@
+<div class="bg-gray-900 text-white min-h-screen p-6">
+  <h1 class="text-2xl font-bold mb-4">All Companies</h1>
+
+  <!-- Charts Partial -->
+  <%= render partial: "shared/pdp_charts", locals: { chart_data: @chart_data } %>
+
+  <!-- New Company Form -->
+  <div class="mb-6">
+    <%= render partial: "shared/companies/form", locals: { company: Company.new } %>
+  </div>
+
+  <!-- Companies List -->
+  <table class="min-w-full border-collapse bg-gray-800 text-gray-50">
+    <thead>
+      <tr class="bg-gray-700 border-b border-gray-600">
+        <th class="px-4 py-2 text-left">Actions</th>
+        <th class="px-4 py-2 text-left">Name</th>
+        <th class="px-4 py-2 text-left">Status</th>
+        <th class="px-4 py-2 text-left">Manage</th>
+      </tr>
+    </thead>
+    <tbody id="companies-container">
+      <% @companies.each do |company| %>
+        <%= render partial: "shared/companies/company_row", locals: { company: company } %>
+      <% end %>
+    </tbody>
+  </table>
+</div>

@@ -3,16 +3,11 @@
 
   <% if current_user.superadmin? %>
     <%= link_to "Companies", superadmin_companies_path, class: "text-white hover:text-blue-300" %>
-    <%= link_to "All Companies Chart", superadmin_all_companies_chart_path, class: "text-white hover:text-blue-300" %>
-    <!-- etc. -->
   <% elsif current_user.company_owner? %>
     <%= link_to "Company Dash", company_owner_root_path, class: "text-white hover:text-blue-300" %>
-    <!-- etc. -->
   <% elsif current_user.manager? %>
     <%= link_to "Manager Dash", manager_root_path, class: "text-white hover:text-blue-300" %>
-    <!-- etc. -->
   <% else %>
-    <!-- normal user self-employed or employee -->
     <%= link_to "My Items", my_items_path, class: "text-white hover:text-blue-300" %>
   <% end %>
 

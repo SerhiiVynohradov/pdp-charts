@@ -96,16 +96,49 @@ Rails.application.routes.draw do
 
   # 4) Superadmin interface
   namespace :superadmin do
-    resources :companies, only: [:index, :create, :update, :destroy] do
-      member do
-        get :settings
-      end
-    end
-    get :all_companies_chart, to: "dashboards#all_companies_chart"
     resources :payers, only: [:index, :show] do
       resources :invoices, only: [:index, :show]
     end
     resources :pricing, only: [:index, :update]
+
+    resources :companies, module: 'companies' do
+      member do
+        patch :toggle_status
+        get :settings
+      end
+
+      resources :teams, module: 'teams' do
+        member do
+          patch :toggle_status
+          get :members # For listing team members (users)
+
+          get :charts
+          get :settings
+          get :recommended
+          patch :pause_user, to: 'teams#pause_user' # for pausing a user
+          get :generate_meeting, to: 'teams#generate_meeting' # generate Google Meet link
+          get :external_calendar, to: 'teams#external_calendar' # integrate with external calendar
+        end
+
+        resources :users, only: [:index, :new, :create, :edit, :update, :destroy, :show], module: 'users' do
+          member do
+            patch :deactivate
+            get :profile
+
+            patch :pause
+            get :generate_meeting
+            get :external_calendar
+          end
+
+          resources :items, only: [:index, :create, :update, :destroy, :show], module: 'items' do
+            member do
+              patch :archive
+            end
+          end
+        end
+      end
+    end
+
     root to: "dashboards#index"
   end
 

@@ -1,0 +1,26 @@
+<%
+create_company_path = superadmin_companies_path
+%>
+
+<%= turbo_frame_tag dom_id(company, :new) do %>
+  <%= form_with model: company,
+                url: create_company_path,
+                local: true,
+                data: { turbo_frame: dom_id(company, :new) },
+                class: "flex flex-col space-y-4 bg-gray-800 p-4 rounded" do |f| %>
+
+    <!-- Name Field -->
+    <div class="flex flex-col">
+      <%= f.label :name, "Company Name", class: "mb-1 text-sm" %>
+      <%= f.text_field :name, class: "rounded bg-gray-700 border border-gray-600 px-2 py-1 text-white" %>
+      <% if company.errors[:name].any? %>
+        <span class="text-red-500 text-sm"><%= company.errors[:name].first %></span>
+      <% end %>
+    </div>
+
+    <!-- Submit Button -->
+    <div>
+      <%= f.submit "Create Company", class: "bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded" %>
+    </div>
+  <% end %>
+<% end %>

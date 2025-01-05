@@ -22,6 +22,8 @@ manager_of_team_with_company = User.create email: 'manager_of_team_with_company@
 user_of_team_with_company = User.create email: 'user_of_team_with_company@gmail.com', password: 'password', password_confirmation: 'password', role: :user, company_id: company.id, team_id: team_with_company.id, name: 'User User'
 owner_of_team_with_company = User.create email: 'owner_of_team_with_company@gmail.com', password: 'password', password_confirmation: 'password', role: :company_owner, company_id: company.id, team_id: team_with_company.id, name: 'Owner Owner'
 
+superadmin = User.create email: 'superadmin@gmail.com', password: 'password', password_confirmation: 'password', role: :superadmin, company_id: nil, team_id: nil, name: 'Superadmin Superadmin'
+
 Item.create user_id: regular_user.id, name: 'Item', description: 'Description', link: 'Link', reason: 'Reason', category: 'Category', status: 'Status', expected_results: 'Expected results', progress: 0, effort: 1, result: 'Result', certificate_link: 'Certificate link', position: 1
 Item.create user_id: manager_of_team_without_company.id, name: 'Item', description: 'Description', link: 'Link', reason: 'Reason', category: 'Category', status: 'Status', expected_results: 'Expected results', progress: 0, effort: 1, result: 'Result', certificate_link: 'Certificate link', position: 1
 Item.create user_id: user_of_team_without_company.id, name: 'Item', description: 'Description', link: 'Link', reason: 'Reason', category: 'Category', status: 'Status', expected_results: 'Expected results', progress: 0, effort: 1, result: 'Result', certificate_link: 'Certificate link', position: 1

@@ -23,12 +23,10 @@ module TeamManagement
     if @team.save
       respond_to do |format|
         format.turbo_stream { render partial: "shared/teams/create", locals: { team: @team }, formats: [:turbo_stream] }
-        format.html { redirect_to my_items_path, notice: "Item created." }
       end
     else
       respond_to do |format|
         format.turbo_stream { render :new, status: :unprocessable_entity }
-        format.html { render :new, status: :unprocessable_entity }
       end
     end
   end
@@ -49,7 +47,6 @@ module TeamManagement
   def destroy
     respond_to do |format|
       format.turbo_stream { render partial: "shared/teams/destroy", locals: { team: @team }, formats: [:turbo_stream] }
-      format.html { redirect_to my_items_path, notice: "Item deleted." }
     end
     @team.destroy
   end

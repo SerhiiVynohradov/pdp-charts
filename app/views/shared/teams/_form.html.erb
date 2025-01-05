@@ -1,5 +1,9 @@
 <%
-create_team_path = company_owner_company_teams_path(@company)
+create_team_path = if @superadmin
+                     superadmin_company_teams_path(@company)
+                   else
+                     company_owner_company_teams_path(@company)
+                   end
 %>
 
 <%= turbo_frame_tag dom_id(team, :new) do %>

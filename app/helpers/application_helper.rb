@@ -16,7 +16,6 @@ module ApplicationHelper
     end
   end
 
-
   def breadcrumbs
     crumbs = []
 
@@ -29,6 +28,8 @@ module ApplicationHelper
       crumbs += manager_breadcrumbs
     when "company_owner"
       crumbs += company_owner_breadcrumbs
+    when "superadmin"
+      crumbs += superadmin_breadcrumbs
     when "my"
       crumbs += my_breadcrumbs
     else
@@ -45,7 +46,7 @@ module ApplicationHelper
         else
           content_tag(:span, crumb[:name], class: "current text-gray-200")
         end
-      end.join(" / ").html_safe
+      end.join('&nbsp;' + ' /').html_safe
     end
   end
 
@@ -91,8 +92,8 @@ module ApplicationHelper
     # Handle Companies
     if parts.include?("companies")
       crumbs << { name: "Companies", path: company_owner_root_path }
-      if @team
-        crumbs << { name: @company.name, path: company_owner_company_path(@team) }
+      if @company
+        crumbs << { name: @company.name, path: company_owner_company_path(@company) }
       end
     end
 
@@ -115,6 +116,46 @@ module ApplicationHelper
     # Handle Items
     if parts.include?("items")
       crumbs << { name: "Items", path: company_owner_company_team_user_items_path(@company, @team, @user) }
+      if @item
+        crumbs << { name: @item.name, path: nil } # Current page, no link
+      end
+    end
+
+    crumbs
+  end
+
+  def superadmin_breadcrumbs
+    crumbs = []
+    # Extract the parts after 'superadmin'
+    parts = controller_path.split('/')[1..-1]
+
+    # Handle Companies
+    if parts.include?("companies")
+      crumbs << { name: "Companies", path: superadmin_companies_path }
+      if @company
+        crumbs << { name: @company.name, path: superadmin_company_path(@company) }
+      end
+    end
+
+    # Handle Teams
+    if parts.include?("teams")
+      crumbs << { name: "Teams", path: superadmin_company_teams_path(@company) }
+      if @team
+        crumbs << { name: @team.name, path: superadmin_company_team_path(@company, @team) }
+      end
+    end
+
+    # Handle Users
+    if parts.include?("users")
+      crumbs << { name: "Users", path: superadmin_company_team_users_path(@company, @team) }
+      if @user
+        crumbs << { name: @user.name, path: superadmin_company_team_user_path(@company, @team, @user) }
+      end
+    end
+
+    # Handle Items
+    if parts.include?("items")
+      crumbs << { name: "Items", path: superadmin_company_team_user_items_path(@company, @team, @user) }
       if @item
         crumbs << { name: @item.name, path: nil } # Current page, no link
       end
