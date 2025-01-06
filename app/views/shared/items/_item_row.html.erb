@@ -280,7 +280,8 @@ the_item_path = if @superadmin
                                 elsif @team.present?
                                   manager_team_user_item_item_progress_column_progress_update_path(@team, @user, item, column, progress_update)
                                 else
-                                  my_user_item_progress_column_progress_update_path(@user, column, progress_update)
+                                  # my_user_item_progress_column_progress_update_path(@user, column, progress_update)
+                                  root_path
                                 end %>
       <% method = :patch %>
     <% else %>
@@ -291,7 +292,8 @@ the_item_path = if @superadmin
                                 elsif @team.present?
                                   manager_team_user_item_item_progress_column_progress_updates_path(@team, @user, item, column)
                                 else
-                                  my_user_item_progress_column_progress_updates_path(@user, column)
+                                  # my_user_item_progress_column_progress_updates_path(@user, column)
+                                  root_path
                                 end %>
       <% method = :post %>
     <% end %>

@@ -8,9 +8,13 @@ class Ability
 
     can :manage, Item, user_id: user.id
 
+    if user.user?
+      can :manage, User, id: user.id
+    end
+
     if user.manager?
       can :manage, Item, user_id: user.subordinates_ids
-      can :manage, User, id: user.subordinates_ids
+      can :manage, User, id: user.subordinates_ids # todo: separate subordinates from user himself
       can :manage, Team, id: user.managed_team_ids # todo: restrict only to [:read, :update] - for now it seems too hard for DRY concerns reasons
     end
 

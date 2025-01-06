@@ -21,6 +21,7 @@ Rails.application.routes.draw do
         resources :progress_updates, only: [:create, :update, :destroy]
       end
     end
+    resources :item_progress_columns, only: [:new, :create, :edit, :update, :destroy]
     root to: "items#index"
   end
 

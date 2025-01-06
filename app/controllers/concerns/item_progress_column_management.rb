@@ -2,19 +2,24 @@ module ItemProgressColumnManagement
   extend ActiveSupport::Concern
 
   included do
-    before_action :set_item_progress_column, only: [:edit_item_progress_column, :update_item_progress_column, :destroy_item_progress_column]
+    before_action :set_user
+
+    before_action :set_item_progress_column, only: [:edit, :update, :destroy]
     before_action :authorize_manage_progress_columns!
   end
 
-  def new_item_progress_column
+  def new
     @item_progress_column = @user.item_progress_columns.new
+
     respond_to do |format|
-      format.turbo_stream
-      format.html { render partial: "shared/item_progress_columns/form", locals: { item_progress_column: @item_progress_column }, layout: false }
+      # Для Turbo Frame запросов
+      format.html { render partial: "shared/item_progress_columns/new", locals: { item_progress_column: @item_progress_column } }
+      # Для Turbo Stream (если понадобится)
+      format.turbo_stream { render turbo_stream: turbo_stream.replace("add_progress_column", partial: "shared/item_progress_columns/form", locals: { item_progress_column: @item_progress_column }) }
     end
   end
 
-  def create_item_progress_column
+  def create
     @item_progress_column = @user.item_progress_columns.build(item_progress_column_params)
     if @item_progress_column.save
       respond_to do |format|
@@ -23,20 +28,20 @@ module ItemProgressColumnManagement
       end
     else
       respond_to do |format|
-        format.turbo_stream { render partial: "shared/item_progress_columns/form", locals: { item_progress_column: @item_progress_column }, formats: [:turbo_stream] }
+        format.turbo_stream { render partial: "shared/item_progress_columns/create", locals: { item_progress_column: @item_progress_column }, formats: [:turbo_stream] }
         format.html { render :new, status: :unprocessable_entity }
       end
     end
   end
 
-  def edit_item_progress_column
+  def edit
     respond_to do |format|
       format.turbo_stream
       format.html { render partial: "shared/item_progress_columns/form", locals: { item_progress_column: @item_progress_column }, layout: false }
     end
   end
 
-  def update_item_progress_column
+  def update
     if @item_progress_column.update(item_progress_column_params)
       respond_to do |format|
         format.turbo_stream { render partial: "shared/item_progress_columns/update", locals: { item_progress_column: @item_progress_column }, formats: [:turbo_stream] }
@@ -50,7 +55,7 @@ module ItemProgressColumnManagement
     end
   end
 
-  def destroy_item_progress_column
+  def destroy
     @item_progress_column.destroy
     respond_to do |format|
       format.turbo_stream { render partial: "shared/item_progress_columns/destroy", locals: { item_progress_column: @item_progress_column }, formats: [:turbo_stream] }

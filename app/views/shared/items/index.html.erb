@@ -14,7 +14,7 @@
     <thead>
       <!-- Первая строка заголовков -->
       <tr class="bg-gray-700 border-b border-gray-600">
-        <%# Стандартные столбцы с rowspan=2 %>
+        <!-- Стандартные столбцы с rowspan=2 -->
         <th class="px-4 py-2 text-left" rowspan="2">Name</th>
         <th class="px-4 py-2 text-left" rowspan="2">Description</th>
         <th class="px-4 py-2 text-left" rowspan="2">Link</th>
@@ -23,11 +23,13 @@
         <th class="px-4 py-2 text-left" rowspan="2">Category</th>
         <th class="px-4 py-2 text-left" rowspan="2">Effort</th>
 
-        <%# Столбец Progress с динамическим colspan и кнопкой + %>
+        <!-- Столбец Progress с динамическим colspan и кнопкой + -->
         <th id="progress_header" class="px-4 py-2 text-left" colspan="<%= @user.item_progress_columns.count %>">
           <div class="flex items-center space-x-2">
             <span>Progress:</span>
-            <%= link_to "+", new_user_item_progress_column_path(@user), class: "bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded", data: { turbo_frame: "add_progress_column" } %>
+            <turbo-frame id="add_progress_column">
+              <%= link_to "+", new_my_item_progress_column_path, class: "bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded" %>
+            </turbo-frame>
           </div>
         </th>
 
@@ -43,7 +45,7 @@
             <div class="flex flex-col space-y-1">
               <%= column.date.strftime("%d %b %Y") %>
               <div class="flex justify-center">
-                <%= link_to "Edit", edit_user_item_progress_column_path(@user, column), class: "text-yellow-400 hover:underline", data: { controller: "cell-edit", action: "click->cell-edit#enableEdit", "cell-edit-url-value": edit_user_item_progress_column_path(@user, column), "cell-edit-field-name-value": "date", "cell-edit-initial-value-value": column.date, "cell-edit-resource-name-value": "item_progress_column" } %>
+                <%= link_to "Edit", edit_my_item_progress_column_path(column), class: "text-yellow-400 hover:underline", data: { controller: "cell-edit", action: "click->cell-edit#enableEdit", "cell-edit-url-value": edit_my_item_progress_column_path(column), "cell-edit-field-name-value": "date", "cell-edit-initial-value-value": column.date, "cell-edit-resource-name-value": "item_progress_column" } %>
               </div>
             </div>
           </th>

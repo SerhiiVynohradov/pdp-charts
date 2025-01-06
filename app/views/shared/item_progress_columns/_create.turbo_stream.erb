@@ -1,34 +1,49 @@
-<!-- Обновление colspan в заголовке 'Progress' -->
+<!-- Заменяем Turbo Frame `add_progress_column` на кнопку `+` -->
+<turbo-stream action="replace" target="add_progress_column">
+  <template>
+    <%= turbo_frame_tag "add_progress_column" do %>
+      <%= link_to "+", new_my_item_progress_column_path, class: "bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded" %>
+    <% end %>
+  </template>
+</turbo-stream>
+
+<!-- Обновляем заголовки прогресс-колонок -->
+<turbo-stream action="replace" target="progress_columns_headers">
+  <template>
+    <% @user.item_progress_columns.order(date: :asc).each do |column| %>
+      <th id="progress_column_<%= column.id %>" class="px-4 py-2 text-left">
+        <div class="flex flex-col space-y-1">
+          <%= column.date.strftime("%d %b %Y") %>
+          <div class="flex justify-center">
+            <%= link_to "Edit", edit_my_item_progress_column_path(@user, column), class: "text-yellow-400 hover:underline", data: { controller: "cell-edit", action: "click->cell-edit#enableEdit", "cell-edit-url-value": edit_my_item_progress_column_path(@user, column), "cell-edit-field-name-value": "date", "cell-edit-initial-value-value": column.date, "cell-edit-resource-name-value": "item_progress_column" } %>
+          </div>
+        </div>
+      </th>
+    <% end %>
+  </template>
+</turbo-stream>
+
+<!-- Обновляем строки айтемов, добавляя новую <td> -->
+<turbo-stream action="replace" target="items-container">
+  <template>
+    <% @user.items.each do |item| %>
+      <%= render partial: "shared/items/item_row",
+        locals: { item: item, progress_columns: @user.item_progress_columns.order(date: :asc) },
+        formats: [:html] %>
+    <% end %>
+  </template>
+</turbo-stream>
+
+<!-- Обновляем заголовок Progress с новым colspan -->
 <turbo-stream action="replace" target="progress_header">
   <template>
     <th id="progress_header" class="px-4 py-2 text-left" colspan="<%= @user.item_progress_columns.count %>">
       <div class="flex items-center space-x-2">
         <span>Progress:</span>
-        <%= link_to "+", new_user_item_progress_column_path(@user), class: "bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded", data: { turbo_frame: "add_progress_column" } %>
+        <turbo-frame id="add_progress_column">
+          <%= link_to "+", new_my_item_progress_column_path, class: "bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded" %>
+        </turbo-frame>
       </div>
     </th>
   </template>
 </turbo-stream>
-
-<!-- Добавление нового <th> в строку прогресс-колонок -->
-<turbo-stream action="append" target="progress_columns_headers">
-  <template>
-    <th id="progress_column_<%= @item_progress_column.id %>" class="px-4 py-2 text-left">
-      <div class="flex flex-col space-y-1">
-        <%= @item_progress_column.date.strftime("%d %b %Y") %>
-        <div class="flex justify-center">
-          <%= link_to "Edit", edit_user_item_progress_column_path(@user, @item_progress_column), class: "text-yellow-400 hover:underline", data: { controller: "cell-edit", action: "click->cell-edit#enableEdit", "cell-edit-url-value": edit_user_item_progress_column_path(@user, @item_progress_column), "cell-edit-field-name-value": "date", "cell-edit-initial-value-value": @item_progress_column.date, "cell-edit-resource-name-value": "item_progress_column" } %>
-        </div>
-      </div>
-    </th>
-  </template>
-</turbo-stream>
-
-<!-- Обновление каждой строки айтема с добавлением нового <td> -->
-<% @items.each do |item| %>
-  <turbo-stream action="replace" target="<%= dom_id(item) %>">
-    <template>
-      <%= render partial: "shared/items/item_row", locals: { item: item, progress_columns: @user.item_progress_columns.order(date: :asc) } %>
-    </template>
-  </turbo-stream>
-<% end %>

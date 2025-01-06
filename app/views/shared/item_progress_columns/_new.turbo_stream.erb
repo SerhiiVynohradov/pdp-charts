@@ -1,0 +1,7 @@
+<turbo-stream action="replace" target="add_progress_column">
+  <template>
+    <%= render partial: "shared/item_progress_columns/form",
+               locals: { item_progress_column: @item_progress_column },
+               formats: [:html] %>
+  </template>
+</turbo-stream>
