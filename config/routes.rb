@@ -13,12 +13,9 @@ Rails.application.routes.draw do
 
   # My Namespace
   namespace :my do
-    resources :items do
-      member do
-        get :chart
-      end
-      resources :item_progress_columns, only: [:new, :create, :edit, :update, :destroy] do
-        resources :progress_updates, only: [:create, :update, :destroy]
+    resources :items, module: 'items' do
+      resources :item_progress_columns, only: [], module: 'item_progress_columns' do
+        resources :progress_updates, only: [:create, :update, :destroy], module: 'progress_updates'
       end
     end
     resources :item_progress_columns, only: [:new, :create, :edit, :update, :destroy]
