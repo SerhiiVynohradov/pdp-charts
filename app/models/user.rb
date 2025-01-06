@@ -8,6 +8,8 @@ class User < ApplicationRecord
   belongs_to :team, optional: true
 
   has_many :items, dependent: :destroy
+  has_many :item_progress_columns, dependent: :destroy
+  has_many :progress_updates, through: :item_progress_columns
 
   enum role: {
     user: 0,

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_01_03_061815) do
+ActiveRecord::Schema[7.2].define(version: 2025_01_05_235431) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -20,6 +20,14 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_03_061815) do
     t.boolean "status", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "item_progress_columns", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.date "date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_item_progress_columns_on_user_id"
   end
 
   create_table "items", force: :cascade do |t|
@@ -39,6 +47,16 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_03_061815) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_items_on_user_id"
+  end
+
+  create_table "progress_updates", force: :cascade do |t|
+    t.bigint "item_id", null: false
+    t.bigint "item_progress_column_id", null: false
+    t.integer "percent"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["item_id"], name: "index_progress_updates_on_item_id"
+    t.index ["item_progress_column_id"], name: "index_progress_updates_on_item_progress_column_id"
   end
 
   create_table "teams", force: :cascade do |t|
@@ -69,7 +87,10 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_03_061815) do
     t.index ["team_id"], name: "index_users_on_team_id"
   end
 
+  add_foreign_key "item_progress_columns", "users"
   add_foreign_key "items", "users"
+  add_foreign_key "progress_updates", "item_progress_columns"
+  add_foreign_key "progress_updates", "items"
   add_foreign_key "teams", "companies"
   add_foreign_key "users", "companies"
   add_foreign_key "users", "teams"
