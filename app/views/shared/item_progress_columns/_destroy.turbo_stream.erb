@@ -1,0 +1,19 @@
+<!-- Удаление <th> прогресс-колонки из заголовков -->
+<turbo-stream action="remove" target="progress_column_<%= @item_progress_column.id %>" />
+
+<!-- Обновление colspan в заголовке 'Progress' после удаления -->
+<turbo-stream action="replace" target="progress_header">
+  <template>
+    <th id="progress_header" class="px-4 py-2 text-left" colspan="<%= @user.item_progress_columns.count %>">
+      <div class="flex items-center space-x-2">
+        <span>Progress:</span>
+        <%= link_to "+", new_user_item_progress_column_path(@user), class: "bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded", data: { turbo_frame: "add_progress_column" } %>
+      </div>
+    </th>
+  </template>
+</turbo-stream>
+
+<!-- Удаление соответствующих <td> из каждой строки айтема -->
+<% @user.items.each do |item| %>
+  <turbo-stream action="remove" target="progress_update_<%= @item_progress_column.id %>_<%= item.id %>" />
+<% end %>

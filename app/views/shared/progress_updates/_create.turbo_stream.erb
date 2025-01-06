@@ -1,0 +1,7 @@
+<turbo-stream action="replace" target="progress_update_<%= progress_update.id %>">
+  <template>
+    <td id="progress_update_<%= progress_update.id %>" class="px-4 py-2 align-top">
+      <%= progress_update.percent.present? ? "#{progress_update.percent}%" : "-" %>
+    </td>
+  </template>
+</turbo-stream>

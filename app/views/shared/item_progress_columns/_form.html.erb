@@ -1,0 +1,12 @@
+<%= turbo_frame_tag dom_id(item_progress_column, :edit) do %>
+  <%= form_with model: item_progress_column,
+                url: the_item_progress_column_path(item_progress_column),
+                method: :patch,
+                local: false,
+                data: { turbo_frame: dom_id(item_progress_column, :edit) },
+                class: "flex items-center space-x-2 bg-gray-800 p-2 rounded" do |f| %>
+    <%= f.date_field :date, class: "rounded bg-gray-700 border border-gray-600 px-2 py-1 text-white" %>
+    <%= f.submit "Save", class: "bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 rounded" %>
+    <%= link_to "Cancel", "#", class: "text-red-500 hover:underline", data: { action: "click->cell-edit#cancelEdit" } %>
+  <% end %>
+<% end %>

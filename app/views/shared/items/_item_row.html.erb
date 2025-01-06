@@ -11,11 +11,7 @@ the_item_path = if @superadmin
 %>
 
 <tr id="<%= dom_id(item) %>" class="border-b border-gray-600 hover:bg-gray-700">
-  <td class="px-4 py-2 align-top">
-    <%= link_to "Details", the_item_path, class: "bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded" %>
-  </td>
-
-  <!-- 1) NAME -->
+  <!-- NAME -->
   <td class="px-4 py-2 align-top">
     <div
       class="cursor-pointer"
@@ -26,20 +22,20 @@ the_item_path = if @superadmin
       data-cell-edit-initial-value-value="<%= item.name || '' %>"
       data-cell-edit-resource-name-value="item"
     >
-      <!-- Display -->
       <span data-cell-edit-target="display">
         <%= item.name.presence || "-" %>
       </span>
-      <!-- Inline form (hidden) -->
       <form
         data-cell-edit-target="form"
-        class="hidden flex items-center space-x-2 mt-1"
+        class="hidden flex flex-col space-y-1 mt-1"
         data-action="submit->cell-edit#submit"
       >
         <input
           type="text"
           class="rounded bg-gray-800 border border-gray-500 px-2 py-1 text-white"
           data-cell-edit-target="input"
+          value="<%= item.name %>"
+          required
         >
         <button
           type="submit"
@@ -51,7 +47,7 @@ the_item_path = if @superadmin
     </div>
   </td>
 
-  <!-- 2) DESCRIPTION -->
+  <!-- DESCRIPTION -->
   <td class="px-4 py-2 align-top">
     <div
       class="cursor-pointer"
@@ -67,13 +63,14 @@ the_item_path = if @superadmin
       </span>
       <form
         data-cell-edit-target="form"
-        class="hidden flex items-center space-x-2 mt-1"
+        class="hidden flex flex-col space-y-1 mt-1"
         data-action="submit->cell-edit#submit"
       >
         <input
           type="text"
           class="rounded bg-gray-800 border border-gray-500 px-2 py-1 text-white w-60"
           data-cell-edit-target="input"
+          value="<%= item.description %>"
         >
         <button
           type="submit"
@@ -85,7 +82,7 @@ the_item_path = if @superadmin
     </div>
   </td>
 
-  <!-- 3) LINK (clickable anchor; if user clicks link, no edit) -->
+  <!-- LINK -->
   <td class="px-4 py-2 align-top">
     <div
       class="cursor-pointer"
@@ -101,7 +98,7 @@ the_item_path = if @superadmin
           <a href="<%= item.link %>"
              target="_blank"
              class="underline text-blue-400"
-             data-cell-edit-target="linkPreventer"  <!-- skip edit if click this -->
+             data-cell-edit-target="linkPreventer"
           >
             <%= item.link %>
           </a>
@@ -111,16 +108,18 @@ the_item_path = if @superadmin
       </span>
       <form
         data-cell-edit-target="form"
-        class="hidden flex items-center space-x-2 mt-1"
+        class="hidden flex flex-col space-y-1 mt-1"
         data-action="submit->cell-edit#submit"
       >
         <input
           type="text"
           class="rounded bg-gray-800 border border-gray-500 px-2 py-1 text-white w-64"
           data-cell-edit-target="input"
+          value="<%= item.link %>"
         >
-        <button type="submit"
-                class="bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded"
+        <button
+          type="submit"
+          class="bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded"
         >
           Save
         </button>
@@ -128,7 +127,7 @@ the_item_path = if @superadmin
     </div>
   </td>
 
-  <!-- 4) REASON -->
+  <!-- REASON -->
   <td class="px-4 py-2 align-top">
     <div
       class="cursor-pointer"
@@ -144,13 +143,14 @@ the_item_path = if @superadmin
       </span>
       <form
         data-cell-edit-target="form"
-        class="hidden flex items-center space-x-2 mt-1"
+        class="hidden flex flex-col space-y-1 mt-1"
         data-action="submit->cell-edit#submit"
       >
         <input
           type="text"
           class="rounded bg-gray-800 border border-gray-500 px-2 py-1 text-white w-60"
           data-cell-edit-target="input"
+          value="<%= item.reason %>"
         >
         <button
           type="submit"
@@ -162,7 +162,7 @@ the_item_path = if @superadmin
     </div>
   </td>
 
-  <!-- 5) EXPECTED RESULTS -->
+  <!-- EXPECTED RESULTS -->
   <td class="px-4 py-2 align-top">
     <div
       class="cursor-pointer"
@@ -178,13 +178,14 @@ the_item_path = if @superadmin
       </span>
       <form
         data-cell-edit-target="form"
-        class="hidden flex items-center space-x-2 mt-1"
+        class="hidden flex flex-col space-y-1 mt-1"
         data-action="submit->cell-edit#submit"
       >
         <input
           type="text"
           class="rounded bg-gray-800 border border-gray-500 px-2 py-1 text-white w-60"
           data-cell-edit-target="input"
+          value="<%= item.expected_results %>"
         >
         <button
           type="submit"
@@ -196,7 +197,7 @@ the_item_path = if @superadmin
     </div>
   </td>
 
-  <!-- 6) CATEGORY -->
+  <!-- CATEGORY -->
   <td class="px-4 py-2 align-top">
     <div
       class="cursor-pointer"
@@ -212,13 +213,14 @@ the_item_path = if @superadmin
       </span>
       <form
         data-cell-edit-target="form"
-        class="hidden flex items-center space-x-2 mt-1"
+        class="hidden flex flex-col space-y-1 mt-1"
         data-action="submit->cell-edit#submit"
       >
         <input
           type="text"
           class="rounded bg-gray-800 border border-gray-500 px-2 py-1 text-white w-60"
           data-cell-edit-target="input"
+          value="<%= item.category %>"
         >
         <button
           type="submit"
@@ -230,43 +232,7 @@ the_item_path = if @superadmin
     </div>
   </td>
 
-  <!-- 7) PROGRESS (number) -->
-  <td class="px-4 py-2 align-top">
-    <div
-      class="cursor-pointer"
-      data-controller="cell-edit"
-      data-action="click->cell-edit#enableEdit"
-      data-cell-edit-url-value="<%= the_item_path %>"
-      data-cell-edit-field-name-value="progress"
-      data-cell-edit-initial-value-value="<%= item.progress.present? ? item.progress.to_s : '' %>"
-      data-cell-edit-resource-name-value="item"
-    >
-      <span data-cell-edit-target="display">
-        <%= item.progress.present? ? "#{item.progress}%" : "-" %>
-      </span>
-      <form
-        data-cell-edit-target="form"
-        class="hidden flex items-center space-x-2 mt-1"
-        data-action="submit->cell-edit#submit"
-      >
-        <input
-          type="number"
-          min="0"
-          max="100"
-          class="w-16 rounded bg-gray-800 border border-gray-500 px-2 py-1 text-white"
-          data-cell-edit-target="input"
-        >
-        <button
-          type="submit"
-          class="bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded"
-        >
-          Save
-        </button>
-      </form>
-    </div>
-  </td>
-
-  <!-- 8) EFFORT (select with full-time day descriptions) -->
+  <!-- EFFORT -->
   <td class="px-4 py-2 align-top">
     <div
       class="cursor-pointer"
@@ -282,11 +248,12 @@ the_item_path = if @superadmin
       </span>
       <form
         data-cell-edit-target="form"
-        class="hidden flex items-center space-x-2 mt-1"
+        class="hidden flex flex-col space-y-1 mt-1"
         data-action="submit->cell-edit#submit"
       >
         <select data-cell-edit-target="input"
                 class="rounded bg-gray-800 border border-gray-500 px-2 py-1 text-white w-72"
+                value="<%= item.effort %>"
         >
           <option value="">Select Effort</option>
           <option value="5">5 - Very Hard (10+ full-time days)</option>
@@ -302,7 +269,70 @@ the_item_path = if @superadmin
     </div>
   </td>
 
-  <!-- 9) RESULT (string) -->
+  <!-- PROGRESS (Progress Updates per ItemProgressColumn) -->
+  <% progress_columns.each do |column| %>
+    <% progress_update = item.progress_updates.find_by(item_progress_column: column) %>
+    <% if progress_update %>
+      <% progress_update_path = if @superadmin
+                                  superadmin_company_team_user_item_item_progress_column_progress_update_path(@company, @team, @user, item, column, progress_update)
+                                elsif @company.present?
+                                  company_owner_company_team_user_item_item_progress_column_progress_update_path(@company, @team, @user, item, column, progress_update)
+                                elsif @team.present?
+                                  manager_team_user_item_item_progress_column_progress_update_path(@team, @user, item, column, progress_update)
+                                else
+                                  my_user_item_progress_column_progress_update_path(@user, column, progress_update)
+                                end %>
+      <% method = :patch %>
+    <% else %>
+      <% progress_update_path = if @superadmin
+                                  superadmin_company_team_user_item_item_progress_column_progress_updates_path(@company, @team, @user, item, column)
+                                elsif @company.present?
+                                  company_owner_company_team_user_item_item_progress_column_progress_updates_path(@company, @team, @user, item, column)
+                                elsif @team.present?
+                                  manager_team_user_item_item_progress_column_progress_updates_path(@team, @user, item, column)
+                                else
+                                  my_user_item_progress_column_progress_updates_path(@user, column)
+                                end %>
+      <% method = :post %>
+    <% end %>
+
+    <td id="progress_update_<%= column.id %>_<%= item.id %>" class="px-4 py-2 align-top">
+      <div
+        class="cursor-pointer"
+        data-controller="cell-edit"
+        data-action="click->cell-edit#enableEdit"
+        data-cell-edit-url-value="<%= progress_update_path %>"
+        data-cell-edit-method-value="<%= method %>"
+        data-cell-edit-field-name-value="percent"
+        data-cell-edit-initial-value-value="<%= progress_update&.percent || '' %>"
+        data-cell-edit-resource-name-value="progress_update"
+        data-item-progress-column-id="<%= column.id %>"
+      >
+        <span data-cell-edit-target="display">
+          <%= progress_update&.percent.present? ? "#{progress_update.percent}%" : "-" %>
+        </span>
+        <form
+          data-cell-edit-target="form"
+          class="hidden flex flex-col space-y-1 mt-1"
+          data-action="submit->cell-edit#submit"
+        >
+          <input
+            type="number"
+            min="0"
+            max="100"
+            class="w-16 rounded bg-gray-800 border border-gray-500 px-2 py-1 text-white"
+            data-cell-edit-target="input"
+            value="<%= progress_update&.percent || '' %>"
+          >
+          <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded">
+            Save
+          </button>
+        </form>
+      </div>
+    </td>
+  <% end %>
+
+  <!-- RESULT -->
   <td class="px-4 py-2 align-top">
     <div
       class="cursor-pointer"
@@ -318,22 +348,26 @@ the_item_path = if @superadmin
       </span>
       <form
         data-cell-edit-target="form"
-        class="hidden flex items-center space-x-2 mt-1"
+        class="hidden flex flex-col space-y-1 mt-1"
         data-action="submit->cell-edit#submit"
       >
         <input
           type="text"
           class="rounded bg-gray-800 border border-gray-500 px-2 py-1 text-white w-60"
           data-cell-edit-target="input"
+          value="<%= item.result %>"
         >
-        <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded">
+        <button
+          type="submit"
+          class="bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded"
+        >
           Save
         </button>
       </form>
     </div>
   </td>
 
-  <!-- 10) CERTIFICATE LINK (URL) -->
+  <!-- CERTIFICATE LINK -->
   <td class="px-4 py-2 align-top">
     <div
       class="cursor-pointer"
@@ -359,13 +393,14 @@ the_item_path = if @superadmin
       </span>
       <form
         data-cell-edit-target="form"
-        class="hidden flex items-center space-x-2 mt-1"
+        class="hidden flex flex-col space-y-1 mt-1"
         data-action="submit->cell-edit#submit"
       >
         <input
           type="text"
           class="rounded bg-gray-800 border border-gray-500 px-2 py-1 text-white w-60"
           data-cell-edit-target="input"
+          value="<%= item.certificate_link %>"
         >
         <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded">
           Save
@@ -374,7 +409,7 @@ the_item_path = if @superadmin
     </div>
   </td>
 
-  <!-- 11) ACTIONS (Delete button) -->
+  <!-- ACTIONS (Delete Button) -->
   <td class="px-4 py-2 align-top text-right space-x-2">
     <%= link_to "Delete",
       the_item_path,
