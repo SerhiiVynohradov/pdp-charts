@@ -282,7 +282,7 @@ the_item_path = if @superadmin
                                 else
                                   my_item_item_progress_column_progress_update_path(item, column, progress_update)
                                 end %>
-      <% method = :patch %>
+      <% method = 'PATCH' %>
     <% else %>
       <% progress_update_path = if @superadmin
                                   superadmin_company_team_user_item_item_progress_column_progress_updates_path(@company, @team, @user, item, column)
@@ -293,7 +293,7 @@ the_item_path = if @superadmin
                                 else
                                   my_item_item_progress_column_progress_updates_path(item, column)
                                 end %>
-      <% method = :post %>
+      <% method = 'POST' %>
     <% end %>
 
     <td id="progress_update_<%= column.id %>_<%= item.id %>" class="px-4 py-2 align-top">
