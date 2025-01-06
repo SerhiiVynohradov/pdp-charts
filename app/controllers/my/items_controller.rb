@@ -3,6 +3,8 @@ module My
     before_action :authenticate_user!
 
     include ItemManagement
+    include ItemProgressColumnManagement
+    include ProgressUpdateManagement
 
     private
     def chart_label
