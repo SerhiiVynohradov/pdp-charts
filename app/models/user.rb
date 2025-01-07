@@ -34,8 +34,8 @@ class User < ApplicationRecord
     Team.where(company_id: company_id)
   end
 
-  def create_quarters
-    ["10 Jan 2024", "10 Apr 2024", "10 Jul 2024", "10 Oct 2024"].each do |date|
+  def create_quarters(year="2024")
+    ["10 Jan #{year}", "10 Apr #{year}", "10 Jul #{year}", "10 Oct #{year}"].each do |date|
       item_progress_columns.create(date: date)
     end
   end

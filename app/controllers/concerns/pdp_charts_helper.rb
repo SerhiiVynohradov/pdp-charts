@@ -47,13 +47,28 @@ module PdpChartsHelper
       { name: "Q4 2025", start: Date.new(2025,10,1), end: Date.new(2025,12,31) }
     ]
 
+    # Определяем текущую дату
+    current_date = Date.today
+
+    # Определяем текущий квартал
+    current_quarter = quarters.find { |q| q[:start] <= current_date && q[:end] >= current_date }
+
+    # Отфильтровываем кварталы до текущего (включительно)
+    if current_quarter
+      current_quarter_index = quarters.index(current_quarter)
+      filtered_quarters = quarters[0..current_quarter_index]
+    else
+      # Если текущая дата вне всех кварталов (например, до Q1 2024), оставляем пустой массив
+      filtered_quarters = []
+    end
+
     itemsData  = []
     waData     = []
     effortData = []
 
     historical_max = {} # Хэш для отслеживания исторического максимума прогресса каждого айтема
 
-    quarters.each_with_index do |q, idx|
+    filtered_quarters.each_with_index do |q, idx|
       items_count                  = 0
       sum_of_diff_times_effort     = 0.0
       sum_of_effort_for_active     = 0.0
