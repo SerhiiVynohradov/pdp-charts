@@ -8,8 +8,6 @@ module Manager
           before_action :authorize_manage_team!
 
           include ItemManagement
-          include ItemProgressColumnManagement
-          include ProgressUpdateManagement
 
           private
 

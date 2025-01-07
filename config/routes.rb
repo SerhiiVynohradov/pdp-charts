@@ -35,6 +35,8 @@ Rails.application.routes.draw do
       end
 
       resources :users, only: [:index, :new, :create, :edit, :update, :destroy, :show], module: 'users' do
+        resources :item_progress_columns, only: [:new, :create, :edit, :update, :destroy]
+
         member do
           patch :pause
           get :generate_meeting
@@ -42,6 +44,9 @@ Rails.application.routes.draw do
         end
 
         resources :items, only: [:index, :create, :update, :destroy, :show], module: 'items' do
+          resources :item_progress_columns, only: [], module: 'item_progress_columns' do
+            resources :progress_updates, only: [:create, :update, :destroy], module: 'progress_updates'
+          end
           member do
             patch :pause
           end
@@ -71,6 +76,8 @@ Rails.application.routes.draw do
         end
 
         resources :users, only: [:index, :new, :create, :edit, :update, :destroy, :show], module: 'users' do
+          resources :item_progress_columns, only: [:new, :create, :edit, :update, :destroy]
+
           member do
             patch :deactivate
             get :profile
@@ -81,6 +88,9 @@ Rails.application.routes.draw do
           end
 
           resources :items, only: [:index, :create, :update, :destroy, :show], module: 'items' do
+            resources :item_progress_columns, only: [], module: 'item_progress_columns' do
+              resources :progress_updates, only: [:create, :update, :destroy], module: 'progress_updates'
+            end
             member do
               patch :archive
             end
@@ -122,6 +132,8 @@ Rails.application.routes.draw do
         end
 
         resources :users, only: [:index, :new, :create, :edit, :update, :destroy, :show], module: 'users' do
+          resources :item_progress_columns, only: [:new, :create, :edit, :update, :destroy]
+
           member do
             patch :deactivate
             get :profile
@@ -132,6 +144,9 @@ Rails.application.routes.draw do
           end
 
           resources :items, only: [:index, :create, :update, :destroy, :show], module: 'items' do
+            resources :item_progress_columns, only: [], module: 'item_progress_columns' do
+              resources :progress_updates, only: [:create, :update, :destroy], module: 'progress_updates'
+            end
             member do
               patch :archive
             end

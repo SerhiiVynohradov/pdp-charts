@@ -1,8 +1,19 @@
+<% the_new_column_path = if @superadmin
+                           new_superadmin_company_team_user_item_progress_column_path(@company, @team, @user)
+                         elsif @company.present?
+                           new_company_owner_company_team_user_item_progress_column_path(@company, @team, @user)
+                         elsif @team.present?
+                           new_manager_team_user_item_progress_column_path(@team, @user)
+                         else
+                           new_my_item_progress_column_path
+                         end
+%>
+
 <!-- Заменяем Turbo Frame `add_progress_column` на кнопку `+` -->
 <turbo-stream action="replace" target="add_progress_column">
   <template>
     <%= turbo_frame_tag "add_progress_column" do %>
-      <%= link_to "+", new_my_item_progress_column_path, class: "bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded" %>
+      <%= link_to "+", the_new_column_path, class: "bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded" %>
     <% end %>
   </template>
 </turbo-stream>
@@ -14,8 +25,19 @@
       <th id="progress_column_<%= column.id %>" class="px-4 py-2 text-left">
         <div class="flex flex-col space-y-1">
           <%= column.date.strftime("%d %b %Y") %>
+          <% the_edit_column_path = if @superadmin
+                                      edit_superadmin_company_team_user_item_progress_column_path(@company, @team, @user, column)
+                                    elsif @company.present?
+                                      edit_company_owner_company_team_user_item_progress_column_path(@company, @team, @user, column)
+                                    elsif @team.present?
+                                      edit_manager_team_user_item_progress_column_path(@team, @user, column)
+                                    else
+                                      edit_my_item_progress_column_path(column)
+                                    end
+          %>
+
           <div class="flex justify-center">
-            <%= link_to "Edit", edit_my_item_progress_column_path(@user, column), class: "text-yellow-400 hover:underline", data: { controller: "cell-edit", action: "click->cell-edit#enableEdit", "cell-edit-url-value": edit_my_item_progress_column_path(@user, column), "cell-edit-field-name-value": "date", "cell-edit-initial-value-value": column.date, "cell-edit-resource-name-value": "item_progress_column" } %>
+            <%= link_to "Edit", the_edit_column_path, class: "text-yellow-400 hover:underline", data: { controller: "cell-edit", action: "click->cell-edit#enableEdit", "cell-edit-url-value": edit_my_item_progress_column_path(@user, column), "cell-edit-field-name-value": "date", "cell-edit-initial-value-value": column.date, "cell-edit-resource-name-value": "item_progress_column" } %>
           </div>
         </div>
       </th>
@@ -41,7 +63,7 @@
       <div class="flex items-center space-x-2">
         <span>Progress:</span>
         <turbo-frame id="add_progress_column">
-          <%= link_to "+", new_my_item_progress_column_path, class: "bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded" %>
+          <%= link_to "+", the_new_column_path, class: "bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded" %>
         </turbo-frame>
       </div>
     </th>

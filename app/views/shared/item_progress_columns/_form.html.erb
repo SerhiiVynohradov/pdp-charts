@@ -1,5 +1,17 @@
+<% the_create_column_path = if @superadmin
+                              superadmin_company_team_user_item_progress_columns_path(@company, @team, @user)
+                            elsif @company.present?
+                              company_owner_company_team_user_item_progress_columns_path(@company, @team, @user)
+                            elsif @team.present?
+                              manager_team_user_item_progress_columns_path(@team, @user)
+                            else
+                              my_item_progress_columns_path
+                            end
+%>
+
+
 <%= form_with model: item_progress_column,
-              url: my_item_progress_columns_path,
+              url: the_create_column_path,
               method: :post,
               data: { turbo_frame: "add_progress_column" },
               class: "flex flex-col space-y-2 bg-gray-800 p-2 rounded" do |f| %>

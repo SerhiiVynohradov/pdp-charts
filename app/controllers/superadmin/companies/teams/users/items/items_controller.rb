@@ -9,10 +9,9 @@ module Superadmin
             before_action :authorize_manage_company!
             before_action :set_team
             before_action :authorize_manage_team!
+            before_action :set_superadmin
 
             include ItemManagement
-            include ItemProgressColumnManagement
-            include ProgressUpdateManagement
 
             private
 
@@ -30,6 +29,10 @@ module Superadmin
 
             def authorize_manage_team!
               redirect_to root_path unless can?(:manage, @team)
+            end
+
+            def set_superadmin
+              @superadmin = true
             end
           end
         end
