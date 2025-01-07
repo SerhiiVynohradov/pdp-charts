@@ -35,6 +35,7 @@ module PdpChartsHelper
     # потому что тогда у нас начинают плавать нормативы,
     # и теряется смысл и главный плюс бизнес-модели
     # (предсказание того сколько считать нормой чтоб предсказать выгорит человек или нет)
+
     quarters = [
       { name: "Q1 2024", start: Date.new(2024,1,1),  end: Date.new(2024,3,31) },
       { name: "Q2 2024", start: Date.new(2024,4,1),  end: Date.new(2024,6,30) },
@@ -50,6 +51,8 @@ module PdpChartsHelper
     waData     = []
     effortData = []
 
+    historical_max = {} # Хэш для отслеживания исторического максимума прогресса каждого айтема
+
     quarters.each_with_index do |q, idx|
       items_count                  = 0
       sum_of_diff_times_effort     = 0.0
@@ -57,19 +60,20 @@ module PdpChartsHelper
 
       items.each do |item|
         current_progress = item.quarter_progress(q[:start], q[:end])
-        prev_progress = if idx.zero?
-                          0
-                        else
-                          prev_q = quarters[idx - 1]
-                          item.quarter_progress(prev_q[:start], prev_q[:end])
-                        end
+        prev_max = historical_max[item.id] || 0
 
-        diff = current_progress - prev_progress
-        if diff > 0
+        if current_progress > prev_max
+          diff = current_progress - prev_max
           items_count += 1
           w = item.effort.to_f
           sum_of_diff_times_effort += (diff * w)
           sum_of_effort_for_active  += w
+
+          # Обновляем исторический максимум
+          historical_max[item.id] = current_progress
+        else
+          diff = 0
+          # Исторический максимум не изменяется
         end
       end
 

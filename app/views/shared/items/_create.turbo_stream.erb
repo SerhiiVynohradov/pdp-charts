@@ -1,7 +1,7 @@
 <turbo-stream action="append" target="items-container">
   <template>
     <%= render partial: "shared/items/item_row",
-               locals: { item: @item },
+               locals: { item: @item, progress_columns: @user.item_progress_columns.order(date: :asc) },
                formats: [:html] %>
   </template>
 </turbo-stream>
