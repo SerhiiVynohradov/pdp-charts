@@ -1,19 +1,122 @@
-<h1> Welcome to PDP Carts </h1>
+<!-- app/views/home/index.html.erb -->
+<div class="min-h-screen bg-gray-900 text-white">
+  <!-- Hero Section -->
+  <section class="relative bg-gray-800 py-20">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="text-center">
+        <h1 class="text-4xl font-extrabold mb-4 text-white">
+          Графіки ІПР
+        </h1>
+        <p class="text-xl text-gray-300 max-w-2xl mx-auto">
+          Індивідуальний План Розвитку для відслідковування динаміки
+          та досягнення максимального потенціалу — і для людини, і
+          для бізнесу.
+        </p>
+        <div class="mt-8">
+          <%= link_to "Спробувати зараз", new_user_registration_path,
+            class: "bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-md" %>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<% if user_signed_in? %>
-  <ul>
-    <li><%= link_to "My Items", my_items_path %></li>
-    <% if current_user.manager? %>
-      <li><%= link_to "My team", manager_team_path(current_user.team) %></li>
-    <% end %>
-    <% if current_user.company_owner? %>
-      <li><%= link_to "My company", company_owner_root_path %></li>
-    <% end %>
-    <% if current_user.superadmin? %>
-      <li><%= link_to "Companies", superadmin_companies_path %></li>
-    <% end %>
-    <li><%= link_to "Sign out", destroy_user_session_path, data: { turbo_method: :delete } %></li>
-  </ul>
-<% else %>
-  <%= link_to "Sign in", new_user_session_path %>
-<% end %>
+  <!-- Benefits Section -->
+  <section class="py-12">
+    <div class="max-w-7xl mx-auto px-4">
+      <h2 class="text-3xl font-bold mb-6 text-white">
+        Чому Графіки ІПР важливі?
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Benefit 1 -->
+        <div class="bg-gray-800 rounded-lg p-6 shadow-md">
+          <h3 class="text-xl font-semibold text-white mb-3">
+            Швидке виявлення вигоряння
+          </h3>
+          <p class="text-gray-300">
+            Один погляд на графік допомагає побачити, хто з
+            працівників "просідає" і потребує підтримки, щоб уникнути
+            вигорання.
+          </p>
+        </div>
+        <!-- Benefit 2 -->
+        <div class="bg-gray-800 rounded-lg p-6 shadow-md">
+          <h3 class="text-xl font-semibold text-white mb-3">
+            Прозорі рішення про підвищення
+          </h3>
+          <p class="text-gray-300">
+            Графіки чітко показують, у кого достатньо ресурсу та
+            прогресу для збільшення обов'язків і зарплати, а кому
+            варто знизити навантаження.
+          </p>
+        </div>
+        <!-- Benefit 3 -->
+        <div class="bg-gray-800 rounded-lg p-6 shadow-md">
+          <h3 class="text-xl font-semibold text-white mb-3">
+            Зручна звітність і економія часу
+          </h3>
+          <p class="text-gray-300">
+            Замість багатогодинних характеристик — один інтуїтивний
+            графік. Менеджери і керівництво бачать усю картину за
+            хвилини.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works (Short) -->
+  <section class="py-12 bg-gray-800">
+    <div class="max-w-7xl mx-auto px-4">
+      <h2 class="text-3xl font-bold mb-6 text-white">
+        Як це працює?
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-gray-300">
+        <div class="bg-gray-900 rounded-lg p-6 shadow-md">
+          <h3 class="text-xl text-white font-semibold mb-3">
+            Крок 1
+          </h3>
+          <p>
+            Додаєте цілі та задачі (Goals) — будь то покращення
+            професійних навичок чи особистого розвитку.
+          </p>
+        </div>
+        <div class="bg-gray-900 rounded-lg p-6 shadow-md">
+          <h3 class="text-xl text-white font-semibold mb-3">
+            Крок 2
+          </h3>
+          <p>
+            Виставляєте “зусилля” (Effort) у балах, залежно від
+            складності та часу, потрібного на реалізацію кожної задачі.
+          </p>
+        </div>
+        <div class="bg-gray-900 rounded-lg p-6 shadow-md">
+          <h3 class="text-xl text-white font-semibold mb-3">
+            Крок 3
+          </h3>
+          <p>
+            Раз на квартал оновлюєте відсоток прогресу. Отримуєте
+            наочні графіки, аналіз і готові рішення для команди чи
+            особистого розвитку.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="py-20">
+    <div class="max-w-7xl mx-auto px-4 text-center">
+      <h2 class="text-3xl font-bold text-white mb-4">
+        Готові підняти ефективність на новий рівень?
+      </h2>
+      <p class="text-gray-300 max-w-xl mx-auto">
+        Зареєструйтесь і спробуйте Графіки ІПР для себе або
+        вашої команди.
+      </p>
+      <div class="mt-8">
+        <%= link_to "Почати зараз", new_user_registration_path,
+          class: "bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-md" %>
+      </div>
+    </div>
+  </section>
+</div>

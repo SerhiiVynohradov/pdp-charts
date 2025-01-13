@@ -11,16 +11,18 @@
   </head>
 
   <body class="bg-gray-900 text-white min-h-screen">
+
     <% if user_signed_in? %>
-      <!-- Our top nav / sidebar -->
       <%= render "layouts/nav_bar" %>
 
-      <!-- Optional breadcrumbs -->
       <%= render "layouts/breadcrumbs" %>
+    <% else %>
+      <%= render "layouts/nav_bar_guest" %>
     <% end %>
 
     <main class="container mx-auto px-4 py-8">
       <%= yield %>
     </main>
+
   </body>
 </html>

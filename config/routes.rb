@@ -13,6 +13,7 @@ Rails.application.routes.draw do
 
   # My Namespace
   namespace :my do
+    resource :settings, only: [:edit, :update]
     resources :items, module: 'items' do
       resources :item_progress_columns, only: [], module: 'item_progress_columns' do
         resources :progress_updates, only: [:create, :update, :destroy], module: 'progress_updates'
@@ -61,7 +62,7 @@ Rails.application.routes.draw do
 
   # CompanyOwner Namespace
   namespace :company_owner do
-    resources :companies, only: [:show], module: 'companies' do
+    resources :companies, only: [:show, :edit, :update], module: 'companies' do
       resources :teams, module: 'teams' do
         member do
           patch :toggle_status

@@ -11,6 +11,17 @@
     <%= link_to "My Items", my_items_path, class: "text-white hover:text-blue-300" %>
   <% end %>
 
-  <%# Shared links, e.g. sign out, account settings, etc. %>
-  <%= link_to "Logout", destroy_user_session_path, data: { turbo_method: :delete }, class: "text-white hover:text-blue-300 ml-auto" %>
+  <%= link_to "My Settings", edit_my_settings_path, class: "text-white hover:text-blue-300" %>
+
+  <% if current_user.manager? %>
+    <%= link_to "My Team Settings", edit_manager_team_path(current_user.team), class: "text-white hover:text-blue-300" %>
+  <% end %>
+
+  <% if current_user.company_owner? %>
+    <%= link_to "My Company Settings", edit_company_owner_company_path(current_user.company), class: "text-white hover:text-blue-300" %>
+  <% end %>
+
+  <%= link_to "Logout", destroy_user_session_path,
+      data: { turbo_method: :delete },
+      class: "text-white hover:text-blue-300 ml-auto" %>
 </nav>
