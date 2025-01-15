@@ -11,7 +11,10 @@ export default class extends Controller {
   connect() {
     const currentValue = this.hiddenInputTarget.value
     if (currentValue) {
-      this.selectedTextTarget.textContent = this.mapValueToLabel(currentValue)
+      const optionEl = this.menuTarget.querySelector(`[data-value="${currentValue}"]`)
+      if (optionEl && optionEl.dataset.label) {
+        this.selectedTextTarget.textContent = optionEl.dataset.label
+      }
     }
   }
 
@@ -22,22 +25,12 @@ export default class extends Controller {
 
   select(event) {
     event.preventDefault()
-    const newValue  = event.currentTarget.dataset.value
-    const newLabel = this.mapValueToLabel(event.currentTarget.dataset.value)
+    const optionEl = event.currentTarget
+    const newValue = optionEl.dataset.value
+    const newLabel = optionEl.dataset.label
 
     this.hiddenInputTarget.value = newValue
     this.selectedTextTarget.textContent = newLabel
     this.menuTarget.classList.add("hidden")
-  }
-
-  mapValueToLabel(value) {
-    switch (value) {
-      case "5": return "Very Hard (5 points)"
-      case "4": return "Hard (4 points)"
-      case "3": return "Medium (3 points)"
-      case "2": return "Easy (2 points)"
-      case "1": return "Very Easy (1 point)"
-      default:  return "Select Effort"
-    }
   }
 }

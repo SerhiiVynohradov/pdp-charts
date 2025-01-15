@@ -10,9 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_01_05_235431) do
+ActiveRecord::Schema[7.2].define(version: 2025_01_15_014409) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "categories", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "companies", force: :cascade do |t|
     t.string "name"
@@ -46,6 +53,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_05_235431) do
     t.integer "position"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "category_id"
+    t.index ["category_id"], name: "index_items_on_category_id"
     t.index ["user_id"], name: "index_items_on_user_id"
   end
 
@@ -88,6 +97,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_05_235431) do
   end
 
   add_foreign_key "item_progress_columns", "users"
+  add_foreign_key "items", "categories"
   add_foreign_key "items", "users"
   add_foreign_key "progress_updates", "item_progress_columns"
   add_foreign_key "progress_updates", "items"

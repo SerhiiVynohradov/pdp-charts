@@ -1,0 +1,42 @@
+<%= content_for :page_title, "Categories" %>
+<div class="bg-gray-900 text-white min-h-screen p-6">
+  <h1 class="text-2xl font-bold mb-4">Categories</h1>
+
+  <div class="mb-4">
+    <%= link_to "New Category", new_superadmin_category_path,
+                class: "bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded" %>
+  </div>
+
+  <% if @categories.any? %>
+    <table class="min-w-full border-collapse bg-gray-800 text-gray-50">
+      <thead>
+        <tr class="bg-gray-700 border-b border-gray-600">
+          <th class="px-4 py-2 text-left">ID</th>
+          <th class="px-4 py-2 text-left">Name</th>
+          <th class="px-4 py-2 text-left">Description</th>
+          <th class="px-4 py-2 text-left">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @categories.each do |category| %>
+          <tr class="border-b border-gray-600 hover:bg-gray-700">
+            <td class="px-4 py-2 align-top"><%= category.id %></td>
+            <td class="px-4 py-2 align-top"><%= category.name %></td>
+            <td class="px-4 py-2 align-top"><%= category.description %></td>
+            <td class="px-4 py-2 align-top text-right space-x-2">
+              <%= link_to "Show", superadmin_category_path(category),
+                          class: "bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded" %>
+              <%= link_to "Edit", edit_superadmin_category_path(category),
+                          class: "bg-yellow-600 hover:bg-yellow-700 text-white px-3 py-1 rounded" %>
+              <%= link_to "Delete", superadmin_category_path(category),
+                          data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' },
+                          class: "bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <p>No categories found.</p>
+  <% end %>
+</div>

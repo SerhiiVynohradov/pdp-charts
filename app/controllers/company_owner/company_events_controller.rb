@@ -1,4 +1,4 @@
-module Company
+module CompanyOwner
   class CompanyEventsController < ApplicationController
     before_action :require_company_owner!
 

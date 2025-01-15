@@ -41,19 +41,22 @@ module ItemManagement
   def update
     if request.format.json?
       if @item.update(item_params)
-        render json: @item.slice(
+        data = @item.slice(
           :id,
           :name,
           :description,
           :link,
           :reason,
           :expected_results,
-          :category,
           :progress,
           :effort,
           :result,
           :certificate_link
-        ), status: :ok
+        )
+
+        data[:category_id] = @item.category&.name
+
+        render json: data, status: :ok
       else
         render json: { errors: @item.errors.full_messages }, status: :unprocessable_entity
       end
@@ -76,6 +79,7 @@ module ItemManagement
       :reason,
       :expected_results,
       :category,
+      :category_id,
       :progress,        # integer
       :effort,          # string
       :result,

@@ -3,6 +3,7 @@
 
   <% if current_user.superadmin? %>
     <%= link_to "Companies", superadmin_companies_path, class: "text-white hover:text-blue-300" %>
+    <%= link_to "Categories", superadmin_categories_path, class: "text-white hover:text-blue-300" %>
   <% elsif current_user.company_owner? %>
     <%= link_to "Company Dash", company_owner_root_path, class: "text-white hover:text-blue-300" %>
   <% elsif current_user.manager? %>

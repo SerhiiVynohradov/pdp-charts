@@ -23,9 +23,62 @@ create_item_path = if @superadmin
       <%= f.text_field :name, class: "rounded bg-gray-800 border border-gray-500 px-2 py-1 text-white w-40" %>
     </div>
 
-    <div class="flex items-center px-2 space-x-2">
+    <div class="relative flex items-center px-2 space-x-2" data-controller="custom-dropdown">
       <label class="text-sm text-gray-300">Category</label>
-      <%= f.text_field :category, class: "rounded bg-gray-800 border border-gray-500 px-2 py-1 text-white w-56" %>
+
+      <button
+        type="button"
+        class="block w-56 bg-gray-800 border border-gray-500 text-white py-2 px-4
+               rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500
+               flex justify-between items-center"
+        data-action="click->custom-dropdown#toggle"
+        data-custom-dropdown-target="button"
+      >
+        <span data-custom-dropdown-target="selectedText">
+          <%= item.category ? item.category.name : "Select Category" %>
+        </span>
+        <svg
+          class="w-5 h-5 text-gray-400"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+
+      <div
+        class="absolute z-10 w-56 bg-gray-800 border border-gray-600
+               rounded-md shadow-lg mt-1 hidden"
+        data-custom-dropdown-target="menu"
+      >
+        <ul class="py-1">
+          <% Category.all.each do |cat| %>
+            <li>
+              <button
+                type="button"
+                class="block w-full px-4 py-2 text-left text-sm text-gray-200
+                       hover:bg-gray-700 hover:text-white"
+                data-action="click->custom-dropdown#select"
+                data-value="<%= cat.id %>"
+                data-label="<%= cat.name %>"
+              >
+                <%= cat.name %>
+                <hr class="border-gray-600 my-1">
+                <div class="text-xs text-gray-400">
+                  <%= cat.description %>
+                </div>
+              </button>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+
+      <%= f.hidden_field :category_id,
+                         value: item.category_id,
+                         data: { custom_dropdown_target: "hiddenInput" } %>
     </div>
 
     <div class="flex items-center space-x-2">
@@ -33,75 +86,75 @@ create_item_path = if @superadmin
       <%= f.text_field :reason, class: "rounded bg-gray-800 border border-gray-500 px-2 py-1 text-white w-56" %>
     </div>
 
+    <div class="flex items-center space-x-2">
+      <label class="text-sm text-gray-300">Effort</label>
 
-<div class="flex items-center space-x-2">
-  <label class="text-sm text-gray-300">Effort</label>
+      <div data-controller="custom-dropdown" class="relative w-full">
+        <button
+          type="button"
+          class="block w-96 bg-gray-800 border border-gray-500 text-white py-2 px-4
+                 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500
+                 flex justify-between items-center"
+          data-action="click->custom-dropdown#toggle"
+          data-custom-dropdown-target="button"
+        >
+          <span data-custom-dropdown-target="selectedText">Select Effort</span>
+          <svg
+            class="w-5 h-5 text-gray-400"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M19 9l-7 7-7-7"
+            />
+          </svg>
+        </button>
 
-  <div data-controller="custom-dropdown" class="relative w-full">
-    <button
-      type="button"
-      class="block w-96 bg-gray-800 border border-gray-500 text-white py-2 px-4
-             rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500
-             flex justify-between items-center"
-      data-action="click->custom-dropdown#toggle"
-      data-custom-dropdown-target="button"
-    >
-      <span data-custom-dropdown-target="selectedText">Select Effort</span>
-      <svg
-        class="w-5 h-5 text-gray-400"
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M19 9l-7 7-7-7"
-        />
-      </svg>
-    </button>
+        <div
+          class="absolute z-10 w-96 bg-gray-800 border border-gray-600
+                 rounded-md shadow-lg mt-1 hidden"
+          data-custom-dropdown-target="menu"
+        >
+          <ul class="py-1">
+            <% [["5", "Very Hard", "(5 points)", ["Более 10 full-time дней", "2+ месяца 2 раза в неделю по 5 часов – 80ч – 10д", "40 Уроков по 2 часа – 80ч – 10д", "1 год по 1 разу в неделю по 2 часа – 96ч – 10д"]],
+                 ["4", "Hard", "(4 points)", ["5-10 full-time дней", "2+ месяца 2 раза в неделю по 3 часа – 48ч – 6д", "6 Месяцев по 1 разу в неделю по 2 часа = 48ч = 6д"]],
+                 ["3", "Medium", "(3 points)", ["3-5 full-time дней", "2-3 недели по 10 часов в неделю – 25ч – 4д", "3 Месяца по 2ч в неделю – 24ч – 4д"]],
+                 ["2", "Easy", "(2 points)", ["2-3 full-time дня", "2+ месяца по 1 разу в неделю по 2 часа – 16ч - 2д", "2-3 недели по 2ч в неделю – 2д"]],
+                 ["1", "Very Easy", "(1 point)", ["Меньше 1 дня – 1д"]]
+               ].each do |value, title, points, examples| %>
+              <li>
+                <button
+                  type="button"
+                  class="block w-full px-4 py-2 text-left text-sm text-gray-200
+                         hover:bg-gray-700 hover:text-white"
+                  data-action="click->custom-dropdown#select"
+                  data-value="<%= value %>"
+                  data-label="<%= "#{title} #{points}" %>"
+                >
+                  <div class="flex justify-between">
+                    <span class="font-bold text-white"><%= title %></span>
+                    <span class="text-sm text-gray-400"><%= points %></span>
+                  </div>
+                  <hr class="border-gray-600 my-1">
+                  <ul class="text-xs text-gray-400 list-disc pl-4">
+                    <% examples.each do |example| %>
+                      <li><%= example %></li>
+                    <% end %>
+                  </ul>
+                </button>
+              </li>
+            <% end %>
+          </ul>
+        </div>
 
-    <div
-      class="absolute z-10 w-96 bg-gray-800 border border-gray-600
-             rounded-md shadow-lg mt-1 hidden"
-      data-custom-dropdown-target="menu"
-    >
-      <ul class="py-1">
-        <% [["5", "Very Hard", "(5 points)", ["Более 10 full-time дней", "2+ месяца 2 раза в неделю по 5 часов – 80ч – 10д", "40 Уроков по 2 часа – 80ч – 10д", "1 год по 1 разу в неделю по 2 часа – 96ч – 10д"]],
-             ["4", "Hard", "(4 points)", ["5-10 full-time дней", "2+ месяца 2 раза в неделю по 3 часа – 48ч – 6д", "6 Месяцев по 1 разу в неделю по 2 часа = 48ч = 6д"]],
-             ["3", "Medium", "(3 points)", ["3-5 full-time дней", "2-3 недели по 10 часов в неделю – 25ч – 4д", "3 Месяца по 2ч в неделю – 24ч – 4д"]],
-             ["2", "Easy", "(2 points)", ["2-3 full-time дня", "2+ месяца по 1 разу в неделю по 2 часа – 16ч - 2д", "2-3 недели по 2ч в неделю – 2д"]],
-             ["1", "Very Easy", "(1 point)", ["Меньше 1 дня – 1д"]]
-           ].each do |value, title, points, examples| %>
-          <li>
-            <button
-              type="button"
-              class="block w-full px-4 py-2 text-left text-sm text-gray-200
-                     hover:bg-gray-700 hover:text-white"
-              data-action="click->custom-dropdown#select"
-              data-value="<%= value %>"
-            >
-              <div class="flex justify-between">
-                <span class="font-bold text-white"><%= title %></span>
-                <span class="text-sm text-gray-400"><%= points %></span>
-              </div>
-              <hr class="border-gray-600 my-1">
-              <ul class="text-xs text-gray-400 list-disc pl-4">
-                <% examples.each do |example| %>
-                  <li><%= example %></li>
-                <% end %>
-              </ul>
-            </button>
-          </li>
-        <% end %>
-      </ul>
+        <%= f.hidden_field :effort, data: { custom_dropdown_target: "hiddenInput" } %>
+      </div>
     </div>
-
-    <%= f.hidden_field :effort, data: { custom_dropdown_target: "hiddenInput" } %>
-  </div>
-</div>
 
     <div>
       <%= f.submit "Create",

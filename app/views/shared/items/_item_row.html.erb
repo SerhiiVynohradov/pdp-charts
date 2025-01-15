@@ -201,27 +201,89 @@ the_item_path = if @superadmin
   <td class="px-4 py-2 align-top">
     <div
       class="cursor-pointer"
-      data-controller="cell-edit"
+      data-controller="cell-edit custom-dropdown"
       data-action="click->cell-edit#enableEdit"
       data-cell-edit-url-value="<%= the_item_path %>"
-      data-cell-edit-field-name-value="category"
-      data-cell-edit-initial-value-value="<%= item.category || '' %>"
+      data-cell-edit-field-name-value="category_id"
+      data-cell-edit-initial-value-value="<%= item.category_id || '' %>"
       data-cell-edit-resource-name-value="item"
     >
       <span data-cell-edit-target="display">
-        <%= item.category.presence || "-" %>
+        <%= item.category ? item.category.name : "-" %>
       </span>
       <form
         data-cell-edit-target="form"
         class="hidden flex flex-col space-y-1 mt-1"
         data-action="submit->cell-edit#submit"
       >
-        <input
-          type="text"
-          class="rounded bg-gray-800 border border-gray-500 px-2 py-1 text-white w-60"
-          data-cell-edit-target="input"
-          value="<%= item.category %>"
-        >
+        <div class="relative">
+          <!-- Кнопка-триггер -->
+          <button
+            type="button"
+            class="block w-96 bg-gray-800 border border-gray-500 text-white py-2 px-4
+                   rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500
+                   flex justify-between items-center"
+            data-action="click->custom-dropdown#toggle"
+            data-custom-dropdown-target="button"
+          >
+            <span data-custom-dropdown-target="selectedText">
+              <%= item.category ? item.category.name : "Select Category" %>
+            </span>
+            <svg
+              class="w-5 h-5 text-gray-400"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19 9l-7 7-7-7"
+              />
+            </svg>
+          </button>
+
+          <!-- Меню выбора категорий -->
+          <div
+            class="absolute z-10 w-96 bg-gray-800 border border-gray-600
+                   rounded-md shadow-lg mt-1 hidden"
+            data-custom-dropdown-target="menu"
+          >
+            <ul class="py-1">
+              <% Category.all.each do |cat| %>
+                <li>
+                  <button
+                    type="button"
+                    class="block w-full px-4 py-2 text-left text-sm text-gray-200
+                           hover:bg-gray-700 hover:text-white"
+                    data-action="click->custom-dropdown#select"
+                    data-value="<%= cat.id %>"
+                    data-label="<%= cat.name %>"
+                  >
+                    <div class="flex justify-between">
+                      <span class="font-bold text-white"><%= cat.name %></span>
+                    </div>
+                    <hr class="border-gray-600 my-1">
+                    <div class="text-xs text-gray-400">
+                      <%= cat.description %>
+                    </div>
+                  </button>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+
+          <!-- Поле, в которое будет записываться выбранное значение -->
+          <input
+            type="hidden"
+            data-cell-edit-target="input"
+            data-custom-dropdown-target="hiddenInput"
+            value="<%= item.category_id %>"
+          />
+        </div>
+
         <button
           type="submit"
           class="bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded"
@@ -296,6 +358,7 @@ the_item_path = if @superadmin
                            hover:bg-gray-700 hover:text-white"
                     data-action="click->custom-dropdown#select"
                     data-value="<%= value %>"
+                    data-label="<%= "#{title} #{points}" %>"
                   >
                     <div class="flex justify-between">
                       <span class="font-bold text-white"><%= title %></span>
