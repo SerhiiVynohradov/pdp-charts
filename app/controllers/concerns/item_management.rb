@@ -95,8 +95,28 @@ module ItemManagement
     @item = @user.items.find(params[:id])
   end
 
+  # def chart_data_index
+  #   [build_pdp_charts_data(@items, label: chart_items_label_index)]
+  # end
+
   def chart_data_index
-    [build_pdp_charts_data(@items, label: chart_items_label_index)]
+    data = []
+
+    # 1) Все айтемы (одна линия)
+    data << build_pdp_charts_data(@items, label: 'All')
+
+    # 2) Айтемы без категории (одна линия)
+    if @items.where(category_id: nil).any?
+      data << build_pdp_charts_data(@items.where(category_id: nil), label: 'No Category')
+    end
+
+    # 3) Айтемы по каждой категории (каждая категория — своя линия)
+    category_ids = @items.where.not(category_id: nil).pluck(:category_id).uniq
+    Category.where(id: category_ids).each do |category|
+      data << build_pdp_charts_data(@items.where(category: category), label: category.name)
+    end
+
+    data
   end
 
   def chart_items_label_index
