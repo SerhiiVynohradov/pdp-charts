@@ -14,7 +14,7 @@ module UserManagement
     @chart_data = chart_data
     @chart_label = chart_label
 
-    render 'shared/users/index'
+    render 'shared/users/index', locals: { read_only_mode: read_only_mode }
   end
 
   def create
@@ -72,6 +72,9 @@ module UserManagement
   end
 
   private
+  def read_only_mode
+    false
+  end
 
   def chart_data
     @team.users.map do |u|

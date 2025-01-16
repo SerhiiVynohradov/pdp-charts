@@ -11,6 +11,9 @@ the_item_path = if @superadmin
 %>
 
 <tr id="<%= dom_id(item) %>" class="border-b border-gray-600 hover:bg-gray-700">
+  <td class="px-4 py-2 align-top">
+    <%= link_to "Details", the_item_path, class: "bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded" %>
+  </td>
   <!-- NAME -->
   <td class="px-4 py-2 align-top">
     <div
@@ -395,66 +398,71 @@ the_item_path = if @superadmin
   </td>
 
   <!-- PROGRESS (Progress Updates per ItemProgressColumn) -->
-  <% progress_columns.each do |column| %>
-    <% progress_update = item.progress_updates.find_by(item_progress_column: column) %>
-    <% if progress_update %>
-      <% progress_update_path = if @superadmin
-                                  superadmin_company_team_user_item_item_progress_column_progress_update_path(@company, @team, @user, item, column, progress_update)
-                                elsif @company.present?
-                                  company_owner_company_team_user_item_item_progress_column_progress_update_path(@company, @team, @user, item, column, progress_update)
-                                elsif @team.present?
-                                  manager_team_user_item_item_progress_column_progress_update_path(@team, @user, item, column, progress_update)
-                                else
-                                  my_item_item_progress_column_progress_update_path(item, column, progress_update)
-                                end %>
-      <% method = 'PATCH' %>
-    <% else %>
-      <% progress_update_path = if @superadmin
-                                  superadmin_company_team_user_item_item_progress_column_progress_updates_path(@company, @team, @user, item, column)
-                                elsif @company.present?
-                                  company_owner_company_team_user_item_item_progress_column_progress_updates_path(@company, @team, @user, item, column)
-                                elsif @team.present?
-                                  manager_team_user_item_item_progress_column_progress_updates_path(@team, @user, item, column)
-                                else
-                                  my_item_item_progress_column_progress_updates_path(item, column)
-                                end %>
-      <% method = 'POST' %>
-    <% end %>
-
-    <td id="progress_update_<%= column.id %>_<%= item.id %>" class="px-4 py-2 align-top">
-      <div
-        class="cursor-pointer"
-        data-controller="cell-edit"
-        data-action="click->cell-edit#enableEdit"
-        data-cell-edit-url-value="<%= progress_update_path %>"
-        data-cell-edit-method-value="<%= method %>"
-        data-cell-edit-field-name-value="percent"
-        data-cell-edit-initial-value-value="<%= progress_update&.percent || '' %>"
-        data-cell-edit-resource-name-value="progress_update"
-        data-item-progress-column-id="<%= column.id %>"
-      >
-        <span data-cell-edit-target="display">
-          <%= progress_update&.percent.present? ? "#{progress_update.percent}%" : "-" %>
-        </span>
-        <form
-          data-cell-edit-target="form"
-          class="hidden flex flex-col space-y-1 mt-1"
-          data-action="submit->cell-edit#submit"
-        >
-          <input
-            type="number"
-            min="0"
-            max="100"
-            class="w-16 rounded bg-gray-800 border border-gray-500 px-2 py-1 text-white"
-            data-cell-edit-target="input"
-            value="<%= progress_update&.percent || '' %>"
-          >
-          <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded">
-            Save
-          </button>
-        </form>
-      </div>
+  <% if progress_columns.count == 0 %>
+    <td class="px-4 py-2 align-top">
     </td>
+  <% else %>
+    <% progress_columns.each do |column| %>
+      <% progress_update = item.progress_updates.find_by(item_progress_column: column) %>
+      <% if progress_update %>
+        <% progress_update_path = if @superadmin
+                                    superadmin_company_team_user_item_item_progress_column_progress_update_path(@company, @team, @user, item, column, progress_update)
+                                  elsif @company.present?
+                                    company_owner_company_team_user_item_item_progress_column_progress_update_path(@company, @team, @user, item, column, progress_update)
+                                  elsif @team.present?
+                                    manager_team_user_item_item_progress_column_progress_update_path(@team, @user, item, column, progress_update)
+                                  else
+                                    my_item_item_progress_column_progress_update_path(item, column, progress_update)
+                                  end %>
+        <% method = 'PATCH' %>
+      <% else %>
+        <% progress_update_path = if @superadmin
+                                    superadmin_company_team_user_item_item_progress_column_progress_updates_path(@company, @team, @user, item, column)
+                                  elsif @company.present?
+                                    company_owner_company_team_user_item_item_progress_column_progress_updates_path(@company, @team, @user, item, column)
+                                  elsif @team.present?
+                                    manager_team_user_item_item_progress_column_progress_updates_path(@team, @user, item, column)
+                                  else
+                                    my_item_item_progress_column_progress_updates_path(item, column)
+                                  end %>
+        <% method = 'POST' %>
+      <% end %>
+
+      <td id="progress_update_<%= column.id %>_<%= item.id %>" class="px-4 py-2 align-top">
+        <div
+          class="cursor-pointer"
+          data-controller="cell-edit"
+          data-action="click->cell-edit#enableEdit"
+          data-cell-edit-url-value="<%= progress_update_path %>"
+          data-cell-edit-method-value="<%= method %>"
+          data-cell-edit-field-name-value="percent"
+          data-cell-edit-initial-value-value="<%= progress_update&.percent || '' %>"
+          data-cell-edit-resource-name-value="progress_update"
+          data-item-progress-column-id="<%= column.id %>"
+        >
+          <span data-cell-edit-target="display">
+            <%= progress_update&.percent.present? ? "#{progress_update.percent}%" : "-" %>
+          </span>
+          <form
+            data-cell-edit-target="form"
+            class="hidden flex flex-col space-y-1 mt-1"
+            data-action="submit->cell-edit#submit"
+          >
+            <input
+              type="number"
+              min="0"
+              max="100"
+              class="w-16 rounded bg-gray-800 border border-gray-500 px-2 py-1 text-white"
+              data-cell-edit-target="input"
+              value="<%= progress_update&.percent || '' %>"
+            >
+            <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded">
+              Save
+            </button>
+          </form>
+        </div>
+      </td>
+    <% end %>
   <% end %>
 
   <!-- RESULT -->

@@ -12,6 +12,14 @@
     <%= link_to "My Items", my_items_path, class: "text-white hover:text-blue-300" %>
   <% end %>
 
+  <% if current_user.user? && current_user.team.present? && current_user.team.company.present? && current_user.team.company.charts_visible? %>
+    <%= link_to "#{current_user.team.company.name} Statistics", my_company_path(current_user.team.company), class: "text-white hover:text-blue-300" %>
+  <% end %>
+
+  <% if current_user.user? && current_user.team.present? && current_user.team.charts_visible? %>
+    <%= link_to "#{current_user.team.name} Statistics", my_team_path(current_user.team), class: "text-white hover:text-blue-300" %>
+  <% end %>
+
   <%= link_to "My Settings", edit_my_settings_path, class: "text-white hover:text-blue-300" %>
 
   <% if current_user.manager? %>

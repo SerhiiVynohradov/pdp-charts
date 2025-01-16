@@ -15,7 +15,7 @@ module ItemManagement
     @chart_data = chart_data_index
     @chart_label = chart_label_index
 
-    render 'shared/items/index'
+    render 'shared/items/index', locals: { read_only_mode: read_only_mode }
   end
 
   def show
@@ -71,6 +71,10 @@ module ItemManagement
   end
 
   private
+  def read_only_mode
+    false
+  end
+
   def item_params
     params.require(:item).permit(
       :name,
@@ -94,10 +98,6 @@ module ItemManagement
   def set_item
     @item = @user.items.find(params[:id])
   end
-
-  # def chart_data_index
-  #   [build_pdp_charts_data(@items, label: chart_items_label_index)]
-  # end
 
   def chart_data_index
     data = []

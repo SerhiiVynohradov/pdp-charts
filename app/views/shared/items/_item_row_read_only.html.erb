@@ -1,0 +1,89 @@
+<%
+the_item_path = if @company.present?
+                  my_company_team_user_item_path(@company, @team, @user, item)
+                elsif @team.present?
+                  my_team_user_item_path(@team, @user, item)
+                else
+                  my_item_path(item)
+                end
+%>
+
+<tr id="<%= dom_id(item) %>" class="border-b border-gray-600 hover:bg-gray-700">
+  <td class="px-4 py-2 align-top">
+    <%= link_to "Details", the_item_path, class: "bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded" %>
+  </td>
+  <!-- NAME (read-only) -->
+  <td class="px-4 py-2 align-top">
+    <%= item.name.presence || "-" %>
+  </td>
+
+  <!-- DESCRIPTION (read-only) -->
+  <td class="px-4 py-2 align-top">
+    <%= item.description.presence || "-" %>
+  </td>
+
+  <!-- LINK (read-only) -->
+  <td class="px-4 py-2 align-top">
+    <% if item.link.present? %>
+      <a href="<%= item.link %>" target="_blank" class="underline text-blue-400">
+        <%= item.link %>
+      </a>
+    <% else %>
+      -
+    <% end %>
+  </td>
+
+  <!-- REASON (read-only) -->
+  <td class="px-4 py-2 align-top">
+    <%= item.reason.presence || "-" %>
+  </td>
+
+  <!-- EXPECTED RESULTS (read-only) -->
+  <td class="px-4 py-2 align-top">
+    <%= item.expected_results.presence || "-" %>
+  </td>
+
+  <!-- CATEGORY (read-only) -->
+  <td class="px-4 py-2 align-top">
+    <%= item.category ? item.category.name : "-" %>
+  </td>
+
+  <!-- EFFORT (read-only) -->
+  <td class="px-4 py-2 align-top">
+    <%= effort_full_label(item.effort) %>
+  </td>
+
+  <!-- PROGRESS (read-only) -->
+  <% if progress_columns.count == 0 %>
+    <td class="px-4 py-2 align-top">
+    </td>
+  <% else %>
+    <% progress_columns.each do |column| %>
+      <% progress_update = item.progress_updates.find_by(item_progress_column: column) %>
+      <td class="px-4 py-2 align-top">
+        <%= progress_update&.percent.present? ? "#{progress_update.percent}%" : "-" %>
+      </td>
+    <% end %>
+  <% end %>
+
+  <!-- RESULT (read-only) -->
+  <td class="px-4 py-2 align-top">
+    <%= item.result.presence || "-" %>
+  </td>
+
+  <!-- CERTIFICATE LINK (read-only) -->
+  <td class="px-4 py-2 align-top">
+    <% if item.certificate_link.present? %>
+      <a href="<%= item.certificate_link %>" target="_blank" class="underline text-blue-400">
+        <%= item.certificate_link %>
+      </a>
+    <% else %>
+      -
+    <% end %>
+  </td>
+
+  <!-- ACTIONS: (Optionally none, или кнопка Details) -->
+  <td class="px-4 py-2 align-top text-center space-x-2">
+    -
+  </td>
+</tr>

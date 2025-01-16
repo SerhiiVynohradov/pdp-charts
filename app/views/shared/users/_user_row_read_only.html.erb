@@ -1,0 +1,36 @@
+<%
+the_user_path = if @company.present?
+                  my_company_team_user_path(@company, @team, user)
+                else
+                  my_team_user_path(@team, user)
+                end
+%>
+
+<tr id="<%= dom_id(user) %>" class="border-b border-gray-600 hover:bg-gray-700">
+  <!-- Actions (Details) -->
+  <td class="px-4 py-2 align-top">
+    <%= link_to "Details", the_user_path, class: "bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded" %>
+  </td>
+
+  <!-- Name (read-only) -->
+  <td class="px-4 py-2 align-top">
+    <%= user.name.presence || "-" %>
+  </td>
+
+  <!-- Email (read-only) -->
+  <td class="px-4 py-2 align-top">
+    <%= user.email.presence || "-" %>
+  </td>
+
+  <!-- Status (read-only, без кнопки Pause) -->
+  <td class="px-4 py-2 align-top">
+    <span class="text-sm <%= user.paused? ? 'text-red-500' : 'text-green-500' %>">
+      <%= user.paused? ? "Paused" : "Active" %>
+    </span>
+  </td>
+
+  <!-- Manage Actions (read-only: убираем Generate Meeting, Delete, etc.) -->
+  <td class="px-4 py-2 align-top text-right space-x-2">
+    <!-- Можно оставить только "Details", но мы уже его вывели слева, так что, если не нужно, можно пусто -->
+  </td>
+</tr>

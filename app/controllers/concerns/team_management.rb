@@ -14,7 +14,7 @@ module TeamManagement
     @chart_data = chart_data
     @chart_label = chart_label
 
-    render 'shared/teams/index'
+    render 'shared/teams/index', locals: { read_only_mode: read_only_mode }
   end
 
   def create
@@ -78,6 +78,10 @@ module TeamManagement
   # end
 
   private
+  def read_only_mode
+    false
+  end
+
   def team_params
     params.require(:team).permit(
       :name

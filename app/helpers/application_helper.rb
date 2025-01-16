@@ -166,14 +166,64 @@ module ApplicationHelper
 
   def my_breadcrumbs
     crumbs = []
-    # Extract the parts after 'my'
-    parts = controller_path.split('/')[1..-1]
+    parts  = controller_path.split('/')[1..-1] # всё, что после "my"
 
-    # Handle My Items
-    if parts.include?("items")
+    # Порядок важен: сначала проверяем companies (если есть companies в пути),
+    # затем teams (если есть teams, но нет companies), затем items напрямую и т.п.
+
+    if parts.include?("companies")
+      crumbs << { name: "My Companies", path: my_root_path }
+      if @company
+        crumbs << { name: @company.name, path: my_company_path(@company) }
+      end
+
+      if parts.include?("teams")
+        crumbs << { name: "Teams", path: my_company_teams_path(@company) }
+        if @team
+          crumbs << { name: @team.name, path: my_company_team_path(@company, @team) }
+        end
+
+        if parts.include?("users")
+          crumbs << { name: "Users", path: my_company_team_users_path(@company, @team) }
+          if @user
+            crumbs << { name: @user.name, path: my_company_team_user_path(@company, @team, @user) }
+          end
+
+          if parts.include?("items")
+            crumbs << { name: "Items", path: my_company_team_user_items_path(@company, @team, @user) }
+            if @item
+              crumbs << { name: @item.name, path: nil } # Текущая страница без ссылки
+            end
+          end
+        end
+      end
+
+    elsif parts.include?("teams")
+      # Сценарий, когда у нас /my/teams
+      crumbs << { name: "My Teams", path: my_root_path }
+      if @team
+        crumbs << { name: @team.name, path: my_team_path(@team) }
+      end
+
+      if parts.include?("users")
+        crumbs << { name: "Users", path: my_team_users_path(@team) }
+        if @user
+          crumbs << { name: @user.name, path: my_team_user_path(@team, @user) }
+        end
+
+        if parts.include?("items")
+          crumbs << { name: "Items", path: my_team_user_items_path(@team, @user) }
+          if @item
+            crumbs << { name: @item.name, path: nil }
+          end
+        end
+      end
+
+    elsif parts.include?("items")
+      # Если у вас есть прямой ресурс my/items (не вложенный в команды/компании)
       crumbs << { name: "My Items", path: my_items_path }
       if @item
-        crumbs << { name: @item.name, path: nil } # Current page, no link
+        crumbs << { name: @item.name, path: nil }
       end
     end
 

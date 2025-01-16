@@ -1,0 +1,27 @@
+<%
+the_company_path = my_company_path(company)
+%>
+
+<tr id="<%= dom_id(company) %>" class="border-b border-gray-600 hover:bg-gray-700">
+  <!-- Actions (Details) -->
+  <td class="px-4 py-2 align-top">
+    <%= link_to "Details", the_company_path, class: "bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded" %>
+  </td>
+
+  <!-- Name (read-only) -->
+  <td class="px-4 py-2 align-top">
+    <%= company.name.presence || "-" %>
+  </td>
+
+  <!-- Status (read-only) -->
+  <td class="px-4 py-2 align-top">
+    <span class="text-sm <%= company.active? ? 'text-green-500' : 'text-red-500' %>">
+      <%= company.active? ? "Active" : "Inactive" %>
+    </span>
+  </td>
+
+  <!-- Manage Actions (none) -->
+  <td class="px-4 py-2 align-top text-right space-x-2">
+    <!-- Пусто или только "Details", который уже есть слева -->
+  </td>
+</tr>

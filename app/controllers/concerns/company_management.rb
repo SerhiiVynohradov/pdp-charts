@@ -14,7 +14,7 @@ module CompanyManagement
     @chart_data = chart_data_index
     @chart_label = chart_label_index
 
-    render 'shared/companies/index'
+    render 'shared/companies/index', locals: { read_only_mode: read_only_mode }
   end
 
   def show
@@ -85,6 +85,10 @@ module CompanyManagement
   # end
 
   private
+  def read_only_mode
+    false
+  end
+
   def company_params
     params.require(:company).permit(
       :name

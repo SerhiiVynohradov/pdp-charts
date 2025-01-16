@@ -7,9 +7,11 @@
   <%= render partial: "shared/pdp_charts", locals: { chart_data: @chart_data } %>
 
   <!-- New User Form -->
-  <div class="mb-6">
-    <%= render partial: "shared/users/form", locals: { user: User.new, team: @team } %>
-  </div>
+  <% unless read_only_mode %>
+    <div class="mb-6">
+      <%= render partial: "shared/users/form", locals: { user: User.new, team: @team } %>
+    </div>
+  <% end %>
 
   <!-- Team Members Table -->
   <table class="min-w-full border-collapse bg-gray-800 text-gray-50">
@@ -24,7 +26,11 @@
     </thead>
     <tbody id="users-container">
       <% @team.users.each do |user| %>
-        <%= render partial: "shared/users/user_row", locals: { user: user } %>
+        <% if read_only_mode %>
+          <%= render partial: "shared/users/user_row_read_only", locals: { user: user } %>
+        <% else %>
+          <%= render partial: "shared/users/user_row", locals: { user: user } %>
+        <% end %>
       <% end %>
     </tbody>
   </table>

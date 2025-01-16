@@ -5,9 +5,11 @@
   <%= render partial: "shared/pdp_charts", locals: { chart_data: @chart_data } %>
 
   <!-- New Company Form -->
-  <div class="mb-6">
-    <%= render partial: "shared/companies/form", locals: { company: Company.new } %>
-  </div>
+  <% unless read_only_mode %>
+    <div class="mb-6">
+      <%= render partial: "shared/companies/form", locals: { company: Company.new } %>
+    </div>
+  <% end %>
 
   <!-- Companies List -->
   <table class="min-w-full border-collapse bg-gray-800 text-gray-50">
@@ -21,7 +23,11 @@
     </thead>
     <tbody id="companies-container">
       <% @companies.each do |company| %>
-        <%= render partial: "shared/companies/company_row", locals: { company: company } %>
+        <% if read_only_mode %>
+          <%= render partial: "shared/companies/company_row_read_only", locals: { company: company } %>
+        <% else %>
+          <%= render partial: "shared/companies/company_row", locals: { company: company } %>
+        <% end %>
       <% end %>
     </tbody>
   </table>

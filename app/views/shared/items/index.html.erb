@@ -5,9 +5,11 @@
   <%= render partial: "shared/pdp_charts", locals: { chart_data: @chart_data } %>
 
   <!-- New Item Form -->
-  <div class="mb-6">
-    <%= render partial: "shared/items/form", locals: { item: Item.new } %>
-  </div>
+  <% unless read_only_mode %>
+    <div class="mb-6">
+      <%= render partial: "shared/items/form", locals: { item: Item.new } %>
+    </div>
+  <% end %>
 
   <!-- Items Table -->
   <table class="min-w-full border-collapse bg-gray-800 text-gray-50">
@@ -15,6 +17,7 @@
       <!-- Первая строка заголовков -->
       <tr class="bg-gray-700 border-b border-gray-600">
         <!-- Стандартные столбцы с rowspan=2 -->
+        <th class="px-4 py-2 text-left" rowspan="2"></th>
         <th class="px-4 py-2 text-left" rowspan="2">Name</th>
         <th class="px-4 py-2 text-left" rowspan="2">Description</th>
         <th class="px-4 py-2 text-left" rowspan="2">Link</th>
@@ -27,21 +30,23 @@
         <th id="progress_header" class="px-4 py-2 text-left" colspan="<%= @user.item_progress_columns.count %>">
           <div class="flex items-center space-x-2">
             <span>Progress:</span>
-            <turbo-frame id="add_progress_column">
-              <% the_new_column_path = if @superadmin
-                                         new_superadmin_company_team_user_item_progress_column_path(@company, @team, @user)
-                                       elsif @company.present?
-                                         new_company_owner_company_team_user_item_progress_column_path(@company, @team, @user)
-                                       elsif @team.present?
-                                         new_manager_team_user_item_progress_column_path(@team, @user)
-                                       else
-                                         new_my_item_progress_column_path
-                                       end
-              %>
+            <% unless read_only_mode %>
+              <turbo-frame id="add_progress_column">
+                <% the_new_column_path = if @superadmin
+                                           new_superadmin_company_team_user_item_progress_column_path(@company, @team, @user)
+                                         elsif @company.present?
+                                           new_company_owner_company_team_user_item_progress_column_path(@company, @team, @user)
+                                         elsif @team.present?
+                                           new_manager_team_user_item_progress_column_path(@team, @user)
+                                         else
+                                           new_my_item_progress_column_path
+                                         end
+                %>
 
 
-              <%= link_to "+", the_new_column_path, class: "bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded" %>
-            </turbo-frame>
+                <%= link_to "+", the_new_column_path, class: "bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded" %>
+              </turbo-frame>
+            <% end %>
           </div>
         </th>
 
@@ -56,28 +61,30 @@
           <th id="progress_column_<%= column.id %>" class="px-4 py-2 text-left">
             <div class="flex flex-col space-y-1">
               <%= column.date.strftime("%d %b %Y") %>
-              <div class="flex justify-center">
-                <% the_edit_column_path = if @superadmin
-                                            edit_superadmin_company_team_user_item_progress_column_path(@company, @team, @user, column)
-                                          elsif @company.present?
-                                            edit_company_owner_company_team_user_item_progress_column_path(@company, @team, @user, column)
-                                          elsif @team.present?
-                                            edit_manager_team_user_item_progress_column_path(@team, @user, column)
-                                          else
-                                            edit_my_item_progress_column_path(column)
-                                          end
+              <% unless read_only_mode %>
+                <div class="flex justify-center">
+                  <% the_edit_column_path = if @superadmin
+                                              edit_superadmin_company_team_user_item_progress_column_path(@company, @team, @user, column)
+                                            elsif @company.present?
+                                              edit_company_owner_company_team_user_item_progress_column_path(@company, @team, @user, column)
+                                            elsif @team.present?
+                                              edit_manager_team_user_item_progress_column_path(@team, @user, column)
+                                            else
+                                              edit_my_item_progress_column_path(column)
+                                            end
+                  %>
+                <%= link_to "Edit", the_edit_column_path, class: "text-yellow-400 hover:underline",
+                      data: {
+                        controller: "cell-edit",
+                        action: "click->cell-edit#enableEdit",
+                        "cell-edit-url-value": the_edit_column_path,
+                        "cell-edit-field-name-value": "date",
+                        "cell-edit-initial-value-value": column.date,
+                        "cell-edit-resource-name-value": "item_progress_column"
+                      }
                 %>
-              <%= link_to "Edit", the_edit_column_path, class: "text-yellow-400 hover:underline",
-                    data: {
-                      controller: "cell-edit",
-                      action: "click->cell-edit#enableEdit",
-                      "cell-edit-url-value": the_edit_column_path,
-                      "cell-edit-field-name-value": "date",
-                      "cell-edit-initial-value-value": column.date,
-                      "cell-edit-resource-name-value": "item_progress_column"
-                    }
-              %>
-              </div>
+                </div>
+              <% end %>
             </div>
           </th>
         <% end %>
@@ -85,7 +92,11 @@
     </thead>
     <tbody id="items-container">
       <% @items.each do |item| %>
-        <%= render partial: "shared/items/item_row", locals: { item: item, progress_columns: @user.item_progress_columns.order(date: :asc) } %>
+        <% if read_only_mode %>
+          <%= render partial: "shared/items/item_row_read_only", locals: { item: item, progress_columns: @user.item_progress_columns.order(date: :asc) } %>
+        <% else %>
+          <%= render partial: "shared/items/item_row", locals: { item: item, progress_columns: @user.item_progress_columns.order(date: :asc) } %>
+        <% end %>
       <% end %>
     </tbody>
   </table>

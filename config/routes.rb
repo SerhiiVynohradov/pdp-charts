@@ -20,6 +20,21 @@ Rails.application.routes.draw do
       end
     end
     resources :item_progress_columns, only: [:new, :create, :edit, :update, :destroy]
+
+    resources :teams, only: [:show], module: 'teams' do
+      resources :users, only: [:index, :show], module: 'users' do
+        resources :items, only: [:index, :show], module: 'items'
+      end
+    end
+
+    resources :companies, only: [:show], module: 'companies' do
+      resources :teams, only: [:index, :show], module: 'teams' do
+        resources :users, only: [:index, :show], module: 'users' do
+          resources :items, only: [:index, :show], module: 'items'
+        end
+      end
+    end
+
     root to: "items#index"
   end
 
