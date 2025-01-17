@@ -11,6 +11,8 @@ Rails.application.routes.draw do
   # Root Path
   root "home#index"
 
+  resources :recommended_items, only: [:index]
+
   # My Namespace
   namespace :my do
     resource :settings, only: [:edit, :update]

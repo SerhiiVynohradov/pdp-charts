@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_01_15_014409) do
+ActiveRecord::Schema[7.2].define(version: 2025_01_17_080507) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -66,6 +66,22 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_15_014409) do
     t.datetime "updated_at", null: false
     t.index ["item_id"], name: "index_progress_updates_on_item_id"
     t.index ["item_progress_column_id"], name: "index_progress_updates_on_item_progress_column_id"
+  end
+
+  create_table "recommended_items", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "description"
+    t.string "link"
+    t.string "expected_results"
+    t.integer "effort", default: 1
+    t.bigint "team_id"
+    t.bigint "company_id"
+    t.bigint "category_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category_id"], name: "index_recommended_items_on_category_id"
+    t.index ["company_id"], name: "index_recommended_items_on_company_id"
+    t.index ["team_id"], name: "index_recommended_items_on_team_id"
   end
 
   create_table "teams", force: :cascade do |t|

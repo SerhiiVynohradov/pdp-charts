@@ -31,6 +31,16 @@ module ItemManagement
   def create
     @item = @user.items.build(item_params)
 
+    if params[:item][:recommended_item_id].present?
+      recommended_item = RecommendedItem.find(params[:item][:recommended_item_id])
+      @item.name = recommended_item.name
+      @item.description = recommended_item.description
+      @item.link = recommended_item.link
+      @item.expected_results = recommended_item.expected_results
+      @item.effort = recommended_item.effort if @item.effort.blank?
+      @item.category_id = recommended_item.category_id if @item.category_id.blank?
+    end
+
     if @item.save
       respond_to do |format|
         format.turbo_stream { render partial: "shared/items/create", locals: { item: @item }, formats: [:turbo_stream] }
