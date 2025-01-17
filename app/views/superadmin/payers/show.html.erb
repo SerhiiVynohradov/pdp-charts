@@ -1,2 +1,11 @@
-<h1 class="text-2xl mb-4">Payer <%= @payer.name %></h1>
-<p>Payment details go here...</p>
+<h1 class="text-xl font-bold mb-4">Payer: <%= @payer.name %></h1>
+
+<p>Email: <%= @payer.email %></p>
+<p>Invoices:</p>
+<ul>
+  <% @payer.invoices.each do |inv| %>
+    <li>
+      <%= link_to inv.number, superadmin_payer_invoice_path(@payer, inv) %>
+    </li>
+  <% end %>
+</ul>

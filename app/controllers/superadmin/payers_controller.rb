@@ -14,6 +14,10 @@ module Superadmin
       @users_paid_by_managers = User.where(team_id: @managers.map(&:team_id)).to_a
     end
 
+    def show
+      @payer = User.find(params[:id])
+    end
+
     private
     def set_context!
       redirect_to root_path unless current_user.superadmin?

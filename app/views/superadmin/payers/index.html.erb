@@ -3,16 +3,13 @@
   <!-- SECTION: Self Employed -->
   <div class="bg-gray-800 shadow-md rounded-md p-4">
     <h2 class="text-xl font-bold mb-2">Self Employed</h2>
-    <!-- Optional small description
-    <p class="text-gray-400 text-sm mb-4">
-      Users without a team (paying for themselves)
-    </p> -->
-
     <table class="min-w-full border border-gray-600 text-sm">
       <thead class="bg-gray-700 text-gray-200">
         <tr>
           <th class="px-4 py-2 border-b border-gray-600 text-left">Name</th>
           <th class="px-4 py-2 border-b border-gray-600 text-left">Email</th>
+          <th class="px-4 py-2 border-b border-gray-600 text-left">Invoices</th>
+          <th class="px-4 py-2 border-b border-gray-600 text-left">New Invoice</th>
         </tr>
       </thead>
       <tbody>
@@ -20,6 +17,12 @@
           <tr class="border-b border-gray-600 hover:bg-gray-700">
             <td class="px-4 py-2"><%= user.name %></td>
             <td class="px-4 py-2"><%= user.email %></td>
+            <td class="px-4 py-2">
+              <%= link_to "View Invoices", superadmin_payer_invoices_path(user, invoiceable_type: "User") %>
+            </td>
+            <td class="px-4 py-2">
+              <%= link_to "New Invoice", new_superadmin_payer_invoice_path(user, invoiceable_type: "User") %>
+            </td>
           </tr>
         <% end %>
       </tbody>
@@ -34,6 +37,8 @@
         <tr>
           <th class="px-4 py-2 border-b border-gray-600 text-left">Name</th>
           <th class="px-4 py-2 border-b border-gray-600 text-left">Email</th>
+          <th class="px-4 py-2 border-b border-gray-600 text-left">Invoices</th>
+          <th class="px-4 py-2 border-b border-gray-600 text-left">New Invoice</th>
         </tr>
       </thead>
       <tbody>
@@ -41,6 +46,12 @@
           <tr class="border-b border-gray-600 hover:bg-gray-700">
             <td class="px-4 py-2"><%= user.name %></td>
             <td class="px-4 py-2"><%= user.email %></td>
+            <td class="px-4 py-2">
+              <%= link_to "View Invoices", superadmin_payer_invoices_path(user, invoiceable_type: "User") %>
+            </td>
+            <td class="px-4 py-2">
+              <%= link_to "New Invoice", new_superadmin_payer_invoice_path(user, invoiceable_type: "User") %>
+            </td>
           </tr>
         <% end %>
       </tbody>
@@ -54,12 +65,20 @@
       <thead class="bg-gray-700 text-gray-200">
         <tr>
           <th class="px-4 py-2 border-b border-gray-600 text-left">Name</th>
+          <th class="px-4 py-2 border-b border-gray-600 text-left">Invoices</th>
+          <th class="px-4 py-2 border-b border-gray-600 text-left">New Invoice</th>
         </tr>
       </thead>
       <tbody>
         <% @companies.each do |company| %>
           <tr class="border-b border-gray-600 hover:bg-gray-700">
             <td class="px-4 py-2"><%= company.name %></td>
+            <td class="px-4 py-2">
+              <%= link_to "View Invoices", superadmin_payer_invoices_path(company, invoiceable_type: "Company") %>
+            </td>
+            <td class="px-4 py-2">
+              <%= link_to "New Invoice", new_superadmin_payer_invoice_path(company, invoiceable_type: "Company") %>
+            </td>
           </tr>
         <% end %>
       </tbody>

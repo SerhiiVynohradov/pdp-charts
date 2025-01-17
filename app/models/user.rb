@@ -12,6 +12,7 @@ class User < ApplicationRecord
   has_many :items, dependent: :destroy
   has_many :item_progress_columns, dependent: :destroy
   has_many :progress_updates, through: :item_progress_columns
+  has_many :invoices, as: :invoiceable, dependent: :nullify
 
   enum role: {
     user: 0,

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_01_17_080507) do
+ActiveRecord::Schema[7.2].define(version: 2025_01_17_205058) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -27,6 +27,21 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_17_080507) do
     t.boolean "status", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "invoices", force: :cascade do |t|
+    t.string "invoiceable_type"
+    t.bigint "invoiceable_id"
+    t.string "number"
+    t.decimal "amount", precision: 10, scale: 2
+    t.string "currency", default: "USD"
+    t.date "issue_date"
+    t.date "due_date"
+    t.string "status", default: "unpaid"
+    t.text "notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["invoiceable_type", "invoiceable_id"], name: "index_invoices_on_invoiceable"
   end
 
   create_table "item_progress_columns", force: :cascade do |t|

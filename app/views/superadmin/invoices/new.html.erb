@@ -1,0 +1,101 @@
+<div class="max-w-2xl mx-auto bg-gray-900 p-8 rounded-lg shadow-lg">
+  <h1 class="text-2xl font-bold text-white mb-6">
+    <%= action_name.capitalize %> Invoice for <%= @invoiceable.name %>
+  </h1>
+
+  <%= form_with(
+    model: [ :superadmin, @invoiceable, @invoice ],
+    url: superadmin_payer_invoices_path(@invoiceable, invoiceable_type: params[:invoiceable_type]),
+    local: true,
+    class: "space-y-6"
+  ) do |f| %>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <!-- Invoice Number -->
+    <div>
+      <%= f.label :number, "Invoice Number", class: "block text-sm font-semibold text-gray-300 mb-1" %>
+      <%= f.text_field :number, class: "w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded focus:outline-none focus:ring focus:ring-blue-500 text-white" %>
+    </div>
+
+    <!-- Amount -->
+    <div>
+      <%= f.label :amount, "Amount", class: "block text-sm font-semibold text-gray-300 mb-1" %>
+      <%= f.number_field :amount, step: 0.01, class: "w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded focus:outline-none focus:ring focus:ring-blue-500 text-white" %>
+    </div>
+
+    <!-- Currency -->
+    <div>
+      <%= f.label :currency, class: "block text-sm font-semibold text-gray-300 mb-1" %>
+      <%= f.text_field :currency, class: "w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded focus:outline-none focus:ring focus:ring-blue-500 text-white" %>
+    </div>
+
+    <!-- Issue Date -->
+    <div>
+      <%= f.label :issue_date, class: "block text-sm font-semibold text-gray-300 mb-1" %>
+      <%= f.date_field :issue_date, class: "w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded focus:outline-none focus:ring focus:ring-blue-500 text-white" %>
+    </div>
+
+    <!-- Due Date -->
+    <div>
+      <%= f.label :due_date, class: "block text-sm font-semibold text-gray-300 mb-1" %>
+      <%= f.date_field :due_date, class: "w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded focus:outline-none focus:ring focus:ring-blue-500 text-white" %>
+    </div>
+
+    <!-- Status: Custom Dropdown -->
+    <div>
+      <%= f.label :status, class: "block text-sm font-semibold text-gray-300 mb-1" %>
+      <div class="relative" data-controller="custom-dropdown">
+        <button
+          type="button"
+          id="statusDropdownButton"
+          class="block w-full md:w-56 bg-gray-800 border border-gray-500 text-white py-2 px-4 rounded-md
+                 focus:outline-none focus:ring-2 focus:ring-blue-500 flex justify-between items-center"
+          data-action="click->custom-dropdown#toggle"
+          data-custom-dropdown-target="button"
+        >
+          <span data-custom-dropdown-target="selectedText" class="block">
+            <%= f.object.status.present? ? f.object.status.capitalize : "Select Status" %>
+          </span>
+          <svg class="w-5 h-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none"
+               viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        <div
+          class="absolute z-10 w-full md:w-56 bg-gray-800 border border-gray-600 rounded-md shadow-lg mt-1 hidden"
+          data-custom-dropdown-target="menu"
+        >
+          <ul class="py-1">
+            <% ["unpaid", "paid", "overdue", "canceled"].each do |status| %>
+              <li>
+                <button
+                  type="button"
+                  class="block w-full px-4 py-2 text-left text-sm text-gray-200 hover:bg-gray-700 hover:text-white"
+                  data-action="click->custom-dropdown#select"
+                  data-value="<%= status %>"
+                  data-label="<%= status.capitalize %>"
+                >
+                  <%= status.capitalize %>
+                </button>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+        <%= f.hidden_field :status, data: { "custom-dropdown-target" => "hiddenInput" } %>
+      </div>
+    </div>
+
+    <!-- Notes -->
+    <div class="md:col-span-2">
+      <%= f.label :notes, class: "block text-sm font-semibold text-gray-300 mb-1" %>
+      <%= f.text_area :notes, rows: 4, class: "w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded focus:outline-none focus:ring focus:ring-blue-500 text-white" %>
+    </div>
+  </div>
+
+  <div class="text-center">
+    <%= f.submit (action_name == "new" ? "Create Invoice" : "Update Invoice"),
+      class: "bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded shadow-md" %>
+  </div>
+<% end %>
+</div>

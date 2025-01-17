@@ -1,0 +1,26 @@
+<h2 class="text-lg font-bold mt-8">My Invoices</h2>
+
+<% if @company.invoices.any? %>
+  <table class="min-w-full border border-gray-600 text-sm mt-2">
+    <thead class="bg-gray-700 text-gray-200">
+      <tr>
+        <th class="px-4 py-2 border-b border-gray-600 text-left">Number</th>
+        <th class="px-4 py-2 border-b border-gray-600 text-right">Amount</th>
+        <th class="px-4 py-2 border-b border-gray-600 text-left">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @company.invoices.each do |invoice| %>
+        <tr class="border-b border-gray-600 hover:bg-gray-700">
+          <td class="px-4 py-2"><%= invoice.number %></td>
+          <td class="px-4 py-2 text-right">
+            <%= number_to_currency(invoice.amount, unit: invoice.currency + " ") %>
+          </td>
+          <td class="px-4 py-2"><%= invoice.status %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p>No invoices found.</p>
+<% end %>

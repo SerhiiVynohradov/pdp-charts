@@ -133,13 +133,13 @@ Rails.application.routes.draw do
 
   # Superadmin Namespace
   namespace :superadmin do
-    resources :payers, only: [:index]
     resources :categories
     resources :recommended_items, only: [:index, :create, :update, :destroy, :show]
 
     resources :payers, only: [:index, :show] do
-      resources :invoices, only: [:index, :show]
+      resources :invoices
     end
+
     resources :pricing, only: [:index, :update]
 
     resources :companies, module: 'companies' do

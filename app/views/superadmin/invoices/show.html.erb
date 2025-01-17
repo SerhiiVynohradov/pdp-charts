@@ -1,3 +1,42 @@
-<h1 class="text-2xl mb-4">Invoice #<%= @invoice.id %></h1>
-<p>Amount: <%= @invoice.amount %></p>
-<p>Status: <%= @invoice.status %></p>
+<h1 class="text-2xl font-bold mb-6">
+  Invoice <%= @invoice.number %> for <%= @invoiceable.name %>
+</h1>
+
+<div class="bg-gray-800 border border-gray-700 rounded-lg shadow p-6 mb-6">
+  <ul class="space-y-3 text-sm text-gray-100">
+    <li>
+      <span class="font-semibold">Invoice Number:</span>
+      <span><%= @invoice.number %></span>
+    </li>
+    <li>
+      <span class="font-semibold">Amount:</span>
+      <span><%= number_to_currency(@invoice.amount, unit: @invoice.currency + " ") %></span>
+    </li>
+    <li>
+      <span class="font-semibold">Issue Date:</span>
+      <span><%= @invoice.issue_date %></span>
+    </li>
+    <li>
+      <span class="font-semibold">Due Date:</span>
+      <span><%= @invoice.due_date %></span>
+    </li>
+    <li>
+      <span class="font-semibold">Status:</span>
+      <span><%= @invoice.status.capitalize %></span>
+    </li>
+    <li>
+      <span class="font-semibold">Notes:</span>
+      <span><%= @invoice.notes.presence || "(none)" %></span>
+    </li>
+  </ul>
+</div>
+
+<div class="mt-6 flex justify-start space-x-4">
+  <%= link_to "Edit",
+      edit_superadmin_payer_invoice_path(@invoiceable, @invoice, invoiceable_type: params[:invoiceable_type]),
+      class: "bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded shadow" %>
+
+  <%= link_to "Back",
+      superadmin_payer_invoices_path(@invoiceable, invoiceable_type: params[:invoiceable_type]),
+      class: "bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded shadow" %>
+</div>
