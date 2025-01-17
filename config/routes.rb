@@ -69,6 +69,7 @@ Rails.application.routes.draw do
           end
           member do
             patch :pause
+            post :recommend
           end
           resources :item_progress_columns, only: [:new, :create, :edit, :update, :destroy] do
             resources :progress_updates, only: [:create, :update, :destroy]
@@ -116,6 +117,7 @@ Rails.application.routes.draw do
             end
             member do
               patch :archive
+              post :recommend
             end
             resources :item_progress_columns, only: [:new, :create, :edit, :update, :destroy] do
               resources :progress_updates, only: [:create, :update, :destroy]
@@ -176,6 +178,7 @@ Rails.application.routes.draw do
             end
             member do
               patch :archive
+              post :recommend
             end
             resources :item_progress_columns, only: [:new, :create, :edit, :update, :destroy] do
               resources :progress_updates, only: [:create, :update, :destroy]

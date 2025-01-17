@@ -11,7 +11,6 @@
   </head>
 
   <body class="bg-gray-900 text-white min-h-screen">
-
     <% if user_signed_in? %>
       <%= render "layouts/nav_bar" %>
 
@@ -19,6 +18,10 @@
     <% else %>
       <%= render "layouts/nav_bar_guest" %>
     <% end %>
+
+    <div class="container mx-auto px-4 py-4">
+      <%= render "layouts/flash_messages" %>
+    </div>
 
     <main class="container mx-auto px-4 py-8">
       <%= yield %>

@@ -1,0 +1,19 @@
+<% flash.each do |key, message| %>
+  <% next if message.blank? %>
+
+  <%# Определяем цветовую схему в зависимости от типа флеша %>
+  <% alert_color, text_color = case key.to_sym
+    when :notice
+      ["bg-green-600", "text-green-100"]
+    when :alert, :error
+      ["bg-red-600", "text-red-100"]
+    else
+      ["bg-gray-700", "text-gray-200"]
+  end %>
+
+  <div class="<%= alert_color %> px-4 py-3 rounded relative mb-4">
+    <span class="<%= text_color %>">
+      <%= message %>
+    </span>
+  </div>
+<% end %>

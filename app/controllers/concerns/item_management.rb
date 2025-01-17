@@ -8,7 +8,7 @@ module ItemManagement
     # todo: before_action :authorize_manage_user!
 
     before_action :set_items, only: [:index]
-    before_action :set_item, only: [:show, :update, :destroy]
+    before_action :set_item, only: [:show, :update, :destroy, :recommend]
   end
 
   def index
@@ -26,6 +26,47 @@ module ItemManagement
   end
 
   def pause
+  end
+
+  def recommend
+    # Шаг 1. Собираем поля из @item (копируем в RecommendedItem)
+    recommended_item = RecommendedItem.new(
+      name:             @item.name,
+      description:      @item.description,
+      link:             @item.link,
+      expected_results: @item.expected_results,
+      effort:           @item.effort,
+      category_id:      @item.category_id
+    )
+
+    # Шаг 2. Определяем, на каком уровне делаем рекомендацию
+    # (суперадмин → глобальный, оунер → company_id, менеджер → team_id)
+    if @superadmin
+      # Глобальный уровень
+      recommended_item.team_id = nil
+      recommended_item.company_id = nil
+    elsif @company.present?
+      # Для оунера
+      recommended_item.company_id = @company.id
+      recommended_item.team_id = nil  # Обычно
+    elsif @team.present?
+      # Для менеджера
+      recommended_item.team_id = @team.id
+    else
+      # Если это обычный пользователь (my) — возможно, ничего не делаем
+      flash[:alert] = "You have no permission to recommend this item."
+      return redirect_to request.referer || root_path
+    end
+
+    # Шаг 3. Сохраняем RecommendedItem
+    if recommended_item.save
+      flash[:notice] = "Item has been recommended!"
+    else
+      flash[:alert] = "Failed to recommend: #{recommended_item.errors.full_messages.join(', ')}"
+    end
+
+    # Шаг 4. Редирект обратно (или куда нужно)
+    redirect_to request.referer || root_path
   end
 
   def create
