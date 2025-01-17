@@ -106,6 +106,20 @@ module ItemManagement
         )
 
         data[:category_id] = @item.category&.name
+        data[:effort] = case @item.effort.to_s
+                        when "5"
+                          "Very Hard"
+                        when "4"
+                          "Hard"
+                        when "3"
+                          "Medium"
+                        when "2"
+                          "Easy"
+                        when "1"
+                          "Very Easy"
+                        else
+                          "-"
+                        end
 
         render json: data, status: :ok
       else

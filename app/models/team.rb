@@ -8,4 +8,8 @@ class Team < ApplicationRecord
   def active?
     status
   end
+
+  def manager
+    users.where(role: "manager").first
+  end
 end

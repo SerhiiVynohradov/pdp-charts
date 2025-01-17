@@ -1,0 +1,26 @@
+<h1 class="text-xl font-bold mb-4"><%= title %></h1>
+
+<table class="min-w-full border border-gray-600">
+  <thead class="bg-gray-700 text-gray-200">
+    <tr>
+      <th class="px-4 py-2 border-b border-gray-600 text-left">Name</th>
+      <th class="px-4 py-2 border-b border-gray-600 text-left">Email</th>
+      <th class="px-4 py-2 border-b border-gray-600 text-left">Payer</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% payers.each do |payer| %>
+      <tr class="border-b border-gray-600 hover:bg-gray-700">
+        <td class="px-4 py-2">
+          <%= payer.name %>
+        </td>
+        <td class="px-4 py-2">
+          <%= payer.email %>
+        </td>
+        <td class="px-4 py-2">
+          <%= user.payer_info %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -5,6 +5,7 @@
     <%= link_to "Companies", superadmin_companies_path, class: "text-white hover:text-blue-300" %>
     <%= link_to "Categories", superadmin_categories_path, class: "text-white hover:text-blue-300" %>
     <%= link_to "Global Recommended Items", superadmin_recommended_items_path, class: "text-white hover:text-blue-300" %>
+    <%= link_to "Payers", superadmin_payers_path, class: "text-white hover:text-blue-300" %>
   <% elsif current_user.company_owner? %>
     <%= link_to "Company Dash", company_owner_root_path, class: "text-white hover:text-blue-300" %>
     <%= link_to "Company Recommended Items", company_owner_company_recommended_items_path(current_user.company), class: "text-white hover:text-blue-300" %>

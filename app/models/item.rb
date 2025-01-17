@@ -22,4 +22,8 @@ class Item < ApplicationRecord
     # Возвращаем максимальный процент за этот период или 0, если нет данных
     relevant_progress_updates.maximum(:percent) || 0
   end
+
+  def progress
+    progress_updates.maximum(:percent) || 0
+  end
 end

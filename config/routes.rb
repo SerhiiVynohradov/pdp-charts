@@ -132,6 +132,7 @@ Rails.application.routes.draw do
 
   # Superadmin Namespace
   namespace :superadmin do
+    resources :payers, only: [:index]
     resources :categories
     resources :recommended_items, only: [:index, :create, :update, :destroy, :show]
 

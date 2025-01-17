@@ -1,23 +1,117 @@
-<h1 class="text-2xl mb-4">All Payers</h1>
-<table class="min-w-full border-collapse bg-gray-800 text-gray-50">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Who Pays</th>
-      <th>Subscription End</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @payers.each do |payer| %>
-      <tr>
-        <td><%= payer.name %></td>
-        <td><%= payer.paying_company? ? payer.company.name : "Self" %></td>
-        <td><%= payer.subscription_end_date %></td>
-        <td>
-          <%= link_to "Invoices", superadmin_payer_invoices_path(payer), class: "bg-blue-600 px-2 py-1 text-white rounded" %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<div class="space-y-8">
+
+  <!-- SECTION: Self Employed -->
+  <div class="bg-gray-800 shadow-md rounded-md p-4">
+    <h2 class="text-xl font-bold mb-2">Self Employed</h2>
+    <!-- Optional small description
+    <p class="text-gray-400 text-sm mb-4">
+      Users without a team (paying for themselves)
+    </p> -->
+
+    <table class="min-w-full border border-gray-600 text-sm">
+      <thead class="bg-gray-700 text-gray-200">
+        <tr>
+          <th class="px-4 py-2 border-b border-gray-600 text-left">Name</th>
+          <th class="px-4 py-2 border-b border-gray-600 text-left">Email</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @self_employed.each do |user| %>
+          <tr class="border-b border-gray-600 hover:bg-gray-700">
+            <td class="px-4 py-2"><%= user.name %></td>
+            <td class="px-4 py-2"><%= user.email %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- SECTION: Managers Without Companies -->
+  <div class="bg-gray-800 shadow-md rounded-md p-4">
+    <h2 class="text-xl font-bold mb-2">Managers Without Companies (Consultants)</h2>
+    <table class="min-w-full border border-gray-600 text-sm">
+      <thead class="bg-gray-700 text-gray-200">
+        <tr>
+          <th class="px-4 py-2 border-b border-gray-600 text-left">Name</th>
+          <th class="px-4 py-2 border-b border-gray-600 text-left">Email</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @managers.each do |user| %>
+          <tr class="border-b border-gray-600 hover:bg-gray-700">
+            <td class="px-4 py-2"><%= user.name %></td>
+            <td class="px-4 py-2"><%= user.email %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- SECTION: Companies -->
+  <div class="bg-gray-800 shadow-md rounded-md p-4">
+    <h2 class="text-xl font-bold mb-2">Companies</h2>
+    <table class="min-w-full border border-gray-600 text-sm">
+      <thead class="bg-gray-700 text-gray-200">
+        <tr>
+          <th class="px-4 py-2 border-b border-gray-600 text-left">Name</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @companies.each do |company| %>
+          <tr class="border-b border-gray-600 hover:bg-gray-700">
+            <td class="px-4 py-2"><%= company.name %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- SECTION: Paid by the Companies -->
+  <div class="bg-gray-800 shadow-md rounded-md p-4">
+    <h2 class="text-xl font-bold mb-2">Paid by the companies</h2>
+    <table class="min-w-full border border-gray-600 text-sm">
+      <thead class="bg-gray-700 text-gray-200">
+        <tr>
+          <th class="px-4 py-2 border-b border-gray-600 text-left">Name</th>
+          <th class="px-4 py-2 border-b border-gray-600 text-left">Email</th>
+          <th class="px-4 py-2 border-b border-gray-600 text-left">Payer</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @users_paid_by_companies.each do |user| %>
+          <tr class="border-b border-gray-600 hover:bg-gray-700">
+            <td class="px-4 py-2"><%= user.name %></td>
+            <td class="px-4 py-2"><%= user.email %></td>
+            <td class="px-4 py-2"><%= user.payer_info %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- SECTION: Paid by the Managers -->
+  <div class="bg-gray-800 shadow-md rounded-md p-4">
+    <h2 class="text-xl font-bold mb-2">
+      Paid by the managers (consultants without companies)
+    </h2>
+    <table class="min-w-full border border-gray-600 text-sm">
+      <thead class="bg-gray-700 text-gray-200">
+        <tr>
+          <th class="px-4 py-2 border-b border-gray-600 text-left">Name</th>
+          <th class="px-4 py-2 border-b border-gray-600 text-left">Email</th>
+          <th class="px-4 py-2 border-b border-gray-600 text-left">Payer</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @users_paid_by_managers.each do |user| %>
+          <tr class="border-b border-gray-600 hover:bg-gray-700">
+            <td class="px-4 py-2"><%= user.name %></td>
+            <td class="px-4 py-2"><%= user.email %></td>
+            <td class="px-4 py-2"><%= user.payer_info %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+</div>

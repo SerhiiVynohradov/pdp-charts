@@ -18,8 +18,40 @@ class User < ApplicationRecord
     superadmin: 3
   }
 
+  def self.payers
+    all.select { |user| user.payer == user }
+  end
+
   def managed_teams
     Team.where(id: team_id)
+  end
+
+  def payer_info
+    # Сценарий 1: у юзера нет команды => платит он сам
+    return "#{self.name} (user id: #{self.id})" if self.team.nil?
+
+    # Сценарий 2: у юзера есть команда, но нет компании => платит менеджер
+    if self.team.company.nil?
+      manager = self.team.manager
+      return "#{manager.name} (user/manager id: #{manager.id})"
+    end
+
+    # Сценарий 3: у юзера есть компания => платит компания
+    company = self.team.company
+    "#{company.name} (company id: #{company.id})"
+  end
+
+  def payer
+    # Сценарий 1: у юзера нет команды => платит он сам
+    return self if self.team.nil?
+
+    # Сценарий 2: у юзера есть команда, но нет компании => платит менеджер
+    if self.team.company.nil?
+      return self.team.manager
+    end
+
+    # Сценарий 3: у юзера есть компания => платит компания
+    return self.team.company
   end
 
   def managed_team_ids
