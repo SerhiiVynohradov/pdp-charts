@@ -8,6 +8,7 @@
         <tr>
           <th class="px-4 py-2 border-b border-gray-600 text-left">Name</th>
           <th class="px-4 py-2 border-b border-gray-600 text-left">Email</th>
+          <th class="px-4 py-2 border-b border-gray-600 text-left">Cost (per month)</th>
           <th class="px-4 py-2 border-b border-gray-600 text-left">Invoices</th>
           <th class="px-4 py-2 border-b border-gray-600 text-left">New Invoice</th>
         </tr>
@@ -17,6 +18,7 @@
           <tr class="border-b border-gray-600 hover:bg-gray-700">
             <td class="px-4 py-2"><%= user.name %></td>
             <td class="px-4 py-2"><%= user.email %></td>
+            <td class="px-4 py-2"><%= number_to_currency(user.cost_per_user) %></td>
             <td class="px-4 py-2">
               <%= link_to "View Invoices", superadmin_payer_invoices_path(user, invoiceable_type: "User") %>
             </td>
@@ -37,6 +39,7 @@
         <tr>
           <th class="px-4 py-2 border-b border-gray-600 text-left">Name</th>
           <th class="px-4 py-2 border-b border-gray-600 text-left">Email</th>
+          <th class="px-4 py-2 border-b border-gray-600 text-left">Cost (per user per month)</th>
           <th class="px-4 py-2 border-b border-gray-600 text-left">Invoices</th>
           <th class="px-4 py-2 border-b border-gray-600 text-left">New Invoice</th>
         </tr>
@@ -46,6 +49,7 @@
           <tr class="border-b border-gray-600 hover:bg-gray-700">
             <td class="px-4 py-2"><%= user.name %></td>
             <td class="px-4 py-2"><%= user.email %></td>
+            <td class="px-4 py-2"><%= number_to_currency(user.cost_per_user) %></td>
             <td class="px-4 py-2">
               <%= link_to "View Invoices", superadmin_payer_invoices_path(user, invoiceable_type: "User") %>
             </td>
@@ -65,6 +69,7 @@
       <thead class="bg-gray-700 text-gray-200">
         <tr>
           <th class="px-4 py-2 border-b border-gray-600 text-left">Name</th>
+          <th class="px-4 py-2 border-b border-gray-600 text-left">Cost (per user per month)</th>
           <th class="px-4 py-2 border-b border-gray-600 text-left">Invoices</th>
           <th class="px-4 py-2 border-b border-gray-600 text-left">New Invoice</th>
         </tr>
@@ -73,6 +78,7 @@
         <% @companies.each do |company| %>
           <tr class="border-b border-gray-600 hover:bg-gray-700">
             <td class="px-4 py-2"><%= company.name %></td>
+            <td class="px-4 py-2"><%= number_to_currency(company.cost_per_user) %></td>
             <td class="px-4 py-2">
               <%= link_to "View Invoices", superadmin_payer_invoices_path(company, invoiceable_type: "Company") %>
             </td>
