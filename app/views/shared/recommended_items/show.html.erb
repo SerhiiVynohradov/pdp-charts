@@ -1,0 +1,25 @@
+<table class="table-auto">
+  <thead>
+    <tr>
+      <th class="px-4 py-2">Name</th>
+      <th class="px-4 py-2">Description</th>
+      <th class="px-4 py-2">Link</th>
+      <th class="px-4 py-2">Expected Results</th>
+      <th class="px-4 py-2">Category</th>
+      <th class="px-4 py-2">Effort</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @recommended_items.each do |recommended_item| %>
+      <tr>
+        <td class="border px-4 py-2"><%= recommended_item.name %></td>
+        <td class="border px-4 py-2"><%= recommended_item.description %></td>
+        <td class="border px-4 py-2"><%= recommended_item.link %></td>
+        <td class="border px-4 py-2"><%= recommended_item.expected_results %></td>
+        <td class="border px-4 py-2"><%= recommended_item.category_id %></td>
+        <td class="border px-4 py-2"><%= recommended_item.effort %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+

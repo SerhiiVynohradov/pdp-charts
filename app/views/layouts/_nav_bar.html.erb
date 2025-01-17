@@ -4,10 +4,13 @@
   <% if current_user.superadmin? %>
     <%= link_to "Companies", superadmin_companies_path, class: "text-white hover:text-blue-300" %>
     <%= link_to "Categories", superadmin_categories_path, class: "text-white hover:text-blue-300" %>
+    <%= link_to "Global Recommended Items", superadmin_recommended_items_path, class: "text-white hover:text-blue-300" %>
   <% elsif current_user.company_owner? %>
     <%= link_to "Company Dash", company_owner_root_path, class: "text-white hover:text-blue-300" %>
+    <%= link_to "Company Recommended Items", company_owner_company_recommended_items_path(current_user.company), class: "text-white hover:text-blue-300" %>
   <% elsif current_user.manager? %>
     <%= link_to "Manager Dash", manager_root_path, class: "text-white hover:text-blue-300" %>
+    <%= link_to "Team Recommended Items", manager_team_recommended_items_path(current_user.team), class: "text-white hover:text-blue-300" %>
   <% else %>
     <%= link_to "My Items", my_items_path, class: "text-white hover:text-blue-300" %>
   <% end %>

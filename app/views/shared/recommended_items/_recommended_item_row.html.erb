@@ -1,0 +1,372 @@
+<%
+the_recommended_item_path = if @superadmin
+                              superadmin_recommended_item_path(recommended_item)
+                            elsif @company.present?
+                              company_owner_company_recommended_item_path(@company, recommended_item)
+                            elsif @team.present?
+                              manager_team_recommended_item_path(@team, recommended_item)
+                            else
+                              nil
+                            end
+%>
+
+<tr id="<%= dom_id(recommended_item) %>" class="border-b border-gray-600 hover:bg-gray-700">
+  <td class="px-4 py-2 align-top">
+    <%= link_to "Details", the_recommended_item_path, class: "bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded" %>
+  </td>
+  <!-- NAME -->
+  <td class="px-4 py-2 align-top">
+    <div
+      class="cursor-pointer"
+      data-controller="cell-edit"
+      data-action="click->cell-edit#enableEdit"
+      data-cell-edit-url-value="<%= the_recommended_item_path %>"
+      data-cell-edit-field-name-value="name"
+      data-cell-edit-initial-value-value="<%= recommended_item.name || '' %>"
+      data-cell-edit-resource-name-value="recommended_item"
+    >
+      <span data-cell-edit-target="display">
+        <%= recommended_item.name.presence || "-" %>
+      </span>
+      <form
+        data-cell-edit-target="form"
+        class="hidden flex flex-col space-y-1 mt-1"
+        data-action="submit->cell-edit#submit"
+      >
+        <input
+          type="text"
+          class="rounded bg-gray-800 border border-gray-500 px-2 py-1 text-white"
+          data-cell-edit-target="input"
+          value="<%= recommended_item.name %>"
+          required
+        >
+        <button
+          type="submit"
+          class="bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded"
+        >
+          Save
+        </button>
+      </form>
+    </div>
+  </td>
+
+  <!-- DESCRIPTION -->
+  <td class="px-4 py-2 align-top">
+    <div
+      class="cursor-pointer"
+      data-controller="cell-edit"
+      data-action="click->cell-edit#enableEdit"
+      data-cell-edit-url-value="<%= the_recommended_item_path %>"
+      data-cell-edit-field-name-value="description"
+      data-cell-edit-initial-value-value="<%= recommended_item.description || '' %>"
+      data-cell-edit-resource-name-value="recommended_item"
+    >
+      <span data-cell-edit-target="display">
+        <%= recommended_item.description.presence || "-" %>
+      </span>
+      <form
+        data-cell-edit-target="form"
+        class="hidden flex flex-col space-y-1 mt-1"
+        data-action="submit->cell-edit#submit"
+      >
+        <input
+          type="text"
+          class="rounded bg-gray-800 border border-gray-500 px-2 py-1 text-white w-60"
+          data-cell-edit-target="input"
+          value="<%= recommended_item.description %>"
+        >
+        <button
+          type="submit"
+          class="bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded"
+        >
+          Save
+        </button>
+      </form>
+    </div>
+  </td>
+
+  <!-- LINK -->
+  <td class="px-4 py-2 align-top">
+    <div
+      class="cursor-pointer"
+      data-controller="cell-edit"
+      data-action="click->cell-edit#enableEdit"
+      data-cell-edit-url-value="<%= the_recommended_item_path %>"
+      data-cell-edit-field-name-value="link"
+      data-cell-edit-initial-value-value="<%= recommended_item.link || '' %>"
+      data-cell-edit-resource-name-value="recommended_item"
+    >
+      <span data-cell-edit-target="display">
+        <% if recommended_item.link.present? %>
+          <a href="<%= recommended_item.link %>"
+             target="_blank"
+             class="underline text-blue-400"
+             data-cell-edit-target="linkPreventer"
+          >
+            <%= recommended_item.link %>
+          </a>
+        <% else %>
+          -
+        <% end %>
+      </span>
+      <form
+        data-cell-edit-target="form"
+        class="hidden flex flex-col space-y-1 mt-1"
+        data-action="submit->cell-edit#submit"
+      >
+        <input
+          type="text"
+          class="rounded bg-gray-800 border border-gray-500 px-2 py-1 text-white w-64"
+          data-cell-edit-target="input"
+          value="<%= recommended_item.link %>"
+        >
+        <button
+          type="submit"
+          class="bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded"
+        >
+          Save
+        </button>
+      </form>
+    </div>
+  </td>
+
+  <!-- EXPECTED RESULTS -->
+  <td class="px-4 py-2 align-top">
+    <div
+      class="cursor-pointer"
+      data-controller="cell-edit"
+      data-action="click->cell-edit#enableEdit"
+      data-cell-edit-url-value="<%= the_recommended_item_path %>"
+      data-cell-edit-field-name-value="expected_results"
+      data-cell-edit-initial-value-value="<%= recommended_item.expected_results || '' %>"
+      data-cell-edit-resource-name-value="recommended_item"
+    >
+      <span data-cell-edit-target="display">
+        <%= recommended_item.expected_results.presence || "-" %>
+      </span>
+      <form
+        data-cell-edit-target="form"
+        class="hidden flex flex-col space-y-1 mt-1"
+        data-action="submit->cell-edit#submit"
+      >
+        <input
+          type="text"
+          class="rounded bg-gray-800 border border-gray-500 px-2 py-1 text-white w-60"
+          data-cell-edit-target="input"
+          value="<%= recommended_item.expected_results %>"
+        >
+        <button
+          type="submit"
+          class="bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded"
+        >
+          Save
+        </button>
+      </form>
+    </div>
+  </td>
+
+  <!-- CATEGORY -->
+  <td class="px-4 py-2 align-top">
+    <div
+      class="cursor-pointer"
+      data-controller="cell-edit custom-dropdown"
+      data-action="click->cell-edit#enableEdit"
+      data-cell-edit-url-value="<%= the_recommended_item_path %>"
+      data-cell-edit-field-name-value="category_id"
+      data-cell-edit-initial-value-value="<%= recommended_item.category_id || '' %>"
+      data-cell-edit-resource-name-value="recommended_item"
+    >
+      <span data-cell-edit-target="display">
+        <%= recommended_item.category ? recommended_item.category.name : "-" %>
+      </span>
+      <form
+        data-cell-edit-target="form"
+        class="hidden flex flex-col space-y-1 mt-1"
+        data-action="submit->cell-edit#submit"
+      >
+        <div class="relative">
+          <!-- Кнопка-триггер -->
+          <button
+            type="button"
+            class="block w-96 bg-gray-800 border border-gray-500 text-white py-2 px-4
+                   rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500
+                   flex justify-between items-center"
+            data-action="click->custom-dropdown#toggle"
+            data-custom-dropdown-target="button"
+          >
+            <span data-custom-dropdown-target="selectedText">
+              <%= recommended_item.category ? recommended_item.category.name : "Select Category" %>
+            </span>
+            <svg
+              class="w-5 h-5 text-gray-400"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19 9l-7 7-7-7"
+              />
+            </svg>
+          </button>
+
+          <!-- Меню выбора категорий -->
+          <div
+            class="absolute z-10 w-96 bg-gray-800 border border-gray-600
+                   rounded-md shadow-lg mt-1 hidden"
+            data-custom-dropdown-target="menu"
+          >
+            <ul class="py-1">
+              <% Category.all.each do |cat| %>
+                <li>
+                  <button
+                    type="button"
+                    class="block w-full px-4 py-2 text-left text-sm text-gray-200
+                           hover:bg-gray-700 hover:text-white"
+                    data-action="click->custom-dropdown#select"
+                    data-value="<%= cat.id %>"
+                    data-label="<%= cat.name %>"
+                  >
+                    <div class="flex justify-between">
+                      <span class="font-bold text-white"><%= cat.name %></span>
+                    </div>
+                    <hr class="border-gray-600 my-1">
+                    <div class="text-xs text-gray-400">
+                      <%= cat.description %>
+                    </div>
+                  </button>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+
+          <!-- Поле, в которое будет записываться выбранное значение -->
+          <input
+            type="hidden"
+            data-cell-edit-target="input"
+            data-custom-dropdown-target="hiddenInput"
+            value="<%= recommended_item.category_id %>"
+          />
+        </div>
+
+        <button
+          type="submit"
+          class="bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded"
+        >
+          Save
+        </button>
+      </form>
+    </div>
+  </td>
+
+  <!-- EFFORT -->
+  <td class="px-4 py-2 align-top">
+    <div
+      class="cursor-pointer"
+      data-controller="cell-edit custom-dropdown"
+      data-action="click->cell-edit#enableEdit"
+      data-cell-edit-url-value="<%= the_recommended_item_path %>"
+      data-cell-edit-field-name-value="effort"
+      data-cell-edit-initial-value-value="<%= recommended_item.effort || '' %>"
+      data-cell-edit-resource-name-value="recommended_item"
+    >
+      <span data-cell-edit-target="display">
+        <%= effort_full_label(recommended_item.effort) %>
+      </span>
+
+      <form
+        data-cell-edit-target="form"
+        class="hidden flex flex-col space-y-1 mt-1"
+        data-action="submit->cell-edit#submit"
+      >
+        <div class="relative">
+          <!-- Кнопка-триггер -->
+          <button
+            type="button"
+            class="block w-96 bg-gray-800 border border-gray-500 text-white py-2 px-4 rounded-md
+                   focus:outline-none focus:ring-2 focus:ring-blue-500 flex justify-between items-center"
+            data-action="click->custom-dropdown#toggle"
+            data-custom-dropdown-target="button"
+          >
+            <span data-custom-dropdown-target="selectedText">Select Effort</span>
+            <svg
+              class="w-5 h-5 text-gray-400"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19 9l-7 7-7-7"
+              />
+            </svg>
+          </button>
+
+          <div
+            class="absolute z-10 w-96 bg-gray-800 border border-gray-600 rounded-md shadow-lg mt-1 hidden"
+            data-custom-dropdown-target="menu"
+          >
+            <ul class="py-1">
+              <% [["5", "Very Hard", "(5 points)", ["Более 10 full-time дней", "2+ месяца 2 раза в неделю по 5 часов – 80ч – 10д", "40 Уроков по 2 часа – 80ч – 10д", "1 год по 1 разу в неделю по 2 часа – 96ч – 10д"]],
+                   ["4", "Hard", "(4 points)", ["5-10 full-time дней", "2+ месяца 2 раза в неделю по 3 часа – 48ч – 6д", "6 Месяцев по 1 разу в неделю по 2 часа = 48ч = 6д"]],
+                   ["3", "Medium", "(3 points)", ["3-5 full-time дней", "2-3 недели по 10 часов в неделю – 25ч – 4д", "3 Месяца по 2ч в неделю – 24ч – 4д"]],
+                   ["2", "Easy", "(2 points)", ["2-3 full-time дня", "2+ месяца по 1 разу в неделю по 2 часа – 16ч - 2д", "2-3 недели по 2ч в неделю – 2д"]],
+                   ["1", "Very Easy", "(1 point)", ["Меньше 1 дня – 1д"]]
+                 ].each do |value, title, points, examples| %>
+                <li>
+                  <button
+                    type="button"
+                    class="block w-full px-4 py-2 text-left text-sm text-gray-200
+                           hover:bg-gray-700 hover:text-white"
+                    data-action="click->custom-dropdown#select"
+                    data-value="<%= value %>"
+                    data-label="<%= "#{title} #{points}" %>"
+                  >
+                    <div class="flex justify-between">
+                      <span class="font-bold text-white"><%= title %></span>
+                      <span class="text-sm text-gray-400"><%= points %></span>
+                    </div>
+                    <hr class="border-gray-600 my-1">
+                    <ul class="text-xs text-gray-400 list-disc pl-4">
+                      <% examples.each do |example| %>
+                        <li><%= example %></li>
+                      <% end %>
+                    </ul>
+                  </button>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+
+          <input
+            type="hidden"
+            data-cell-edit-target="input"
+            data-custom-dropdown-target="hiddenInput"
+            value="<%= recommended_item.effort %>"
+          />
+        </div>
+
+        <button
+          type="submit"
+          class="bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded"
+        >
+          Save
+        </button>
+      </form>
+    </div>
+  </td>
+
+  <!-- ACTIONS (Delete Button) -->
+  <td class="px-4 py-2 align-top text-right space-x-2">
+    <%= link_to "Delete",
+      the_recommended_item_path,
+      data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' },
+      class: "bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded" %>
+  </td>
+</tr>

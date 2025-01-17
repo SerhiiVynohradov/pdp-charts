@@ -1,6 +1,6 @@
 module Superadmin
   class DashboardsController < ApplicationController
-    before_action :require_company_owner!
+    before_action :require_superadmin!
 
     def index
       redirect_to company_owner_company_path(current_user.company)
@@ -11,8 +11,8 @@ module Superadmin
     end
 
     private
-    def require_company_owner!
-      redirect_to root_path unless current_user&.company_owner?
+    def require_superadmin!
+      redirect_to root_path unless current_user&.superadmin?
     end
   end
 end

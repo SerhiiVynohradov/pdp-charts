@@ -51,6 +51,8 @@ Rails.application.routes.draw do
         get :external_calendar, to: 'teams#external_calendar'
       end
 
+      resources :recommended_items, only: [:index, :create, :update, :destroy, :show]
+
       resources :users, only: [:index, :new, :create, :edit, :update, :destroy, :show], module: 'users' do
         resources :recommended_items, only: [:index]
         resources :item_progress_columns, only: [:new, :create, :edit, :update, :destroy]
@@ -80,6 +82,8 @@ Rails.application.routes.draw do
   # CompanyOwner Namespace
   namespace :company_owner do
     resources :companies, only: [:show, :edit, :update], module: 'companies' do
+      resources :recommended_items, only: [:index, :create, :update, :destroy, :show]
+
       resources :teams, module: 'teams' do
         member do
           patch :toggle_status
@@ -127,6 +131,8 @@ Rails.application.routes.draw do
   # Superadmin Namespace
   namespace :superadmin do
     resources :categories
+    resources :recommended_items, only: [:index, :create, :update, :destroy, :show]
+
     resources :payers, only: [:index, :show] do
       resources :invoices, only: [:index, :show]
     end

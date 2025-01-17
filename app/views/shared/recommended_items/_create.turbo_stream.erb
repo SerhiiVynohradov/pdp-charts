@@ -1,0 +1,15 @@
+<turbo-stream action="append" target="recommended-items-container">
+  <template>
+    <%= render partial: "shared/recommended_items/recommended_item_row",
+               locals: { recommended_item: @recommended_item },
+               formats: [:html] %>
+  </template>
+</turbo-stream>
+
+<turbo-stream action="replace" target="<%= dom_id(RecommendedItem.new, :new) %>">
+  <template>
+    <%= render partial: "shared/recommended_items/form",
+               locals: { recommended_item: RecommendedItem.new },
+               formats: [:html] %>
+  </template>
+</turbo-stream>
