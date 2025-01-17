@@ -10,6 +10,18 @@ create_item_path = if @superadmin
                    end
 %>
 
+<%
+recommended_items_path = if @superadmin
+                           superadmin_company_team_user_recommended_items_path(@company, @team, @user)
+                         elsif @company.present?
+                           company_owner_company_team_user_recommended_items_path(@company, @team, @user)
+                         elsif @team.present?
+                           manager_team_user_recommended_items_path(@team, @user)
+                         else
+                           my_recommended_items_path
+                         end
+%>
+
 <%= turbo_frame_tag dom_id(Item.new, :new) do %>
   <%= form_with model: item,
                 url: create_item_path,
@@ -42,6 +54,10 @@ create_item_path = if @superadmin
           X
         </button>
       </div>
+
+      <%= f.hidden_field :recommended_items_path,
+            value: recommended_items_path,
+            data: { "recommended-item-search-target": "recommendedItemsPath" } %>
 
       <%= f.hidden_field :recommended_item_id,
             value: nil,

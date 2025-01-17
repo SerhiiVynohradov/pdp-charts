@@ -5,6 +5,7 @@ export default class extends Controller {
     "nameInput",
     "results",
     "recommendedItemId",
+    "recommendedItemsPath",
     "resetButton"
   ]
 
@@ -21,7 +22,10 @@ export default class extends Controller {
       return
     }
 
-    fetch(`/recommended_items?search=${encodeURIComponent(query)}`, {
+    const path = this.recommendedItemsPathTarget.value
+    console.log(path)
+
+    fetch(`${path}?search=${encodeURIComponent(query)}`, {
       headers: { "Accept": "application/json" }
     })
       .then(r => r.json())

@@ -3,7 +3,7 @@ module Manager
     before_action :require_manager!
 
     def index
-      # maybe show a list of teams they manage?
+      redirect_to manager_team_path(current_user.team)
     end
 
     private

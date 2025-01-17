@@ -11,10 +11,9 @@ Rails.application.routes.draw do
   # Root Path
   root "home#index"
 
-  resources :recommended_items, only: [:index]
-
   # My Namespace
   namespace :my do
+    resources :recommended_items, only: [:index]
     resource :settings, only: [:edit, :update]
     resources :items, module: 'items' do
       resources :item_progress_columns, only: [], module: 'item_progress_columns' do
@@ -53,6 +52,7 @@ Rails.application.routes.draw do
       end
 
       resources :users, only: [:index, :new, :create, :edit, :update, :destroy, :show], module: 'users' do
+        resources :recommended_items, only: [:index]
         resources :item_progress_columns, only: [:new, :create, :edit, :update, :destroy]
 
         member do
@@ -94,6 +94,7 @@ Rails.application.routes.draw do
         end
 
         resources :users, only: [:index, :new, :create, :edit, :update, :destroy, :show], module: 'users' do
+          resources :recommended_items, only: [:index]
           resources :item_progress_columns, only: [:new, :create, :edit, :update, :destroy]
 
           member do
@@ -151,6 +152,7 @@ Rails.application.routes.draw do
         end
 
         resources :users, only: [:index, :new, :create, :edit, :update, :destroy, :show], module: 'users' do
+          resources :recommended_items, only: [:index]
           resources :item_progress_columns, only: [:new, :create, :edit, :update, :destroy]
 
           member do
