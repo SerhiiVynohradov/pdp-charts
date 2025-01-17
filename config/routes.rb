@@ -107,6 +107,7 @@ Rails.application.routes.draw do
             get :profile
 
             patch :pause
+            patch :make_manager
             get :generate_meeting
             get :external_calendar
           end
@@ -168,6 +169,7 @@ Rails.application.routes.draw do
             patch :deactivate
             get :profile
 
+            patch :make_manager
             patch :pause
             get :generate_meeting
             get :external_calendar

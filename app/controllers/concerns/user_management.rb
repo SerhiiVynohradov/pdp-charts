@@ -7,7 +7,7 @@ module UserManagement
     before_action :set_team
     before_action :authorize_manage_team!
 
-    before_action :set_user, only: [:show, :update, :destroy, :pause, :generate_meeting, :external_calendar]
+    before_action :set_user, only: [:show, :update, :destroy, :pause, :generate_meeting, :external_calendar, :make_manager]
   end
 
   def index
@@ -56,6 +56,16 @@ module UserManagement
       format.html { redirect_to manager_team_path(@team), notice: "User status updated." }
       format.turbo_stream
     end
+  end
+
+  def make_manager
+    if @user.team.present?
+      team = @user.team
+      team.users.where(role: :manager).update_all(role: :user)
+      @user.update(role: :manager)
+    end
+
+    redirect_to request.referer || root_path
   end
 
   def generate_meeting

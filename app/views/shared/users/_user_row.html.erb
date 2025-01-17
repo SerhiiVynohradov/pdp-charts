@@ -53,6 +53,7 @@ the_external_calendar_path = if @superadmin
       <!-- Display -->
       <span data-cell-edit-target="display">
         <%= user.name.presence || "-" %>
+        <%= " (manager) " if user.manager? %>
       </span>
       <!-- Inline form (hidden) -->
       <form
@@ -128,6 +129,20 @@ the_external_calendar_path = if @superadmin
 
   <!-- Manage Actions -->
   <td class="px-4 py-2 align-top text-right space-x-2">
+    <% if (current_user.superadmin? || current_user.company_owner?) && !user.manager? %>
+      <% make_manager_path = if @superadmin
+                               make_manager_superadmin_company_team_user_path(@company, @team, user)
+                             elsif @company.present?
+                               make_manager_company_owner_company_team_user_path(@company, @team, user)
+                             end %>
+
+                          <%= link_to "Make Manager",
+                            make_manager_path,
+                            data: { turbo_method: :patch },
+                            class: "bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded shadow-sm" %>
+                        <% end %>
+
+
     <%= link_to "Generate Meeting", the_generate_meeting_path, class: "bg-purple-600 hover:bg-purple-700 text-white px-2 py-1 rounded" %>
     <%= link_to "External Calendar", the_external_calendar_path, class: "bg-indigo-600 hover:bg-indigo-700 text-white px-2 py-1 rounded" %>
     <%= link_to "Delete", the_user_path, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: "bg-red-600 hover:bg-red-700 text-white px-2 py-1 rounded" %>

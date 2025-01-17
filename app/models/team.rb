@@ -1,4 +1,6 @@
 class Team < ApplicationRecord
+  default_scope { order(:name) }
+
   belongs_to :company, optional: true
 
   has_many :users, dependent: :destroy
