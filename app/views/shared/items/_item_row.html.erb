@@ -12,7 +12,8 @@ the_item_path = if @superadmin
 
 <tr id="<%= dom_id(item) %>" class="border-b border-gray-600 hover:bg-gray-700">
   <td class="px-4 py-2 align-top">
-    <%= link_to "Details", the_item_path, class: "bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded" %>
+    <%= link_to "Details", the_item_path,
+      class: "bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded shadow-sm" %>
   </td>
   <!-- NAME -->
   <td class="px-4 py-2 align-top">
@@ -543,30 +544,29 @@ the_item_path = if @superadmin
   </td>
 
   <!-- ACTIONS (Delete Button) -->
-  <td class="px-4 py-2 align-top text-right space-x-2">
-    <%= link_to "Delete",
-      the_item_path,
-      data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' },
-      class: "bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded" %>
+  <td class="px-4 py-2 align-top text-right">
+    <div class="inline-flex items-center space-x-2">
+      <%= link_to "Delete",
+        the_item_path,
+        data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' },
+        class: "bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded shadow-sm" %>
 
+      <% if current_user.superadmin? || current_user.company_owner? || current_user.manager? %>
+        <% recommend_path = if @superadmin
+                              recommend_superadmin_company_team_user_item_path(@company, @team, @user, item)
+                            elsif @company.present?
+                              recommend_company_owner_company_team_user_item_path(@company, @team, @user, item)
+                            elsif @team.present?
+                              recommend_manager_team_user_item_path(@team, @user, item)
+                            else
+                              "#"
+                            end %>
 
-    <% if current_user.superadmin? || current_user.company_owner? || current_user.manager? %>
-      <% # Сформируем URL для recommend. %>
-      <% recommend_path = if @superadmin
-                            recommend_superadmin_company_team_user_item_path(@company, @team, @user, item)
-                          elsif @company.present?
-                            recommend_company_owner_company_team_user_item_path(@company, @team, @user, item)
-                          elsif @team.present?
-                            recommend_manager_team_user_item_path(@team, @user, item)
-                          else
-                            nil
-                          end %>
-
-                          <%= link_to "Recommend",
-                            recommend_path,
-                            data: { turbo_method: :post },
-                            class: "bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded" %>
-                        <% end %>
-
+                            <%= link_to "Recommend",
+                              recommend_path,
+                              data: { turbo_method: :post },
+                              class: "bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded shadow-sm" %>
+                          <% end %>
+    </div>
   </td>
 </tr>
