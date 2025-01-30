@@ -69,8 +69,17 @@ module UserManagement
   def make_manager
     if @user.team.present?
       team = @user.team
-      team.users.where(role: :manager).update_all(role: :user)
+
+      old_managers = team.users.where(role: :manager)
+      # Demote all old managers to :user
+      old_managers.each do |old_manager|
+        old_manager.update(role: :user)
+        UserMailer.with(user: old_manager, team: team).manager_demoted_email.deliver_later
+      end
+
+      # Promote the new user
       @user.update(role: :manager)
+      UserMailer.with(user: @user, team: team).manager_promoted_email.deliver_later
     end
 
     redirect_to request.referer || root_path
