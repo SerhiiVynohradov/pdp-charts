@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Welcome to PDP Charts</title>
+  </head>
+  <body style="margin: 0; padding: 0; background-color: #f9fafb; font-family: Arial, sans-serif;">
+    <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px; margin: 0 auto; background-color: #ffffff;">
+      <tr>
+        <td style="padding: 20px; text-align: center; background-color: #1f2937; color: #ffffff;">
+          <h1 style="margin: 0; font-size: 24px;">PDP Charts</h1>
+        </td>
+      </tr>
+
+      <tr>
+        <td style="padding: 20px;">
+          <h2 style="margin-top: 0; color: #111827; font-size: 20px;">
+            Welcome, <%= @user.name.present? ? @user.name : @user.email %>!
+          </h2>
+
+          <p style="font-size: 14px; line-height: 20px; color: #374151;">
+            We’re excited to have you on board at PDP Charts.
+            Your account has been created
+            <% if @company.present? %> by company <strong><%= @company.name %></strong><% end %>
+            <% if @team.present? && @company.blank? %> by team <strong><%= @team.name %></strong><% end %>.
+          </p>
+
+          <% if @team.present? && @company.present? %>
+            <p style="font-size: 14px; line-height: 20px; color: #374151;">
+              You have been invited to join the <strong><%= @team.name %></strong> team at
+              <strong><%= @company.name %></strong>.
+            </p>
+          <% end %>
+
+          <p style="font-size: 14px; line-height: 20px; color: #374151;">
+            Your <strong>login</strong>:
+          </p>
+          <div style="display: inline-block; background-color: #f3f4f6; color: #1f2937;
+                      padding: 8px 12px; margin-bottom: 15px; border-radius: 4px;">
+            <strong><%= @user.email %></strong>
+          </div>
+
+          <p style="font-size: 14px; line-height: 20px; color: #374151;">
+            Your <strong>temporary password</strong>:
+          </p>
+          <div style="display: inline-block; background-color: #f3f4f6; color: #1f2937;
+                      padding: 8px 12px; margin-bottom: 15px; border-radius: 4px;">
+            <strong><%= @password %></strong>
+          </div>
+
+          <p style="font-size: 14px; line-height: 20px; color: #374151;">
+            Please use this password to <a href="<%= new_user_session_url %>" style="color: #3b82f6; text-decoration: none;">log in</a> and then immediately update your password in your account settings.
+          </p>
+
+          <div style="margin: 20px 0;">
+            <a href="<%= new_user_session_url %>"
+               style="text-decoration: none; padding: 12px 20px; background-color: #3b82f6;
+                      color: #ffffff; border-radius: 4px; font-weight: bold;">
+              Log In Now
+            </a>
+          </div>
+
+          <p style="font-size: 14px; line-height: 20px; color: #6b7280;">
+            If you have any questions, feel free to reply to this email.
+          </p>
+
+          <hr style="border: 0; border-top: 1px solid #e5e7eb; margin: 20px 0;" />
+
+          <p style="font-size: 12px; color: #9ca3af;">
+            This email was sent automatically. Please do not share your temporary password.
+          </p>
+        </td>
+      </tr>
+
+      <tr>
+        <td style="padding: 20px; background-color: #f3f4f6; text-align: center; font-size: 12px; color: #6b7280;">
+          <p style="margin: 0;">
+            &copy; <%= Time.now.year %> PDP Charts. All rights reserved.
+          </p>
+        </td>
+      </tr>
+    </table>
+
+  </body>
+</html>

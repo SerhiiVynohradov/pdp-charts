@@ -19,10 +19,18 @@ module UserManagement
 
   def create
     @user = @team.users.new(user_params)
-    @user.password = 'password'
-    @user.password_confirmation = 'password'
+
+    # Generate Random Password
+    random_password = Devise.friendly_token.first(8)
+
+    # Assign Random Password
+    @user.password = random_password
+    @user.password_confirmation = random_password
 
     if @user.save
+      # Send email with random password
+      UserMailer.with(user: @user, password: random_password).welcome_email.deliver_later
+
       respond_to do |format|
         format.turbo_stream { render partial: "shared/users/create", locals: { user: @user, team: @team }, formats: [:turbo_stream] }
       end
