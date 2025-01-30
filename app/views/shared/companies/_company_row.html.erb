@@ -41,6 +41,11 @@
     </div>
   </td>
 
+  <!-- Owner -->
+  <td class="px-4 py-2 align-top">
+    <%= company.owner&.email || "-" %>
+  </td>
+
   <!-- Status -->
   <td class="px-4 py-2 align-top">
     <div class="flex items-center space-x-2">

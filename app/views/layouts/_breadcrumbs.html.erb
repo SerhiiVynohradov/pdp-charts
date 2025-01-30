@@ -1,34 +1,36 @@
-<% crumb_list = breadcrumbs if defined?(breadcrumbs) %>
-<% if crumb_list.present? %>
-  <nav class="bg-gray-700 px-4 py-2 text-sm">
-    <ol class="flex items-center space-x-1 text-gray-300">
-      <% crumb_list.each_with_index do |crumb, index| %>
-        <% last = (index == crumb_list.size - 1) %>
+<% if user_signed_in? %>
+  <% crumb_list = breadcrumbs if defined?(breadcrumbs) %>
+  <% if crumb_list.present? %>
+    <nav class="bg-gray-700 px-4 py-2 text-sm">
+      <ol class="flex items-center space-x-1 text-gray-300">
+        <% crumb_list.each_with_index do |crumb, index| %>
+          <% last = (index == crumb_list.size - 1) %>
 
-        <!-- Each crumb as either a link (if path and not last) or plain text (if last) -->
-        <li class="flex items-center">
-          <% if crumb[:path].present? && !last %>
-            <!-- Not the last crumb; use a clickable link -->
-            <%= link_to crumb[:name], crumb[:path],
-                        class: "text-blue-400 hover:text-blue-200 hover:underline" %>
-          <% else %>
-            <!-- Last crumb or path is nil => plain text -->
-            <span class="font-semibold text-gray-100"><%= crumb[:name] %></span>
-          <% end %>
+          <!-- Each crumb as either a link (if path and not last) or plain text (if last) -->
+          <li class="flex items-center">
+            <% if crumb[:path].present? && !last %>
+              <!-- Not the last crumb; use a clickable link -->
+              <%= link_to crumb[:name], crumb[:path],
+                          class: "text-blue-400 hover:text-blue-200 hover:underline" %>
+            <% else %>
+              <!-- Last crumb or path is nil => plain text -->
+              <span class="font-semibold text-gray-100"><%= crumb[:name] %></span>
+            <% end %>
 
-          <!-- Separator (chevron icon), shown if not last -->
-          <% unless last %>
-            <svg class="h-4 w-4 mx-1 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd"
-                    d="M9.293 4.293a1 1 0 011.414 0l5
-                       5a1 1 0 010 1.414l-5 5a1 1 0
-                       01-1.414-1.414L13.586 10
-                       9.293 5.707a1 1 0 010-1.414z"
-                    clip-rule="evenodd" />
-            </svg>
-          <% end %>
-        </li>
-      <% end %>
-    </ol>
-  </nav>
+            <!-- Separator (chevron icon), shown if not last -->
+            <% unless last %>
+              <svg class="h-4 w-4 mx-1 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd"
+                      d="M9.293 4.293a1 1 0 011.414 0l5
+                         5a1 1 0 010 1.414l-5 5a1 1 0
+                         01-1.414-1.414L13.586 10
+                         9.293 5.707a1 1 0 010-1.414z"
+                      clip-rule="evenodd" />
+              </svg>
+            <% end %>
+          </li>
+        <% end %>
+      </ol>
+    </nav>
+  <% end %>
 <% end %>

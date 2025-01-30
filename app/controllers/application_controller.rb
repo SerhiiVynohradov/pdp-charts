@@ -14,6 +14,8 @@ class ApplicationController < ActionController::Base
         redirect_to company_owner_company_path(current_user.company)
       elsif current_user.superadmin? && request.path == '/'
         redirect_to superadmin_companies_path
+      elsif current_user.user? && request.path == '/'
+        redirect_to my_items_path
       end
     end
   end
