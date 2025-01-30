@@ -1,80 +1,86 @@
-<div class="max-w-md mx-auto mt-10">
-  <!-- Заголовок -->
-  <h2 class="text-2xl font-bold mb-6 text-center text-white">
-    Sign up
-  </h2>
+<div class="min-h-screen flex items-center justify-center bg-gray-900 px-4">
+  <div class="max-w-md w-full bg-gray-800 p-8 rounded-lg shadow-lg">
 
-  <div class="bg-gray-800 p-6 rounded shadow-md">
-    <!-- Вывод ошибок (если есть) -->
+    <!-- Heading & subtle marketing subtext -->
+    <h1 class="text-3xl font-bold text-white mb-2 text-center">
+      Створити обліковий запис
+    </h1>
+    <p class="text-sm text-gray-400 mb-6 text-center">
+      Безкоштовно до березня 2025 року — встигніть спробувати!
+    </p>
+
+    <!-- Error messages (if any) -->
     <%= render "devise/shared/error_messages", resource: resource %>
 
-    <!-- Форма регистрации -->
-    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "space-y-4" }) do |f| %>
+    <!-- Form -->
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "space-y-6" }) do |f| %>
+
       <!-- Email -->
       <div>
-        <%= f.label :email, class: "block text-gray-300" %>
+        <%= f.label :email, "Email", class: "block text-gray-300 font-medium" %>
         <%= f.email_field :email,
               autofocus: true,
               autocomplete: "email",
-              class: "w-full mt-1 p-2 bg-gray-900 text-white rounded border border-gray-700" %>
+              class: "w-full mt-1 p-2 bg-gray-900 text-white rounded border border-gray-700 focus:ring-2 focus:ring-blue-500" %>
       </div>
 
       <!-- Password -->
       <div>
-        <%= f.label :password, class: "block text-gray-300" %>
+        <%= f.label :password, "Пароль", class: "block text-gray-300 font-medium" %>
         <% if @minimum_password_length %>
           <small class="text-gray-400">
-            (минимум <%= @minimum_password_length %> символов)
+            (мінімум <%= @minimum_password_length %> символів)
           </small>
         <% end %>
         <%= f.password_field :password,
               autocomplete: "new-password",
-              class: "w-full mt-1 p-2 bg-gray-900 text-white rounded border border-gray-700" %>
+              class: "w-full mt-1 p-2 bg-gray-900 text-white rounded border border-gray-700 focus:ring-2 focus:ring-blue-500" %>
       </div>
 
       <!-- Password Confirmation -->
       <div>
-        <%= f.label :password_confirmation, class: "block text-gray-300" %>
+        <%= f.label :password_confirmation, "Підтвердження пароля", class: "block text-gray-300 font-medium" %>
         <%= f.password_field :password_confirmation,
               autocomplete: "new-password",
-              class: "w-full mt-1 p-2 bg-gray-900 text-white rounded border border-gray-700" %>
+              class: "w-full mt-1 p-2 bg-gray-900 text-white rounded border border-gray-700 focus:ring-2 focus:ring-blue-500" %>
       </div>
 
-      <!-- reCAPTCHA -->
-      <div>
-        <%= recaptcha_tags %>
-      </div>
+      <!-- reCAPTCHA (only if needed in production) -->
+      <% if Rails.env.production? %>
+        <div class="mt-4">
+          <%= recaptcha_tags %>
+        </div>
+      <% end %>
 
       <!-- Submit button -->
       <div>
-        <%= f.submit "Sign up",
-              class: "bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded w-full" %>
+        <%= f.submit "Зареєструватись",
+              class: "w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded shadow-md transition-transform transform hover:-translate-y-0.5" %>
       </div>
     <% end %>
 
-    <!-- OAuth-кнопки -->
-    <div class="mt-4 text-center">
-      <p class="text-gray-300">Or sign up with:</p>
-      <div class="flex justify-center space-x-2 mt-2">
+    <!-- OAuth -->
+    <div class="mt-6 text-center">
+      <p class="text-gray-300 mb-2">Або зареєструватися через:</p>
+      <div class="flex justify-center space-x-2">
         <%= link_to "Google",
               user_google_oauth2_omniauth_authorize_path,
-              class: "bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded" %>
+              class: "bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded transition-transform transform hover:-translate-y-0.5" %>
 
         <%= link_to "LinkedIn",
               user_linkedin_omniauth_authorize_path,
-              class: "bg-blue-700 hover:bg-blue-800 text-white py-2 px-4 rounded" %>
+              class: "bg-blue-700 hover:bg-blue-800 text-white py-2 px-4 rounded transition-transform transform hover:-translate-y-0.5" %>
 
-        <!-- Если нужен Facebook -->
-        <!--
+        <!-- If needed: Facebook
         <%= link_to "Facebook",
               user_facebook_omniauth_authorize_path,
-              class: "bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded" %>
+              class: "bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded transition-transform transform hover:-translate-y-0.5" %>
         -->
       </div>
     </div>
 
-    <!-- Ссылка на логин и т.д. -->
-    <div class="mt-4 text-center">
+    <!-- Link to sign in (and other Devise links) -->
+    <div class="mt-6 text-center">
       <%= render "devise/shared/links" %>
     </div>
   </div>
