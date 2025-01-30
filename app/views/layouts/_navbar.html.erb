@@ -1,0 +1,133 @@
+<nav x-data="{ open: false }" class="bg-gray-800">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between h-16">
+      <div class="flex-shrink-0 flex items-center">
+        <%= link_to "PDP Charts", root_path, class: "text-xl font-bold text-white hover:text-blue-300" %>
+      </div>
+
+      <div class="hidden md:flex md:items-center md:space-x-4 ml-8">
+        <% if user_signed_in? %>
+          <% if current_user.superadmin? %>
+            <%= link_to "Companies", superadmin_companies_path, class: "text-white hover:text-blue-300" %>
+            <%= link_to "Categories", superadmin_categories_path, class: "text-white hover:text-blue-300" %>
+            <%= link_to "Global Items", superadmin_recommended_items_path, class: "text-white hover:text-blue-300" %>
+            <%= link_to "Payers", superadmin_payers_path, class: "text-white hover:text-blue-300" %>
+
+          <% elsif current_user.company_owner? && current_user.company.present? %>
+            <%= link_to "Company Dash", company_owner_root_path, class: "text-white hover:text-blue-300" %>
+            <%= link_to "Company Items", company_owner_company_recommended_items_path(current_user.company), class: "text-white hover:text-blue-300" %>
+
+          <% elsif current_user.manager? && current_user.team.present? %>
+            <%= link_to "Manager Dash", manager_root_path, class: "text-white hover:text-blue-300" %>
+            <%= link_to "Team Items", manager_team_recommended_items_path(current_user.team), class: "text-white hover:text-blue-300" %>
+
+          <% else %>
+            <%= link_to "My Items", my_items_path, class: "text-white hover:text-blue-300" %>
+          <% end %>
+
+          <% if current_user.user? && current_user.team.present? && current_user.team.company.present? && current_user.team.company.charts_visible? %>
+            <%= link_to "#{current_user.team.company.name} Stats", my_company_path(current_user.team.company), class: "text-white hover:text-blue-300" %>
+          <% end %>
+
+          <% if current_user.user? && current_user.team.present? && current_user.team.charts_visible? %>
+            <%= link_to "#{current_user.team.name} Stats", my_team_path(current_user.team), class: "text-white hover:text-blue-300" %>
+          <% end %>
+
+        <% else %>
+          <%= link_to "Features", "#features", class: "text-white hover:text-blue-300" %>
+        <% end %>
+      </div>
+
+      <div class="hidden md:flex items-center space-x-4 ml-auto">
+        <% if user_signed_in? %>
+          <%= link_to "Settings", edit_my_settings_path, class: "text-white hover:text-blue-300" %>
+
+          <% if current_user.manager? && current_user.team.present? %>
+            <%= link_to "Team Settings", edit_manager_team_path(current_user.team), class: "text-white hover:text-blue-300" %>
+          <% end %>
+
+          <% if current_user.company_owner? && current_user.company.present? %>
+            <%= link_to "Company Settings", edit_company_owner_company_path(current_user.company), class: "text-white hover:text-blue-300" %>
+          <% end %>
+
+          <%= link_to "Logout",
+            destroy_user_session_path,
+            data: { turbo_method: :delete },
+            class: "text-white hover:text-blue-300" %>
+        <% else %>
+          <%= link_to "Sign In", new_user_session_path, class: "text-white hover:text-blue-300" %>
+          <%= link_to "Sign Up", new_user_registration_path, class: "bg-blue-600 hover:bg-blue-700 text-white py-1 px-3 rounded" %>
+        <% end %>
+      </div>
+
+      <div class="-mr-2 flex items-center md:hidden">
+        <button @click="open = !open"
+           type="button"
+           class="inline-flex items-center justify-center p-2 rounded-md text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none"
+           aria-controls="mobile-menu"
+           aria-expanded="false">
+          <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+            <path class="inline-flex"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="md:hidden" x-show="open" @click.away="open = false" id="mobile-menu">
+    <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+      <% if user_signed_in? %>
+        <% if current_user.superadmin? %>
+          <%= link_to "Companies", superadmin_companies_path, class: "block px-3 py-2 rounded text-white hover:bg-gray-700" %>
+          <%= link_to "Categories", superadmin_categories_path, class: "block px-3 py-2 rounded text-white hover:bg-gray-700" %>
+          <%= link_to "Global Items", superadmin_recommended_items_path, class: "block px-3 py-2 rounded text-white hover:bg-gray-700" %>
+          <%= link_to "Payers", superadmin_payers_path, class: "block px-3 py-2 rounded text-white hover:bg-gray-700" %>
+
+        <% elsif current_user.company_owner? && current_user.company.present? %>
+          <%= link_to "Company Dash", company_owner_root_path, class: "block px-3 py-2 rounded text-white hover:bg-gray-700" %>
+          <%= link_to "Company Items", company_owner_company_recommended_items_path(current_user.company), class: "block px-3 py-2 rounded text-white hover:bg-gray-700" %>
+
+        <% elsif current_user.manager? && current_user.team.present? %>
+          <%= link_to "Manager Dash", manager_root_path, class: "block px-3 py-2 rounded text-white hover:bg-gray-700" %>
+          <%= link_to "Team Items", manager_team_recommended_items_path(current_user.team), class: "block px-3 py-2 rounded text-white hover:bg-gray-700" %>
+
+        <% else %>
+          <%= link_to "My Items", my_items_path, class: "block px-3 py-2 rounded text-white hover:bg-gray-700" %>
+        <% end %>
+
+        <% if current_user.user? && current_user.team.present? && current_user.team.company.present? && current_user.team.company.charts_visible? %>
+          <%= link_to "#{current_user.team.company.name} Stats", my_company_path(current_user.team.company), class: "block px-3 py-2 rounded text-white hover:bg-gray-700" %>
+        <% end %>
+
+        <% if current_user.user? && current_user.team.present? && current_user.team.charts_visible? %>
+          <%= link_to "#{current_user.team.name} Stats", my_team_path(current_user.team), class: "block px-3 py-2 rounded text-white hover:bg-gray-700" %>
+        <% end %>
+
+        <hr class="border-gray-700 my-2" />
+
+        <%= link_to "Settings", edit_my_settings_path, class: "block px-3 py-2 rounded text-white hover:bg-gray-700" %>
+
+        <% if current_user.manager? && current_user.team.present? %>
+          <%= link_to "Team Settings", edit_manager_team_path(current_user.team), class: "block px-3 py-2 rounded text-white hover:bg-gray-700" %>
+        <% end %>
+
+        <% if current_user.company_owner? && current_user.company.present? %>
+          <%= link_to "Company Settings", edit_company_owner_company_path(current_user.company), class: "block px-3 py-2 rounded text-white hover:bg-gray-700" %>
+        <% end %>
+
+        <%= link_to "Logout",
+          destroy_user_session_path,
+          data: { turbo_method: :delete },
+          class: "block px-3 py-2 rounded text-white hover:bg-gray-700" %>
+      <% else %>
+        <!-- Guest -->
+        <%= link_to "Sign In", new_user_session_path, class: "block px-3 py-2 rounded text-white hover:bg-gray-700" %>
+        <%= link_to "Sign Up", new_user_registration_path, class: "block px-3 py-2 rounded bg-blue-600 hover:bg-blue-700 text-white" %>
+      <% end %>
+    </div>
+  </div>
+</nav>

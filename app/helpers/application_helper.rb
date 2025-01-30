@@ -38,16 +38,7 @@ module ApplicationHelper
       crumbs << { name: action_name.titleize, path: nil } unless action_name == 'index'
     end
 
-    # Render the breadcrumbs
-    content_tag(:nav, class: "breadcrumbs flex items-center space-x-2 text-sm text-gray-400") do
-      crumbs.map.with_index do |crumb, index|
-        if crumb[:path]
-          link_to(crumb[:name], crumb[:path], class: "text-blue-500 hover:underline")
-        else
-          content_tag(:span, crumb[:name], class: "current text-gray-200")
-        end
-      end.join('&nbsp;' + ' /').html_safe
-    end
+    crumbs
   end
 
   private

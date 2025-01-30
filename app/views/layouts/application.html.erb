@@ -8,24 +8,15 @@
     <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
     <%= javascript_include_tag "canvasjs.stock.min" %>
+    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
   </head>
 
-  <body class="bg-gray-900 text-white min-h-screen">
-    <% if user_signed_in? %>
-      <%= render "layouts/nav_bar" %>
+  <body class="bg-gray-900 text-white">
+    <%= render "layouts/navbar" %>
+    <%= render "layouts/breadcrumbs" %>
 
-      <%= render "layouts/breadcrumbs" %>
-    <% else %>
-      <%= render "layouts/nav_bar_guest" %>
-    <% end %>
-
-    <div class="container mx-auto px-4 py-4">
-      <%= render "layouts/flash_messages" %>
-    </div>
-
-    <main class="container mx-auto px-4 py-8">
+    <div class="min-h-screen">
       <%= yield %>
-    </main>
-
+    </div>
   </body>
 </html>
