@@ -4,7 +4,8 @@ class User < ApplicationRecord
   default_scope { order(:name) }
 
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
+         :recoverable, :rememberable, :validatable,
+         :omniauthable, omniauth_providers: [:google_oauth2, :linkedin, :facebook]
 
   belongs_to :company, optional: true
   belongs_to :team, optional: true

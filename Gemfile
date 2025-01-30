@@ -56,3 +56,8 @@ end
 
 
 gem "devise", "~> 4.9"
+gem 'omniauth-google-oauth2'
+gem 'omniauth-linkedin-oauth2'
+gem 'omniauth-facebook'
+gem 'dotenv'
+gem 'recaptcha', require: 'recaptcha/rails'

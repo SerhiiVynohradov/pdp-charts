@@ -1,0 +1,154 @@
+<% current_plan = current_user&.role %>
+
+<div class="max-w-5xl mx-auto py-10 px-4">
+  <!-- Page Heading -->
+  <h1 class="text-4xl md:text-5xl font-extrabold text-center text-white mb-6">
+    Choose Your Plan
+  </h1>
+  <p class="text-center text-gray-300 mb-12 max-w-2xl mx-auto">
+    Empower your personal growth or scale up your organization with the perfect plan.
+  </p>
+
+  <!-- Cards -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <!-- 1) Personal / User -->
+    <%# If this plan is the current plan, highlight the card & disable the button %>
+    <div class="
+         relative bg-gray-800 rounded-lg shadow p-8 flex flex-col
+         transform transition-transform hover:scale-105
+         <%= current_plan == 'user' ? 'ring-4 ring-green-500' : '' %>
+       ">
+      <!-- Special Offer badge -->
+      <div class="absolute top-0 left-0 bg-pink-600 text-white text-xs font-semibold px-2 py-1 rounded-br">
+        Free until March 2025
+      </div>
+
+      <!-- Plan Name -->
+      <h2 class="text-3xl font-bold text-white mb-2">
+        Personal
+      </h2>
+      <!-- Subheading / teaser -->
+      <h3 class="text-sm text-gray-400 font-medium mb-6">
+        Great for individual tasks & goals
+      </h3>
+
+      <!-- Features -->
+      <ul class="text-gray-300 text-sm space-y-2 mb-6">
+        <li>• Edit your own items</li>
+        <li>• Track personal progress</li>
+        <li>• No team or company management</li>
+      </ul>
+
+      <!-- Price (small & subtle at the bottom, as requested) -->
+      <div class="mt-auto mb-6">
+        <p class="text-gray-400 text-base">
+          <span class="font-medium">Price:</span> <strong class="text-white">FREE</strong>
+        </p>
+      </div>
+
+      <!-- CTA button -->
+      <% if current_plan == 'user' %>
+        <button
+          disabled
+          class="w-full cursor-not-allowed text-center bg-gray-600 text-white font-semibold py-2 px-4 rounded"
+        >
+          Current Plan
+        </button>
+      <% else %>
+        <%= link_to "Choose Personal",
+                    update_role_plans_path(plan: 'user'),
+                    data: { turbo_method: :patch },
+                    class: "w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded" %>
+      <% end %>
+    </div>
+
+    <!-- 2) Team Lead / Manager -->
+    <div class="
+         relative bg-gray-800 rounded-lg shadow p-8 flex flex-col
+         transform transition-transform hover:scale-105
+         <%= current_plan == 'manager' ? 'ring-4 ring-green-500' : '' %>
+       ">
+      <!-- Most Popular badge -->
+      <div class="absolute top-0 left-0 bg-yellow-500 text-white text-xs font-semibold px-2 py-1 rounded-br">
+        Most Popular
+      </div>
+
+      <h2 class="text-3xl font-bold text-white mb-2">
+        Team Lead
+      </h2>
+      <h3 class="text-sm text-gray-400 font-medium mb-6">
+        Perfect for managing a single team
+      </h3>
+
+      <ul class="text-gray-300 text-sm space-y-2 mb-6">
+        <li>• Create & manage one team</li>
+        <li>• Invite team members</li>
+        <li>• Manage tasks & track progress</li>
+      </ul>
+
+      <div class="mt-auto mb-6">
+        <p class="text-gray-400 text-base">
+          <span class="font-medium">Price:</span>
+          <strong class="text-white">$300</strong>
+          <span class="text-xs text-gray-500">/mo</span>
+        </p>
+      </div>
+
+      <% if current_plan == 'manager' %>
+        <button
+          disabled
+          class="w-full cursor-not-allowed text-center bg-gray-600 text-white font-semibold py-2 px-4 rounded"
+        >
+          Current Plan
+        </button>
+      <% else %>
+        <%= link_to "Upgrade to Team Lead",
+                    update_role_plans_path(plan: 'manager'),
+                    data: { turbo_method: :patch },
+                    class: "w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded" %>
+      <% end %>
+    </div>
+
+    <!-- 3) Company Owner -->
+    <div class="
+         relative bg-gray-800 rounded-lg shadow p-8 flex flex-col
+         transform transition-transform hover:scale-105
+         <%= current_plan == 'company_owner' ? 'ring-4 ring-green-500' : '' %>
+       ">
+      <h2 class="text-3xl font-bold text-white mb-2">
+        Company Owner
+      </h2>
+      <h3 class="text-sm text-gray-400 font-medium mb-6">
+        Best for managing multiple teams & departments
+      </h3>
+
+      <ul class="text-gray-300 text-sm space-y-2 mb-6">
+        <li>• Create multiple teams/departments</li>
+        <li>• Full access to company-wide stats</li>
+        <li>• Manage company info & data</li>
+      </ul>
+
+      <div class="mt-auto mb-6">
+        <p class="text-gray-400 text-base">
+          <span class="font-medium">Price:</span>
+          <strong class="text-white">$1500</strong>
+          <span class="text-xs text-gray-500">/mo</span>
+        </p>
+      </div>
+
+      <% if current_plan == 'company_owner' %>
+        <button
+          disabled
+          class="w-full cursor-not-allowed text-center bg-gray-600 text-white font-semibold py-2 px-4 rounded"
+        >
+          Current Plan
+        </button>
+      <% else %>
+        <%= link_to "Go Company Owner",
+                    update_role_plans_path(plan: 'company_owner'),
+                    data: { turbo_method: :patch },
+                    class: "w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded" %>
+      <% end %>
+    </div>
+  </div>
+</div>

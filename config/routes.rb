@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, controllers: {
+    registrations: 'users/registrations',
+    sessions: 'users/sessions',
+    omniauth_callbacks: 'users/omniauth_callbacks'
+  }
 
   # Health Check
   get "up" => "rails/health#show", as: :rails_health_check
@@ -10,6 +14,14 @@ Rails.application.routes.draw do
 
   # Root Path
   root "home#index"
+
+  resource :plans, only: [] do
+    get :upgrade, to: 'plans#upgrade'
+    patch :update_role, to: 'plans#update_role'
+  end
+
+  resources :teams, only: [:new, :create]
+  resources :companies, only: [:new, :create]
 
   # My Namespace
   namespace :my do
