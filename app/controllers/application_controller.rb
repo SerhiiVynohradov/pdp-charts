@@ -1,6 +1,9 @@
 class ApplicationController < ActionController::Base
   allow_browser versions: :modern
   before_action :create_team_or_company
+  before_action :redirect_to_www
+
+  private
 
   def create_team_or_company
     if user_signed_in?
@@ -17,6 +20,12 @@ class ApplicationController < ActionController::Base
       elsif current_user.user? && request.path == '/'
         redirect_to my_items_path
       end
+    end
+  end
+
+  def redirect_to_www
+    if request.host == 'pdpcharts.com'
+      redirect_to("#{request.protocol}www.pdpcharts.com#{request.fullpath}", status: 301)
     end
   end
 end
