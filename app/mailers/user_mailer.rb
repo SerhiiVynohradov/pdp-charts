@@ -1,5 +1,5 @@
 class UserMailer < ApplicationMailer
-  default from: "no-reply@pdp-charts.com"
+  default from: "no-reply@pdpcharts.com"
 
   def welcome_email
     @user = params[:user]
