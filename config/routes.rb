@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  constraints(host: 'pdpcharts.com') do
+    match '(*path)', to: redirect { |params, req| "https://www.pdpcharts.com/#{params[:path]}" }, via: :all
+  end
+
   devise_for :users, controllers: {
     registrations: 'users/registrations',
     sessions: 'users/sessions',

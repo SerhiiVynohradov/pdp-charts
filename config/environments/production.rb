@@ -102,9 +102,4 @@ Rails.application.configure do
   # ]
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
-
-  # Redirect non-www to www
-  config.middleware.insert_before(Rack::Runtime, Rack::Rewrite) do
-    r301 %r{.*}, 'https://www.pdpcharts.com$&', if: Proc.new { |rack_env| rack_env['SERVER_NAME'] == 'pdpcharts.com' }
-  end
 end
