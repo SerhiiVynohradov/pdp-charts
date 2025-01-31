@@ -25,7 +25,7 @@ class ApplicationController < ActionController::Base
 
   def redirect_to_www
     if request.host == 'pdpcharts.com'
-      redirect_to("#{request.protocol}www.pdpcharts.com#{request.fullpath}", status: 301)
+      redirect_to("https://www.pdpcharts.com#{request.fullpath}", status: 301, allow_other_host: true)
     end
   end
 end
