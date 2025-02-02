@@ -1,0 +1,14 @@
+uk:
+  my_settings:
+    header: "Мої налаштування"
+    update_button: "Оновити налаштування"
+
+    invoices:
+      header: "Мої рахунки"
+      no_invoices_found: "Рахунків не знайдено."
+      columns:
+        invoice_number: "Рахунок №"
+        amount: "Сума"
+        status: "Статус"
+
+    payer_info_html: "Платник за послугу: %{payer_info}"

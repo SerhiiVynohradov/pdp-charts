@@ -1,48 +1,64 @@
 <div class="max-w-md mx-auto mt-10 bg-gray-900 p-6 rounded shadow-md">
-  <h1 class="text-xl font-bold text-white mb-4"><%= t('labels.company_settings') %></h1>
+  <h1 class="text-xl font-bold text-white mb-4">
+    <%= t('company_settings.header') %>
+  </h1>
 
   <%= form_with model: @company, url: company_owner_company_path(@company), method: :patch, local: true do |f| %>
     <div class="mb-4">
-      <%= f.label :name, class: "block text-gray-400" %>
+      <%= f.label :name, t('items_index.name'), class: "block text-gray-400" %>
       <%= f.text_field :name, class: "w-full mt-1 p-2 bg-gray-800 text-white rounded border border-gray-700" %>
     </div>
 
     <div class="mb-4 flex items-center">
       <%= f.check_box :charts_visible, class: "h-4 w-4 text-blue-600" %>
-      <%= f.label :charts_visible, t('company_charts_visible'), class: "ml-2 text-gray-400" %>
+      <%= f.label :charts_visible,
+                  t('company_settings.charts_visible_label'),
+                  class: "ml-2 text-gray-400" %>
     </div>
 
     <div class="mb-4 flex items-center">
       <%= f.check_box :status, class: "h-4 w-4 text-blue-600" %>
-      <%= f.label :status, t('label.is_active'), class: "ml-2 text-gray-400" %>
+      <%= f.label :status,
+                  t('company_settings.active_question'),
+                  class: "ml-2 text-gray-400" %>
     </div>
 
-    <%= f.submit t('buttons.update_company'), class: "bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded" %>
+    <%= f.submit t('company_settings.update_company_button'),
+                 class: "bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded" %>
   <% end %>
 </div>
 
 <!-- Invoices Section -->
 <div class="max-w-md mx-auto mt-8">
-  <%# If the current user qualifies to see their invoices: either they are self-employed (no team), a manager, or a company owner. Otherwise, show their payer info. %>
   <% if @company.present? %>
     <div class="bg-gray-900 p-6 rounded shadow-md">
-      <h2 class="text-2xl font-bold text-white mb-6"><%= @company.name %> Invoices</h2>
+      <h2 class="text-2xl font-bold text-white mb-6">
+        <%= t('company_settings.invoices.heading', company_name: @company.name) %>
+      </h2>
 
       <% if @company.invoices.any? %>
         <div class="overflow-x-auto">
           <table class="min-w-full bg-gray-800 text-gray-50 border border-gray-700 rounded-lg overflow-hidden">
             <thead class="bg-gray-900">
               <tr>
-                <th class="px-6 py-3 text-left text-sm font-medium uppercase tracking-wider border-b border-gray-700">Invoice #</th>
-                <th class="px-6 py-3 text-left text-sm font-medium uppercase tracking-wider border-b border-gray-700">Amount</th>
-                <th class="px-6 py-3 text-left text-sm font-medium uppercase tracking-wider border-b border-gray-700">Status</th>
+                <th class="px-6 py-3 text-left text-sm font-medium uppercase tracking-wider border-b border-gray-700">
+                  <%= t('company_settings.invoices.columns.invoice_number') %>
+                </th>
+                <th class="px-6 py-3 text-left text-sm font-medium uppercase tracking-wider border-b border-gray-700">
+                  <%= t('company_settings.invoices.columns.amount') %>
+                </th>
+                <th class="px-6 py-3 text-left text-sm font-medium uppercase tracking-wider border-b border-gray-700">
+                  <%= t('company_settings.invoices.columns.status') %>
+                </th>
               </tr>
             </thead>
             <tbody class="divide-y divide-gray-700">
               <% @company.invoices.each do |inv| %>
                 <tr class="hover:bg-gray-700">
                   <td class="px-6 py-4 whitespace-nowrap"><%= inv.number %></td>
-                  <td class="px-6 py-4 whitespace-nowrap"><%= number_to_currency(inv.amount, unit: inv.currency + " ") %></td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <%= number_to_currency(inv.amount, unit: inv.currency + " ") %>
+                  </td>
                   <td class="px-6 py-4 whitespace-nowrap"><%= inv.status.capitalize %></td>
                 </tr>
               <% end %>
@@ -50,7 +66,9 @@
           </table>
         </div>
       <% else %>
-        <p class="text-gray-400">No invoices found.</p>
+        <p class="text-gray-400">
+          <%= t('company_settings.invoices.no_invoices_found') %>
+        </p>
       <% end %>
     </div>
   <% end %>

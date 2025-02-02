@@ -1,0 +1,6 @@
+uk:
+  team_settings:
+    header: "Налаштування команди"
+    charts_visible_label: "Загальні діаграми команди доступні всім учасникам"
+    active_question: "Активна?"
+    update_team_button: "Оновити команду"

@@ -1,0 +1,6 @@
+en:
+  team_settings:
+    header: "Team Settings"
+    charts_visible_label: "General Team charts Visible for all team members"
+    active_question: "Active?"
+    update_team_button: "Update Team"

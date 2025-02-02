@@ -1,0 +1,14 @@
+uk:
+  company_settings:
+    header: "Налаштування компанії"
+    charts_visible_label: "Загальні діаграми компанії доступні всім учасникам"
+    active_question: "Активна?"
+    update_company_button: "Оновити компанію"
+
+    invoices:
+      heading: "Рахунки %{company_name}"
+      no_invoices_found: "Рахунків не знайдено."
+      columns:
+        invoice_number: "Рахунок №"
+        amount: "Сума"
+        status: "Статус"

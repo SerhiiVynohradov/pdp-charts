@@ -1,0 +1,14 @@
+en:
+  company_settings:
+    header: "Company Settings"
+    charts_visible_label: "General Company charts Visible for all company members"
+    active_question: "Active?"
+    update_company_button: "Update Company"
+
+    invoices:
+      heading: "%{company_name} Invoices"
+      no_invoices_found: "No invoices found."
+      columns:
+        invoice_number: "Invoice #"
+        amount: "Amount"
+        status: "Status"

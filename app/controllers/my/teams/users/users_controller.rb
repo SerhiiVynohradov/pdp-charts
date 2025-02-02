@@ -37,7 +37,7 @@ module My
         end
 
         def chart_label_index
-          "PDP Chart for team #{@team.name}"
+          I18n.t('labels.pdp_chart.for_team', team: @team.name)
         end
 
         def read_only_mode

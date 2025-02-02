@@ -1,0 +1,14 @@
+en:
+  my_settings:
+    header: "My Settings"
+    update_button: "Update Settings"
+
+    invoices:
+      header: "My Invoices"
+      no_invoices_found: "No invoices found."
+      columns:
+        invoice_number: "Invoice #"
+        amount: "Amount"
+        status: "Status"
+
+    payer_info_html: "Payer for the service: %{payer_info}"
