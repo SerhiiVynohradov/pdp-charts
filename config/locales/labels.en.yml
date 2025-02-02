@@ -21,6 +21,10 @@ en:
     no_manager: 'No Manager'
     title: 'Title'
 
+    company_settings: 'Company Settings'
+    is_active: "Active?"
+    company_charts_visible: "General Company charts Visible for all company members"
+
     status:
       done: 'Done'
       in_progress: 'In Progress'

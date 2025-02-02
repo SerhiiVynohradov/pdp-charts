@@ -11,6 +11,7 @@ en:
     save: "Save"
     cancel: "Cancel"
     create_company: "Create Company"
+    update_company: "Update Company"
     create_user: "Create User"
     add_user: "Add User"
     create_team: "Create Team"

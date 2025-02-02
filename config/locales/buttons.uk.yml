@@ -11,6 +11,7 @@ uk:
     save: "Зберегти"
     cancel: "Скасувати"
     create_company: "Створити компанію"
+    update_company: "Оновити компанію"
     create_user: "Створити користувача"
     add_user: "Додати користувача"
     create_team: "Створити команду"

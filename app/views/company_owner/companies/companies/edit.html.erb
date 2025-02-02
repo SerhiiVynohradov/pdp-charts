@@ -1,5 +1,5 @@
 <div class="max-w-md mx-auto mt-10 bg-gray-900 p-6 rounded shadow-md">
-  <h1 class="text-xl font-bold text-white mb-4">Company Settings</h1>
+  <h1 class="text-xl font-bold text-white mb-4"><%= t('labels.company_settings') %></h1>
 
   <%= form_with model: @company, url: company_owner_company_path(@company), method: :patch, local: true do |f| %>
     <div class="mb-4">
@@ -9,15 +9,15 @@
 
     <div class="mb-4 flex items-center">
       <%= f.check_box :charts_visible, class: "h-4 w-4 text-blue-600" %>
-      <%= f.label :charts_visible, "General Company charts Visible for all company members", class: "ml-2 text-gray-400" %>
+      <%= f.label :charts_visible, t('company_charts_visible'), class: "ml-2 text-gray-400" %>
     </div>
 
     <div class="mb-4 flex items-center">
       <%= f.check_box :status, class: "h-4 w-4 text-blue-600" %>
-      <%= f.label :status, "Active?", class: "ml-2 text-gray-400" %>
+      <%= f.label :status, t('label.is_active'), class: "ml-2 text-gray-400" %>
     </div>
 
-    <%= f.submit "Update Company", class: "bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded" %>
+    <%= f.submit t('buttons.update_company'), class: "bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded" %>
   <% end %>
 </div>
 

@@ -1,0 +1,39 @@
+en:
+  upgrade:
+    heading: "Choose Your Plan"
+    subheading: "Empower your personal growth or scale up your organization with the perfect plan."
+
+    price_label: "Price:"
+    current_plan_btn: "Current Plan"
+
+    plan_personal:
+      special_offer: "Free until March 2025"
+      name: "Personal"
+      teaser: "Great for individual tasks & goals"
+      features:
+        item1: "Edit your own items"
+        item2: "Track personal progress"
+        item3: "No team or company management"
+      price: "FREE"
+      choose_btn: "Choose Personal"
+
+    plan_manager:
+      badge: "Most Popular"
+      name: "Team Lead"
+      teaser: "Perfect for managing a single team"
+      features:
+        item1: "Create & manage one team"
+        item2: "Invite team members"
+        item3: "Manage tasks & track progress"
+      price: "$300 /mo"
+      choose_btn: "Upgrade to Team Lead"
+
+    plan_company_owner:
+      name: "Company Owner"
+      teaser: "Best for managing multiple teams & departments"
+      features:
+        item1: "Create multiple teams/departments"
+        item2: "Full access to company-wide stats"
+        item3: "Manage company info & data"
+      price: "$1500 /mo"
+      choose_btn: "Go Company Owner"
