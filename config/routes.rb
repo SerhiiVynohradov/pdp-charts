@@ -19,6 +19,7 @@ Rails.application.routes.draw do
 
   # Root Path
   root "home#index"
+  get 'privacy_policy', to: 'home#privacy_policy'
 
   resource :plans, only: [] do
     get :upgrade, to: 'plans#upgrade'
