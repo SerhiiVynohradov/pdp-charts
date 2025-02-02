@@ -7,35 +7,35 @@
 
       <div class="hidden md:flex md:items-center md:space-x-4 ml-8">
         <% if user_signed_in? %>
+          <%= link_to "My Items", my_items_path, class: "text-white hover:text-blue-300" %>
+
           <% if current_user.superadmin? %>
-            <%= link_to "My Items", my_items_path, class: "text-white hover:text-blue-300" %>
+            <% # Superadmin links %>
             <%= link_to "Companies", superadmin_companies_path, class: "text-white hover:text-blue-300" %>
             <%= link_to "Categories", superadmin_categories_path, class: "text-white hover:text-blue-300" %>
             <%= link_to "Global Recommended Items", superadmin_recommended_items_path, class: "text-white hover:text-blue-300" %>
             <%= link_to "Payers", superadmin_payers_path, class: "text-white hover:text-blue-300" %>
 
           <% elsif current_user.company_owner? && current_user.company.present? %>
-            <%= link_to "My Items", my_items_path, class: "text-white hover:text-blue-300" %>
+            <% # Company Owner links %>
             <%= link_to "Company Dash", company_owner_root_path, class: "text-white hover:text-blue-300" %>
             <%= link_to "#{current_user.company.name} Recommended Items", company_owner_company_recommended_items_path(current_user.company), class: "text-white hover:text-blue-300" %>
 
           <% elsif current_user.manager? && current_user.team.present? %>
-            <%= link_to "My Items", my_items_path, class: "text-white hover:text-blue-300" %>
+            <% # Manager links %>
             <%= link_to "Manager Dash", manager_root_path, class: "text-white hover:text-blue-300" %>
             <%= link_to "#{current_user.team.name} Recommended Items", manager_team_recommended_items_path(current_user.team), class: "text-white hover:text-blue-300" %>
 
-          <% else %>
-            <%= link_to "My Items", my_items_path, class: "text-white hover:text-blue-300" %>
-          <% end %>
+          <% elsif current_user.user? && current_user.team.present? %>
+            <% # User links %>
+            <% if current_user.team.company.present? && current_user.team.company.charts_visible? %>
+              <%= link_to "#{current_user.team.company.name} Stats", my_company_path(current_user.team.company), class: "text-white hover:text-blue-300" %>
+            <% end %>
 
-          <% if current_user.user? && current_user.team.present? && current_user.team.company.present? && current_user.team.company.charts_visible? %>
-            <%= link_to "#{current_user.team.company.name} Stats", my_company_path(current_user.team.company), class: "text-white hover:text-blue-300" %>
+            <% if current_user.team.charts_visible? %>
+              <%= link_to "#{current_user.team.name} Stats", my_team_path(current_user.team), class: "text-white hover:text-blue-300" %>
+            <% end %>
           <% end %>
-
-          <% if current_user.user? && current_user.team.present? && current_user.team.charts_visible? %>
-            <%= link_to "#{current_user.team.name} Stats", my_team_path(current_user.team), class: "text-white hover:text-blue-300" %>
-          <% end %>
-
         <% else %>
           <%= link_to "Features", "#features", class: "text-white hover:text-blue-300" %>
         <% end %>
@@ -43,14 +43,17 @@
 
       <div class="hidden md:flex items-center space-x-4 ml-auto">
         <% if user_signed_in? %>
-          <%= link_to "Settings", edit_my_settings_path, class: "text-white hover:text-blue-300" %>
+          <% if !current_user.superadmin? %>
+            <%= link_to "Upgrade", upgrade_plans_path, class: "text-white hover:text-blue-300" %>
+            <%= link_to "My Settings", edit_my_settings_path, class: "text-white hover:text-blue-300" %>
+          <% end %>
 
           <% if current_user.manager? && current_user.team.present? %>
-            <%= link_to "Team Settings", edit_manager_team_path(current_user.team), class: "text-white hover:text-blue-300" %>
+            <%= link_to "#{current_user.team.name} Settings", edit_manager_team_path(current_user.team), class: "text-white hover:text-blue-300" %>
           <% end %>
 
           <% if current_user.company_owner? && current_user.company.present? %>
-            <%= link_to "Company Settings", edit_company_owner_company_path(current_user.company), class: "text-white hover:text-blue-300" %>
+            <%= link_to "#{current_user.company.name} Settings", edit_company_owner_company_path(current_user.company), class: "text-white hover:text-blue-300" %>
           <% end %>
 
           <%= link_to "Logout",
@@ -84,42 +87,50 @@
   <div class="md:hidden" x-show="open" @click.away="open = false" id="mobile-menu">
     <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
       <% if user_signed_in? %>
+        <%= link_to "My Items", my_items_path, class: "block px-3 py-2 rounded text-white hover:bg-gray-700" %>
+
         <% if current_user.superadmin? %>
+          <% # Superadmin mobile links %>
           <%= link_to "Companies", superadmin_companies_path, class: "block px-3 py-2 rounded text-white hover:bg-gray-700" %>
           <%= link_to "Categories", superadmin_categories_path, class: "block px-3 py-2 rounded text-white hover:bg-gray-700" %>
-          <%= link_to "Global Items", superadmin_recommended_items_path, class: "block px-3 py-2 rounded text-white hover:bg-gray-700" %>
+          <%= link_to "Global Recommended Items", superadmin_recommended_items_path, class: "block px-3 py-2 rounded text-white hover:bg-gray-700" %>
           <%= link_to "Payers", superadmin_payers_path, class: "block px-3 py-2 rounded text-white hover:bg-gray-700" %>
 
         <% elsif current_user.company_owner? && current_user.company.present? %>
+          <% # Company Owner mobile links %>
           <%= link_to "Company Dash", company_owner_root_path, class: "block px-3 py-2 rounded text-white hover:bg-gray-700" %>
           <%= link_to "#{current_user.company.name} Recommended Items", company_owner_company_recommended_items_path(current_user.company), class: "block px-3 py-2 rounded text-white hover:bg-gray-700" %>
 
         <% elsif current_user.manager? && current_user.team.present? %>
+          <% # Manager mobile links %>
           <%= link_to "Manager Dash", manager_root_path, class: "block px-3 py-2 rounded text-white hover:bg-gray-700" %>
           <%= link_to "#{current_user.team.name} Recommended Items", manager_team_recommended_items_path(current_user.team), class: "block px-3 py-2 rounded text-white hover:bg-gray-700" %>
 
-        <% else %>
-          <%= link_to "My Items", my_items_path, class: "block px-3 py-2 rounded text-white hover:bg-gray-700" %>
+        <% elsif current_user.user? && current_user.team.present? %>
+          <% # User mobile links %>
+          <% if current_user.team.company.present? && current_user.team.company.charts_visible? %>
+            <%= link_to "#{current_user.team.company.name} Stats", my_company_path(current_user.team.company), class: "block px-3 py-2 rounded text-white hover:bg-gray-700" %>
+          <% end %>
+
+          <% if current_user.team.charts_visible? %>
+            <%= link_to "#{current_user.team.name} Stats", my_team_path(current_user.team), class: "block px-3 py-2 rounded text-white hover:bg-gray-700" %>
+          <% end %>
         <% end %>
 
-        <% if current_user.user? && current_user.team.present? && current_user.team.company.present? && current_user.team.company.charts_visible? %>
-          <%= link_to "#{current_user.team.company.name} Stats", my_company_path(current_user.team.company), class: "block px-3 py-2 rounded text-white hover:bg-gray-700" %>
-        <% end %>
-
-        <% if current_user.user? && current_user.team.present? && current_user.team.charts_visible? %>
-          <%= link_to "#{current_user.team.name} Stats", my_team_path(current_user.team), class: "block px-3 py-2 rounded text-white hover:bg-gray-700" %>
-        <% end %>
 
         <hr class="border-gray-700 my-2" />
 
-        <%= link_to "Settings", edit_my_settings_path, class: "block px-3 py-2 rounded text-white hover:bg-gray-700" %>
+        <% if !current_user.superadmin? %>
+          <%= link_to "Upgrade", upgrade_plans_path, class: "block px-3 py-2 rounded text-white hover:bg-gray-700" %>
+          <%= link_to "Settings", edit_my_settings_path, class: "block px-3 py-2 rounded text-white hover:bg-gray-700" %>
+        <% end %>
 
         <% if current_user.manager? && current_user.team.present? %>
-          <%= link_to "Team Settings", edit_manager_team_path(current_user.team), class: "block px-3 py-2 rounded text-white hover:bg-gray-700" %>
+          <%= link_to "#{current_user.team.name} Settings", edit_manager_team_path(current_user.team), class: "block px-3 py-2 rounded text-white hover:bg-gray-700" %>
         <% end %>
 
         <% if current_user.company_owner? && current_user.company.present? %>
-          <%= link_to "Company Settings", edit_company_owner_company_path(current_user.company), class: "block px-3 py-2 rounded text-white hover:bg-gray-700" %>
+          <%= link_to "#{current_user.company.name} Settings", edit_company_owner_company_path(current_user.company), class: "block px-3 py-2 rounded text-white hover:bg-gray-700" %>
         <% end %>
 
         <%= link_to "Logout",
