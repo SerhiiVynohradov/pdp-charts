@@ -1,5 +1,5 @@
 <div class="bg-gray-900 text-white min-h-screen p-6">
-  <h1 class="text-2xl font-bold mb-4">Recommended Items</h1>
+  <h1 class="text-2xl font-bold mb-4"><%= t('labels.recommended_items') %></h1>
 
   <div class="mb-6">
     <%= render partial: "shared/recommended_items/form", locals: { recommended_item: RecommendedItem.new } %>

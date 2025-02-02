@@ -20,6 +20,7 @@ uk:
     manager: "Менеджер"
     no_manager: "Немає менеджера"
     title: "Заголовок"
+    recommended_items: "Рекомендовані пункти"
 
     status:
       done: "Виконано"

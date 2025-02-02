@@ -20,6 +20,7 @@ en:
     manager: 'Manager'
     no_manager: 'No Manager'
     title: 'Title'
+    recommended_items: 'Recommended Items'
 
     status:
       done: 'Done'

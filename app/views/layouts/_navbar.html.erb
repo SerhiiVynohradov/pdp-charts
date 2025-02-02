@@ -1,124 +1,178 @@
-<nav x-data="{ open: false }" class="bg-gray-800">
+<nav x-data="{ open: false, openDropdown: false }" class="bg-gray-800">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex justify-between h-16">
-      <div class="flex-shrink-0 flex items-center">
+    <div class="flex justify-between h-16 items-center">
+      <!-- Brand -->
+      <div class="flex-shrink-0 flex items-center mr-4">
         <%= link_to t('navbar.brand'), root_path, class: "text-xl font-bold text-white hover:text-blue-300" %>
       </div>
 
-      <div class="hidden md:flex md:items-center md:space-x-4 ml-8">
+      <!-- Desktop menu (md+) -->
+      <div class="hidden md:flex md:items-center space-x-6">
         <% if user_signed_in? %>
-          <%= link_to t('navbar.my_items'), my_items_path, class: "text-white hover:text-blue-300" %>
+          <!-- My Items (bold) -->
+          <%= link_to t('navbar.my_items'), my_items_path, class: "font-semibold text-white hover:text-blue-300" %>
 
-          <% if current_user.superadmin? %>
-            <% # Superadmin links %>
-            <%= link_to t('navbar.companies'), superadmin_companies_path, class: "text-white hover:text-blue-300" %>
-            <%= link_to t('navbar.categories'), superadmin_categories_path, class: "text-white hover:text-blue-300" %>
-            <%= link_to t('navbar.global_recommended_items'), superadmin_recommended_items_path, class: "text-white hover:text-blue-300" %>
-            <%= link_to t('navbar.payers'), superadmin_payers_path, class: "text-white hover:text-blue-300" %>
-            <%= link_to t('navbar.suggestions'), suggestions_path, class: "text-white hover:text-blue-300" %>
-
-          <% elsif current_user.company_owner? && current_user.company.present? %>
-            <% # Company Owner links %>
+          <!-- Dash link (Manager / Company Owner) -->
+          <% if current_user.company_owner? && current_user.company.present? %>
             <%= link_to t('navbar.company_dash'), company_owner_root_path, class: "text-white hover:text-blue-300" %>
-            <%= link_to t('navbar.recommended_items_for_company', company_name: current_user.company.name), company_owner_company_recommended_items_path(current_user.company), class: "text-white hover:text-blue-300" %>
-
           <% elsif current_user.manager? && current_user.team.present? %>
-            <% # Manager links %>
             <%= link_to t('navbar.manager_dash'), manager_root_path, class: "text-white hover:text-blue-300" %>
-            <%= link_to t('navbar.recommended_items_for_team', team_name: current_user.team.name), manager_team_recommended_items_path(current_user.team), class: "text-white hover:text-blue-300" %>
-
-          <% elsif current_user.user? && current_user.team.present? %>
-            <% # User links %>
-            <% if current_user.team.company.present? && current_user.team.company.charts_visible? %>
-              <%= link_to t('navbar.stats_for_company', company_name: current_user.team.company.name), my_company_path(current_user.team.company), class: "text-white hover:text-blue-300" %>
-            <% end %>
-
-            <% if current_user.team.charts_visible? %>
-              <%= link_to t('navbar.stats_for_team', team_name: current_user.team.name), my_team_path(current_user.team), class: "text-white hover:text-blue-300" %>
-            <% end %>
           <% end %>
         <% else %>
+          <!-- Если гость - например, показываем Features -->
           <%= link_to t('navbar.features'), "#features", class: "text-white hover:text-blue-300" %>
         <% end %>
       </div>
 
+      <!-- Right side language + dropdown (md+) -->
       <div class="hidden md:flex items-center space-x-4 ml-auto">
+        <!-- Язык -->
         <% if I18n.locale == :uk %>
           <%= link_to "English", url_for(locale: :en), class: "text-white hover:text-blue-300" %>
         <% else %>
           <%= link_to "Українська", url_for(locale: :uk), class: "text-white hover:text-blue-300" %>
         <% end %>
 
+        <%= link_to t('navbar.suggest_improvement'), new_suggestion_path, class: "text-white hover:text-blue-300" %>
+
         <% if user_signed_in? %>
-          <% if !current_user.superadmin? %>
-            <%= link_to t('navbar.upgrade'), upgrade_plans_path, class: "text-white hover:text-blue-300" %>
-            <%= link_to t('navbar.my_settings'), edit_my_settings_path, class: "text-white hover:text-blue-300" %>
-          <% end %>
+          <!-- Dropdown 'More' -->
+          <div class="relative" x-data="{ openDropdown: false }">
+            <button
+              @click="openDropdown = !openDropdown"
+              class="inline-flex items-center text-white hover:text-blue-300 focus:outline-none"
+            >
+              <span class="mr-1"><%= current_user.name %></span>
+              <svg class="h-4 w-4 fill-current" viewBox="0 0 20 20">
+                <path d="M5.5 7l4.5 4.5L14.5 7H5.5z"/>
+              </svg>
+            </button>
 
-          <%= link_to t('navbar.suggest_improvement'), new_suggestion_path, class: "text-white hover:text-blue-300" %>
+            <!-- Выпадающее меню -->
+            <div
+              x-show="openDropdown"
+              @click.away="openDropdown = false"
+              class="absolute right-0 mt-2 py-2 w-48 bg-gray-700 rounded shadow-xl z-20"
+            >
+              <!-- Superadmin links -->
+              <% if current_user.superadmin? %>
+                <%= link_to t('navbar.companies'), superadmin_companies_path, class: "block px-4 py-2 text-white hover:bg-gray-600" %>
+                <%= link_to t('navbar.categories'), superadmin_categories_path, class: "block px-4 py-2 text-white hover:bg-gray-600" %>
+                <%= link_to t('navbar.global_recommended_items'), superadmin_recommended_items_path, class: "block px-4 py-2 text-white hover:bg-gray-600" %>
+                <%= link_to t('navbar.payers'), superadmin_payers_path, class: "block px-4 py-2 text-white hover:bg-gray-600" %>
+                <%= link_to t('navbar.suggestions'), suggestions_path, class: "block px-4 py-2 text-white hover:bg-gray-600" %>
 
-          <% if current_user.manager? && current_user.team.present? %>
-            <%= link_to t('navbar.settings_for_team', team_name: current_user.team.name), edit_manager_team_path(current_user.team), class: "text-white hover:text-blue-300" %>
-          <% end %>
+                <hr class="border-gray-600 my-1">
+              <% end %>
 
-          <% if current_user.company_owner? && current_user.company.present? %>
-            <%= link_to t('navbar.settings_for_company', company_name: current_user.company.name), edit_company_owner_company_path(current_user.company), class: "text-white hover:text-blue-300" %>
-          <% end %>
+              <!-- Company Owner or Manager additional links -->
+              <% if current_user.company_owner? && current_user.company.present? %>
+                <%= link_to t('navbar.recommended_items_for_company', company_name: current_user.company.name),
+                            company_owner_company_recommended_items_path(current_user.company),
+                            class: "block px-4 py-2 text-white hover:bg-gray-600" %>
+              <% elsif current_user.manager? && current_user.team.present? %>
+                <%= link_to t('navbar.recommended_items_for_team', team_name: current_user.team.name),
+                            manager_team_recommended_items_path(current_user.team),
+                            class: "block px-4 py-2 text-white hover:bg-gray-600" %>
+              <% elsif current_user.user? && current_user.team.present? %>
+                <% if current_user.team.company.present? && current_user.team.company.charts_visible? %>
+                  <%= link_to t('navbar.stats_for_company', company_name: current_user.team.company.name),
+                              my_company_path(current_user.team.company),
+                              class: "block px-4 py-2 text-white hover:bg-gray-600" %>
+                <% end %>
+                <% if current_user.team.charts_visible? %>
+                  <%= link_to t('navbar.stats_for_team', team_name: current_user.team.name),
+                              my_team_path(current_user.team),
+                              class: "block px-4 py-2 text-white hover:bg-gray-600" %>
+                <% end %>
+              <% end %>
 
-          <%= link_to t('navbar.logout'), destroy_user_session_path, data: { turbo_method: :delete }, class: "text-white hover:text-blue-300" %>
+              <!-- Divider -->
+              <hr class="border-gray-600 my-1">
+
+              <!-- Upgrade / Settings / Suggest Improvement -->
+              <% if !current_user.superadmin? %>
+                <%= link_to t('navbar.upgrade'), upgrade_plans_path, class: "block px-4 py-2 text-white hover:bg-gray-600" %>
+                <%= link_to t('navbar.my_settings'), edit_my_settings_path, class: "block px-4 py-2 text-white hover:bg-gray-600" %>
+              <% end %>
+
+              <% if current_user.manager? && current_user.team.present? %>
+                <%= link_to t('navbar.settings_for_team', team_name: current_user.team.name),
+                            edit_manager_team_path(current_user.team),
+                            class: "block px-4 py-2 text-white hover:bg-gray-600" %>
+              <% end %>
+
+              <% if current_user.company_owner? && current_user.company.present? %>
+                <%= link_to t('navbar.settings_for_company', company_name: current_user.company.name),
+                            edit_company_owner_company_path(current_user.company),
+                            class: "block px-4 py-2 text-white hover:bg-gray-600" %>
+              <% end %>
+
+              <!-- Logout -->
+              <hr class="border-gray-600 my-1">
+              <%= link_to t('navbar.logout'),
+                          destroy_user_session_path,
+                          data: { turbo_method: :delete },
+                          class: "block px-4 py-2 text-white hover:bg-gray-600" %>
+            </div>
+          </div>
         <% else %>
+          <!-- Гость (не залогинен) -->
           <%= link_to t('navbar.sign_in'), new_user_session_path, class: "text-white hover:text-blue-300" %>
           <%= link_to t('navbar.sign_up'), new_user_registration_path, class: "bg-blue-600 hover:bg-blue-700 text-white py-1 px-3 rounded" %>
         <% end %>
       </div>
 
+      <!-- Mobile toggle button -->
       <div class="-mr-2 flex items-center md:hidden">
-        <button @click="open = !open"
-           type="button"
-           class="inline-flex items-center justify-center p-2 rounded-md text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none"
-           aria-controls="mobile-menu"
-           aria-expanded="false">
+        <button
+          @click="open = !open"
+          type="button"
+          class="inline-flex items-center justify-center p-2 rounded-md text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none"
+          aria-controls="mobile-menu"
+          aria-expanded="false"
+        >
           <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-            <path class="inline-flex"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M4 6h16M4 12h16M4 18h16" />
+            <path
+              class="inline-flex"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16"
+            />
           </svg>
         </button>
       </div>
     </div>
   </div>
 
+  <!-- Mobile Menu -->
   <div class="md:hidden" x-show="open" @click.away="open = false" id="mobile-menu">
     <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
       <% if user_signed_in? %>
-        <%= link_to t('navbar.my_items'), my_items_path, class: "block px-3 py-2 rounded text-white hover:bg-gray-700" %>
+        <!-- My Items + everything else (как раньше) -->
+        <%= link_to t('navbar.my_items'), my_items_path, class: "block px-3 py-2 rounded text-white hover:bg-gray-700 font-semibold" %>
+
+        <% if current_user.company_owner? && current_user.company.present? %>
+          <%= link_to t('navbar.company_dash'), company_owner_root_path, class: "block px-3 py-2 rounded text-white hover:bg-gray-700" %>
+        <% elsif current_user.manager? && current_user.team.present? %>
+          <%= link_to t('navbar.manager_dash'), manager_root_path, class: "block px-3 py-2 rounded text-white hover:bg-gray-700" %>
+        <% end %>
 
         <% if current_user.superadmin? %>
-          <% # Superadmin mobile links %>
           <%= link_to t('navbar.companies'), superadmin_companies_path, class: "block px-3 py-2 rounded text-white hover:bg-gray-700" %>
           <%= link_to t('navbar.categories'), superadmin_categories_path, class: "block px-3 py-2 rounded text-white hover:bg-gray-700" %>
           <%= link_to t('navbar.global_recommended_items'), superadmin_recommended_items_path, class: "block px-3 py-2 rounded text-white hover:bg-gray-700" %>
           <%= link_to t('navbar.payers'), superadmin_payers_path, class: "block px-3 py-2 rounded text-white hover:bg-gray-700" %>
           <%= link_to t('navbar.suggestions'), suggestions_path, class: "block px-3 py-2 rounded text-white hover:bg-gray-700" %>
-
         <% elsif current_user.company_owner? && current_user.company.present? %>
-          <% # Company Owner mobile links %>
-          <%= link_to t('navbar.company_dash'), company_owner_root_path, class: "block px-3 py-2 rounded text-white hover:bg-gray-700" %>
           <%= link_to t('navbar.recommended_items_for_company', company_name: current_user.company.name), company_owner_company_recommended_items_path(current_user.company), class: "block px-3 py-2 rounded text-white hover:bg-gray-700" %>
-
         <% elsif current_user.manager? && current_user.team.present? %>
-          <% # Manager mobile links %>
-          <%= link_to t('navbar.manager_dash'), manager_root_path, class: "block px-3 py-2 rounded text-white hover:bg-gray-700" %>
           <%= link_to t('navbar.recommended_items_for_team', team_name: current_user.team.name), manager_team_recommended_items_path(current_user.team), class: "block px-3 py-2 rounded text-white hover:bg-gray-700" %>
-
         <% elsif current_user.user? && current_user.team.present? %>
-          <% # User mobile links %>
           <% if current_user.team.company.present? && current_user.team.company.charts_visible? %>
             <%= link_to t('navbar.stats_for_company', company_name: current_user.team.company.name), my_company_path(current_user.team.company), class: "block px-3 py-2 rounded text-white hover:bg-gray-700" %>
           <% end %>
-
           <% if current_user.team.charts_visible? %>
             <%= link_to t('navbar.stats_for_team', team_name: current_user.team.name), my_team_path(current_user.team), class: "block px-3 py-2 rounded text-white hover:bg-gray-700" %>
           <% end %>
@@ -142,7 +196,6 @@
         <% if current_user.manager? && current_user.team.present? %>
           <%= link_to t('navbar.settings_for_team', team_name: current_user.team.name), edit_manager_team_path(current_user.team), class: "block px-3 py-2 rounded text-white hover:bg-gray-700" %>
         <% end %>
-
         <% if current_user.company_owner? && current_user.company.present? %>
           <%= link_to t('navbar.settings_for_company', company_name: current_user.company.name), edit_company_owner_company_path(current_user.company), class: "block px-3 py-2 rounded text-white hover:bg-gray-700" %>
         <% end %>
