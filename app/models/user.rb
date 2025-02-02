@@ -15,6 +15,8 @@ class User < ApplicationRecord
   has_many :progress_updates, through: :item_progress_columns
   has_many :invoices, as: :invoiceable, dependent: :nullify
 
+  has_many :user_accounts, dependent: :destroy
+
   enum role: {
     user: 0,
     manager: 1,

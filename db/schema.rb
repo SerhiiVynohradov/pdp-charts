@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_02_02_094806) do
+ActiveRecord::Schema[7.2].define(version: 2025_02_02_104922) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -119,6 +119,21 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_02_094806) do
     t.index ["company_id"], name: "index_teams_on_company_id"
   end
 
+  create_table "user_accounts", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "auth_protocol", default: "oauth2"
+    t.string "provider"
+    t.string "provider_account_id"
+    t.string "access_token"
+    t.string "token_type", default: "Bearer"
+    t.string "scope"
+    t.string "refresh_token"
+    t.datetime "expires_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_user_accounts_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -145,6 +160,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_02_094806) do
   add_foreign_key "progress_updates", "items"
   add_foreign_key "suggestions", "users"
   add_foreign_key "teams", "companies"
+  add_foreign_key "user_accounts", "users"
   add_foreign_key "users", "companies"
   add_foreign_key "users", "teams"
 end

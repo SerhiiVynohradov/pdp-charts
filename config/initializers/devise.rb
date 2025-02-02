@@ -25,7 +25,10 @@ Devise.setup do |config|
   # note that it will be overwritten if you use your own mailer class
   # with default "from" parameter.
   config.omniauth :google_oauth2,  ENV['GOOGLE_CLIENT_ID'], ENV['GOOGLE_CLIENT_SECRET'],
-                  scope: 'userinfo.email, userinfo.profile'
+                  {
+                                  include_granted_scopes: true,
+                                  scope: 'userinfo.email, userinfo.profile, offline'
+                  }
 
   config.omniauth :linkedin,       ENV['LINKEDIN_CLIENT_ID'], ENV['LINKEDIN_CLIENT_SECRET'],
                   scope: 'r_liteprofile r_emailaddress'
