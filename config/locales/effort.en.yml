@@ -1,0 +1,39 @@
+en:
+  effort:
+    very_hard: "Very Hard"
+    hard: "Hard"
+    medium: "Medium"
+    easy: "Easy"
+    very_easy: "Very Easy"
+    none: "-"
+
+    five_points: "(5 Points)"
+    four_points: "(4 Points)"
+    three_points: "(3 Points)"
+    two_points: "(2 Points)"
+    one_point: "(1 Point)"
+
+    examples:
+      very_hard:
+        - "More than 10 full-time days"
+        - "2+ months, 2 times a week for 5 hours – 80h – 10d"
+        - "40 lessons of 2 hours each – 80h – 10d"
+        - "1 year, once a week for 2 hours – 96h – 10d"
+
+      hard:
+        - "5-10 full-time days"
+        - "2+ months, 2 times a week for 3 hours – 48h – 6d"
+        - "6 months, once a week for 2 hours = 48h = 6d"
+
+      medium:
+        - "3-5 full-time days"
+        - "2-3 weeks at 10 hours per week – 25h – 4d"
+        - "3 months at 2h per week – 24h – 4d"
+
+      easy:
+        - "2-3 full-time days"
+        - "2+ months, once a week for 2 hours – 16h - 2d"
+        - "2-3 weeks at 2h per week – 2d"
+
+      very_easy:
+        - "Less than 1 day – 1d"

@@ -15,3 +15,6 @@ uk:
     actions: "Дії"
     edit: "Редагувати"
     email: "Email"
+    select_category: "Оберіть категорію"
+    select_effort: "Оберіть зусилля"
+    owner: "Власник"

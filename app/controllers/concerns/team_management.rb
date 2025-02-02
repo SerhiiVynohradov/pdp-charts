@@ -98,7 +98,7 @@ module TeamManagement
   end
 
   def chart_label
-    "PDP Chart for company #{@company.name}"
+    I18n.t('labels.pdp_chart.for_company', company: @company.name)
   end
 
   def set_team

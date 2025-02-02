@@ -1,0 +1,11 @@
+en:
+  breadcrumbs:
+    dashboard: "Dashboard"
+    companies: "Companies"
+    teams: "Teams"
+    users: "Users"
+    items: "Items"
+
+    my_companies: "My Companies"
+    my_teams: "My Teams"
+    my_items: "My Items"

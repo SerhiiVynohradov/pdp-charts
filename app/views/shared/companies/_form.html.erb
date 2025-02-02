@@ -11,7 +11,7 @@ create_company_path = superadmin_companies_path
 
     <!-- Name Field -->
     <div class="flex flex-col">
-      <%= f.label :name, "Company Name", class: "mb-1 text-sm" %>
+      <%= f.label :name, t('labels.company_name'), class: "mb-1 text-sm" %>
       <%= f.text_field :name, class: "rounded bg-gray-700 border border-gray-600 px-2 py-1 text-white" %>
       <% if company.errors[:name].any? %>
         <span class="text-red-500 text-sm"><%= company.errors[:name].first %></span>

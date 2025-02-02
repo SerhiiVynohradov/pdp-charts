@@ -15,7 +15,7 @@ create_team_path = if @superadmin
 
     <!-- Name Field -->
     <div class="flex flex-col">
-      <%= f.label :name, "Team Name", class: "mb-1 text-sm" %>
+      <%= f.label :name, t('labels.team_name'), class: "mb-1 text-sm" %>
       <%= f.text_field :name, class: "rounded bg-gray-700 border border-gray-600 px-2 py-1 text-white" %>
       <% if team.errors[:name].any? %>
         <span class="text-red-500 text-sm"><%= team.errors[:name].first %></span>

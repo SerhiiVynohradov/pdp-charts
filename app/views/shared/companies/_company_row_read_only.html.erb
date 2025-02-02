@@ -21,7 +21,7 @@ the_company_path = my_company_path(company)
   <!-- Status (read-only) -->
   <td class="px-4 py-2 align-top">
     <span class="text-sm <%= company.active? ? 'text-green-500' : 'text-red-500' %>">
-      <%= company.active? ? "Active" : "Inactive" %>
+      <%= company.active? ? t('buttons.active') : t('buttons.inactive') %>
     </span>
   </td>
 

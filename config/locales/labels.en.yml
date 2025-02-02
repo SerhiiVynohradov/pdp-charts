@@ -10,3 +10,31 @@ en:
     category: 'Category'
     company_name: 'Company Name'
     all_companies_chart: 'All Companies Chart'
+    all_companies: 'All Companies'
+    team_name: 'Team Name'
+    company: 'Company'
+    owner: 'Owner'
+    no_owner: 'No Owner'
+    team: 'Team'
+    no_team: 'No Team'
+    manager: 'Manager'
+    no_manager: 'No Manager'
+    title: 'Title'
+
+    status:
+      done: 'Done'
+      in_progress: 'In Progress'
+      todo: 'To Do'
+
+    pdp_chart:
+      for_all_companies: "PDP Chart for all companies"
+      for_company: "PDP Chart for company %{company}"
+      for_team: "PDP Chart for team %{team}"
+      for_user: "PDP Chart for user %{user}"
+
+    pdp_items:
+      for_user: "PDP Items of %{user}"
+
+    suggestions:
+      new: 'New Suggestion'
+      create: 'Create Suggestion'

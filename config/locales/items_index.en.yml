@@ -15,3 +15,6 @@ en:
     actions: "Actions"
     edit: "Edit"
     email: "Email"
+    select_category: "Select Category"
+    select_effort: "Select Effort"
+    owner: "Owner"

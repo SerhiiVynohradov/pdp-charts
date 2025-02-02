@@ -108,15 +108,15 @@ module ItemManagement
         data[:category_id] = @item.category&.name
         data[:effort] = case @item.effort.to_s
                         when "5"
-                          "Very Hard"
+                          I18n.t('effort.very_hard')
                         when "4"
-                          "Hard"
+                          I18n.t('effort.hard')
                         when "3"
-                          "Medium"
+                          I18n.t('effort.medium')
                         when "2"
-                          "Easy"
+                          I18n.t('effort.easy')
                         when "1"
-                          "Very Easy"
+                          I18n.t('effort.very_easy')
                         else
                           "-"
                         end
@@ -185,11 +185,11 @@ module ItemManagement
   end
 
   def chart_items_label_index
-    "PDP Items of #{@user.name}"
+    I18n.t('labels.pdp_items.for_user', user: @user.name)
   end
 
   def chart_label_index
-    "PDP Chart for #{@user.name}"
+    I18n.t('labels.pdp_chart.for_user', user: @user.name)
   end
 
   def chart_data_show

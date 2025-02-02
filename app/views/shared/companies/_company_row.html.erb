@@ -50,7 +50,7 @@
   <td class="px-4 py-2 align-top">
     <div class="flex items-center space-x-2">
       <span class="text-sm <%= company.active? ? 'text-green-500' : 'text-red-500' %>">
-        <%= company.active? ? "Active" : "Inactive" %>
+        <%= company.active? ? t('buttons.active') : t('buttons.inactive') %>
       </span>
       <%= link_to (company.active? ? t('buttons.deactivate') : t('buttons.activate')),
                   toggle_status_superadmin_company_path(company),

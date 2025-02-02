@@ -1,0 +1,40 @@
+uk:
+  labels:
+    errors: "Помилки"
+    name: "Назва"
+    description: "Опис"
+    edit_category: "Редагувати категорію"
+    categories: "Категорії"
+    new_category: "Нова категорія"
+    no_categories_found: "Категорії не знайдено."
+    category: "Категорія"
+    company_name: "Назва компанії"
+    all_companies_chart: "Зведена діаграма всіх компаній"
+    all_companies: 'Всі компанії'
+    team_name: "Назва команди"
+    company: "Компанія"
+    owner: "Власник"
+    no_owner: "Немає власника"
+    team: "Команда"
+    no_team: "Немає команди"
+    manager: "Менеджер"
+    no_manager: "Немає менеджера"
+    title: "Заголовок"
+
+    status:
+      done: "Виконано"
+      in_progress: "В процесі"
+      todo: "Не виконано"
+
+    pdp_chart:
+      for_all_companies: "Графік ІПР для всіх компаній"
+      for_company: "Графік ІПР для компанії %{company}"
+      for_team: "Графік ІПР для команди %{team}"
+      for_user: "Графік ІПР для користувача %{user}"
+
+    pdp_items:
+      for_user: "ІПР для користувача %{user}"
+
+    suggestions:
+      new: "Нова пропозиція"
+      create: "Створити пропозицію"

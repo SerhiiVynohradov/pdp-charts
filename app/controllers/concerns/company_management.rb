@@ -115,11 +115,11 @@ module CompanyManagement
   end
 
   def chart_label_index
-    "PDP Chart for all companies"
+    I18n.t('labels.pdp_chart.for_all_companies')
   end
 
   def chart_label_show
-    "PDP Chart for company #{@company.name}"
+    I18n.t('labels.pdp_chart.for_company', company: @company.name)
   end
 
   def set_company

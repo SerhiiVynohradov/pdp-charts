@@ -1,7 +1,7 @@
 <div class="bg-gray-900 text-white min-h-screen p-6">
-  <h1 class="text-2xl font-bold mb-4">Company: <%= @company.name %></h1>
+  <h1 class="text-2xl font-bold mb-4"><%= t('labels.company') %>: <%= @company.name %></h1>
 
-  <p class="mb-4">Owner: <%= @company.owner&.name || "No Manager Owner" %></p>
+  <p class="mb-4"><%= t('labels.owner') %>: <%= @company.owner&.name || t('labels.no_owner') %></p>
 
   <!-- Charts Partial -->
   <%= render partial: "shared/pdp_charts", locals: { chart_data: @chart_data } %>

@@ -2,17 +2,17 @@ module ApplicationHelper
   def effort_full_label(code)
     case code.to_s
     when "5"
-      "Very Hard"
+      t('effort.very_hard')
     when "4"
-      "Hard"
+      t('effort.hard')
     when "3"
-      "Medium"
+      t('effort.medium')
     when "2"
-      "Easy"
+      t('effort.easy')
     when "1"
-      "Very Easy"
+      t('effort.very_easy')
     else
-      "-"
+      t('effort.none')
     end
   end
 
@@ -20,7 +20,7 @@ module ApplicationHelper
     crumbs = []
 
     # Always start with Dashboard
-    crumbs << { name: "Dashboard", path: root_path }
+    crumbs << { name: t('breadcrumbs.dashboard'), path: root_path }
 
     # Determine the namespace and build breadcrumbs accordingly
     case controller_path.split('/').first
@@ -50,7 +50,7 @@ module ApplicationHelper
 
     # Handle Teams
     if parts.include?("teams")
-      crumbs << { name: "Teams", path: manager_root_path }
+      crumbs << { name: t('breadcrumbs.teams'), path: manager_root_path }
       if @team
         crumbs << { name: @team.name, path: manager_team_path(@team) }
       end
@@ -58,7 +58,7 @@ module ApplicationHelper
 
     # Handle Users
     if parts.include?("users")
-      crumbs << { name: "Users", path: manager_team_users_path(@team) }
+      crumbs << { name: t('breadcrumbs.users'), path: manager_team_users_path(@team) }
       if @user
         crumbs << { name: @user.name, path: manager_team_user_path(@team, @user) }
       end
@@ -66,7 +66,7 @@ module ApplicationHelper
 
     # Handle Items
     if parts.include?("items")
-      crumbs << { name: "Items", path: manager_team_user_items_path(@team, @user) }
+      crumbs << { name: t('breadcrumbs.items'), path: manager_team_user_items_path(@team, @user) }
       if @item
         crumbs << { name: @item.name, path: nil } # Current page, no link
       end
@@ -82,7 +82,7 @@ module ApplicationHelper
 
     # Handle Companies
     if parts.include?("companies")
-      crumbs << { name: "Companies", path: company_owner_root_path }
+      crumbs << { name: t('breadcrumbs.companies'), path: company_owner_root_path }
       if @company
         crumbs << { name: @company.name, path: company_owner_company_path(@company) }
       end
@@ -90,7 +90,7 @@ module ApplicationHelper
 
     # Handle Teams
     if parts.include?("teams")
-      crumbs << { name: "Teams", path: company_owner_company_teams_path(@company) }
+      crumbs << { name: t('breadcrumbs.teams'), path: company_owner_company_teams_path(@company) }
       if @team
         crumbs << { name: @team.name, path: company_owner_company_team_path(@company, @team) }
       end
@@ -98,7 +98,7 @@ module ApplicationHelper
 
     # Handle Users
     if parts.include?("users")
-      crumbs << { name: "Users", path: company_owner_company_team_users_path(@company, @team) }
+      crumbs << { name: t('breadcrumbs.users'), path: company_owner_company_team_users_path(@company, @team) }
       if @user
         crumbs << { name: @user.name, path: company_owner_company_team_user_path(@company, @team, @user) }
       end
@@ -106,7 +106,7 @@ module ApplicationHelper
 
     # Handle Items
     if parts.include?("items")
-      crumbs << { name: "Items", path: company_owner_company_team_user_items_path(@company, @team, @user) }
+      crumbs << { name: t('breadcrumbs.items'), path: company_owner_company_team_user_items_path(@company, @team, @user) }
       if @item
         crumbs << { name: @item.name, path: nil } # Current page, no link
       end
@@ -122,7 +122,7 @@ module ApplicationHelper
 
     # Handle Companies
     if parts.include?("companies")
-      crumbs << { name: "Companies", path: superadmin_companies_path }
+      crumbs << { name: t('breadcrumbs.companies'), path: superadmin_companies_path }
       if @company
         crumbs << { name: @company.name, path: superadmin_company_path(@company) }
       end
@@ -130,7 +130,7 @@ module ApplicationHelper
 
     # Handle Teams
     if parts.include?("teams")
-      crumbs << { name: "Teams", path: superadmin_company_teams_path(@company) }
+      crumbs << { name: t('breadcrumbs.teams'), path: superadmin_company_teams_path(@company) }
       if @team
         crumbs << { name: @team.name, path: superadmin_company_team_path(@company, @team) }
       end
@@ -138,7 +138,7 @@ module ApplicationHelper
 
     # Handle Users
     if parts.include?("users")
-      crumbs << { name: "Users", path: superadmin_company_team_users_path(@company, @team) }
+      crumbs << { name: t('breadcrumbs.users'), path: superadmin_company_team_users_path(@company, @team) }
       if @user
         crumbs << { name: @user.name, path: superadmin_company_team_user_path(@company, @team, @user) }
       end
@@ -146,7 +146,7 @@ module ApplicationHelper
 
     # Handle Items
     if parts.include?("items")
-      crumbs << { name: "Items", path: superadmin_company_team_user_items_path(@company, @team, @user) }
+      crumbs << { name: t('breadcrumbs.items'), path: superadmin_company_team_user_items_path(@company, @team, @user) }
       if @item
         crumbs << { name: @item.name, path: nil } # Current page, no link
       end
@@ -159,51 +159,47 @@ module ApplicationHelper
     crumbs = []
     parts  = controller_path.split('/')[1..-1] # всё, что после "my"
 
-    # Порядок важен: сначала проверяем companies (если есть companies в пути),
-    # затем teams (если есть teams, но нет companies), затем items напрямую и т.п.
-
     if parts.include?("companies")
-      crumbs << { name: "My Companies", path: my_root_path }
+      crumbs << { name: t('breadcrumbs.my_companies'), path: my_root_path }
       if @company
         crumbs << { name: @company.name, path: my_company_path(@company) }
       end
 
       if parts.include?("teams")
-        crumbs << { name: "Teams", path: my_company_teams_path(@company) }
+        crumbs << { name: t('breadcrumbs.teams'), path: my_company_teams_path(@company) }
         if @team
           crumbs << { name: @team.name, path: my_company_team_path(@company, @team) }
         end
 
         if parts.include?("users")
-          crumbs << { name: "Users", path: my_company_team_users_path(@company, @team) }
+          crumbs << { name: t('breadcrumbs.users'), path: my_company_team_users_path(@company, @team) }
           if @user
             crumbs << { name: @user.name, path: my_company_team_user_path(@company, @team, @user) }
           end
 
           if parts.include?("items")
-            crumbs << { name: "Items", path: my_company_team_user_items_path(@company, @team, @user) }
+            crumbs << { name: t('breadcrumbs.items'), path: my_company_team_user_items_path(@company, @team, @user) }
             if @item
-              crumbs << { name: @item.name, path: nil } # Текущая страница без ссылки
+              crumbs << { name: @item.name, path: nil }
             end
           end
         end
       end
 
     elsif parts.include?("teams")
-      # Сценарий, когда у нас /my/teams
-      crumbs << { name: "My Teams", path: my_root_path }
+      crumbs << { name: t('breadcrumbs.my_teams'), path: my_root_path }
       if @team
         crumbs << { name: @team.name, path: my_team_path(@team) }
       end
 
       if parts.include?("users")
-        crumbs << { name: "Users", path: my_team_users_path(@team) }
+        crumbs << { name: t('breadcrumbs.users'), path: my_team_users_path(@team) }
         if @user
           crumbs << { name: @user.name, path: my_team_user_path(@team, @user) }
         end
 
         if parts.include?("items")
-          crumbs << { name: "Items", path: my_team_user_items_path(@team, @user) }
+          crumbs << { name: t('breadcrumbs.items'), path: my_team_user_items_path(@team, @user) }
           if @item
             crumbs << { name: @item.name, path: nil }
           end
@@ -211,8 +207,7 @@ module ApplicationHelper
       end
 
     elsif parts.include?("items")
-      # Если у вас есть прямой ресурс my/items (не вложенный в команды/компании)
-      crumbs << { name: "My Items", path: my_items_path }
+      crumbs << { name: t('breadcrumbs.my_items'), path: my_items_path }
       if @item
         crumbs << { name: @item.name, path: nil }
       end

@@ -1,5 +1,5 @@
 <div class="bg-gray-900 text-white min-h-screen p-6">
-  <h1 class="text-2xl font-bold mb-4">All Companies</h1>
+  <h1 class="text-2xl font-bold mb-4"><%= t('labels.all_companies') %></h1>
 
   <!-- Charts Partial -->
   <%= render partial: "shared/pdp_charts", locals: { chart_data: @chart_data } %>
@@ -15,11 +15,11 @@
   <table class="min-w-full border-collapse bg-gray-800 text-gray-50">
     <thead>
       <tr class="bg-gray-700 border-b border-gray-600">
-        <th class="px-4 py-2 text-left">Actions</th>
-        <th class="px-4 py-2 text-left">Name</th>
-        <th class="px-4 py-2 text-left">Owner</th>
-        <th class="px-4 py-2 text-left">Status</th>
-        <th class="px-4 py-2 text-left">Manage</th>
+        <th class="px-4 py-2 text-left"></th>
+        <th class="px-4 py-2 text-left"><%= t('items_index.name') %></th>
+        <th class="px-4 py-2 text-left"><%= t('items_index.owner') %></th>
+        <th class="px-4 py-2 text-left"><%= t('items_index.status') %></th>
+        <th class="px-4 py-2 text-left"><%= t('items_index.actions') %></th>
       </tr>
     </thead>
     <tbody id="companies-container">

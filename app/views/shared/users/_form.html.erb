@@ -17,19 +17,19 @@ create_user_path = if @superadmin
 
     <!-- Name Field -->
     <div class="flex items-center space-x-2">
-      <label class="text-sm text-gray-300">Name</label>
+      <label class="text-sm text-gray-300"><%= t('items_index.name') %></label>
       <%= f.text_field :name, class: "rounded bg-gray-800 border border-gray-500 px-2 py-1 text-white w-40", required: true %>
     </div>
 
     <!-- Email Field -->
     <div class="flex items-center space-x-2">
-      <label class="text-sm text-gray-300">Email</label>
+      <label class="text-sm text-gray-300"><%= t('items_index.email') %></label>
       <%= f.email_field :email, class: "rounded bg-gray-800 border border-gray-500 px-2 py-1 text-white w-40", required: true %>
     </div>
 
     <!-- Submit Button -->
     <div>
-      <%= f.submit "Add User", class: "bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded" %>
+      <%= f.submit t('buttons.add_user'), class: "bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded" %>
     </div>
   <% end %>
 <% end %>

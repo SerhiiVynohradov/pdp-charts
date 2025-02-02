@@ -1,6 +1,6 @@
 <tr id="<%= dom_id(suggestion) %>" class="border-b border-gray-600 hover:bg-gray-700">
   <td class="px-4 py-2 align-top">
-    <%= link_to "Details", suggestion_path(suggestion), class: "bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded" %>
+    <%= link_to t('buttons.details'), suggestion_path(suggestion), class: "bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded" %>
   </td>
   <!-- NAME (read-only) -->
   <td class="px-4 py-2 align-top">
@@ -25,9 +25,9 @@
   <!-- ACTIONS: (Optionally none, или кнопка Details) -->
   <td class="px-4 py-2 align-top text-center space-x-2">
     <div class="inline-flex items-center space-x-2">
-      <%= link_to "Delete",
+      <%= link_to t('buttons.delete'),
         suggestion_path(suggestion),
-        data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' },
+        data: { turbo_method: :delete, turbo_confirm: t('buttons.are_you_sure') },
         class: "bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded shadow-sm" %>
     </div>
   </td>

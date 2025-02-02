@@ -1,26 +1,26 @@
-<table class="table-auto">
-  <thead>
-    <tr>
-      <th class="px-4 py-2"><%= t('items_index.name') %></th>
-      <th class="px-4 py-2"><%= t('items_index.description') %></th>
-      <th class="px-4 py-2"><%= t('items_index.link') %></th>
-      <th class="px-4 py-2"><%= t('items_index.expected_results') %></th>
-      <th class="px-4 py-2"><%= t('items_index.category') %></th>
-      <th class="px-4 py-2"><%= t('items_index.effort') %></th>
-      <th class="px-4 py-2"><%= t('items_index.actions') %></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @recommended_items.each do |recommended_item| %>
-      <tr>
-        <td class="border px-4 py-2"><%= recommended_item.name %></td>
-        <td class="border px-4 py-2"><%= recommended_item.description %></td>
-        <td class="border px-4 py-2"><%= recommended_item.link %></td>
-        <td class="border px-4 py-2"><%= recommended_item.expected_results %></td>
-        <td class="border px-4 py-2"><%= recommended_item.category_id %></td>
-        <td class="border px-4 py-2"><%= recommended_item.effort %></td>
+<div class="bg-gray-900 text-white min-h-screen p-6">
+  <table class="min-w-full border-collapse bg-gray-800 text-gray-50">
+    <thead>
+      <tr class="bg-gray-700 border-b border-gray-600">
+        <th class="px-4 py-2"><%= t('items_index.description') %></th>
+        <th class="px-4 py-2"><%= t('items_index.link') %></th>
+        <th class="px-4 py-2"><%= t('items_index.expected_results') %></th>
+        <th class="px-4 py-2"><%= t('items_index.category') %></th>
+        <th class="px-4 py-2"><%= t('items_index.effort') %></th>
+        <th class="px-4 py-2"><%= t('items_index.actions') %></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
-
+    </thead>
+    <tbody>
+      <% @recommended_item.tap do |recommended_item| %>
+        <tr class="border-b border-gray-600 hover:bg-gray-700">
+          <td class="border px-4 py-2"><%= recommended_item.name %></td>
+          <td class="border px-4 py-2"><%= recommended_item.description %></td>
+          <td class="border px-4 py-2"><%= recommended_item.link %></td>
+          <td class="border px-4 py-2"><%= recommended_item.expected_results %></td>
+          <td class="border px-4 py-2"><%= recommended_item.category_id %></td>
+          <td class="border px-4 py-2"><%= recommended_item.effort %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

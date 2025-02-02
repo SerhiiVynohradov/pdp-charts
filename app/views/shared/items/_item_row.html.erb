@@ -58,15 +58,15 @@ the_item_path = if @superadmin
     <!-- a yellow "in progress" label if item.progress is between 1 and 99 -->
     <% if item.progress == 100 %>
       <span class="bg-green-600 text-white px-2 py-1 rounded-full rounded">
-        Done
+        <%= t('labels.status.done').gsub(' ', "&nbsp;").html_safe %>
       </span>
     <% elsif item.progress == 0 %>
       <span class="bg-red-600 text-white px-2 py-1 rounded-full rounded">
-        Todo
+        <%= t('labels.status.todo').gsub(' ', "&nbsp;").html_safe %>
       </span>
     <% else %>
       <span class="bg-yellow-600 text-white px-2 py-1 rounded-full rounded">
-        In&nbsp;Progress
+        <%= t('labels.status.in_progress').gsub(' ', "&nbsp;").html_safe %>
       </span>
     <% end %>
   </td>
@@ -251,7 +251,7 @@ the_item_path = if @superadmin
             data-custom-dropdown-target="button"
           >
             <span data-custom-dropdown-target="selectedText">
-              <%= item.category ? item.category.name : "Select Category" %>
+              <%= item.category ? item.category.name : t('items_index.select_category') %>
             </span>
             <svg
               class="w-5 h-5 text-gray-400"
@@ -347,7 +347,7 @@ the_item_path = if @superadmin
             data-action="click->custom-dropdown#toggle"
             data-custom-dropdown-target="button"
           >
-            <span data-custom-dropdown-target="selectedText">Select Effort</span>
+            <span data-custom-dropdown-target="selectedText"><%= t('items_index.select_effort') %></span>
             <svg
               class="w-5 h-5 text-gray-400"
               xmlns="http://www.w3.org/2000/svg"
@@ -369,11 +369,11 @@ the_item_path = if @superadmin
             data-custom-dropdown-target="menu"
           >
             <ul class="py-1">
-              <% [["5", "Very Hard", "(5 points)", ["Более 10 full-time дней", "2+ месяца 2 раза в неделю по 5 часов – 80ч – 10д", "40 Уроков по 2 часа – 80ч – 10д", "1 год по 1 разу в неделю по 2 часа – 96ч – 10д"]],
-                   ["4", "Hard", "(4 points)", ["5-10 full-time дней", "2+ месяца 2 раза в неделю по 3 часа – 48ч – 6д", "6 Месяцев по 1 разу в неделю по 2 часа = 48ч = 6д"]],
-                   ["3", "Medium", "(3 points)", ["3-5 full-time дней", "2-3 недели по 10 часов в неделю – 25ч – 4д", "3 Месяца по 2ч в неделю – 24ч – 4д"]],
-                   ["2", "Easy", "(2 points)", ["2-3 full-time дня", "2+ месяца по 1 разу в неделю по 2 часа – 16ч - 2д", "2-3 недели по 2ч в неделю – 2д"]],
-                   ["1", "Very Easy", "(1 point)", ["Меньше 1 дня – 1д"]]
+              <% [["5", t('effort.very_hard'), t('effort.five_points'), t('effort.examples.very_hard')],
+                   ["4", t('effort.hard'), t('effort.four_points'), t('effort.examples.hard')],
+                   ["3", t('effort.medium'), t('effort.three_points'), t('effort.examples.medium')],
+                   ["2", t('effort.easy'), t('effort.two_points'), t('effort.examples.easy')],
+                   ["1", t('effort.very_easy'), t('effort.one_point'), t('effort.examples.very_easy')]
                  ].each do |value, title, points, examples| %>
                 <li>
                   <button
