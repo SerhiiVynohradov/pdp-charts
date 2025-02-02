@@ -13,7 +13,9 @@
           <%= link_to t('navbar.my_items'), my_items_path, class: "font-semibold text-white hover:text-blue-300" %>
 
           <!-- Dash link (Manager / Company Owner) -->
-          <% if current_user.company_owner? && current_user.company.present? %>
+          <% if current_user.superadmin? %>
+            <%= link_to t('navbar.companies'), superadmin_companies_path, class: "text-white hover:text-blue-300" %>
+          <% elsif current_user.company_owner? && current_user.company.present? %>
             <%= link_to t('navbar.company_dash'), company_owner_root_path, class: "text-white hover:text-blue-300" %>
           <% elsif current_user.manager? && current_user.team.present? %>
             <%= link_to t('navbar.manager_dash'), manager_root_path, class: "text-white hover:text-blue-300" %>
@@ -33,9 +35,10 @@
           <%= link_to "Українська", url_for(locale: :uk), class: "text-white hover:text-blue-300" %>
         <% end %>
 
-        <%= link_to t('navbar.suggest_improvement'), new_suggestion_path, class: "text-white hover:text-blue-300" %>
 
         <% if user_signed_in? %>
+          <%= link_to t('navbar.suggest_improvement'), new_suggestion_path, class: "text-white hover:text-blue-300" %>
+
           <!-- Dropdown 'More' -->
           <div class="relative" x-data="{ openDropdown: false }">
             <button
@@ -56,7 +59,6 @@
             >
               <!-- Superadmin links -->
               <% if current_user.superadmin? %>
-                <%= link_to t('navbar.companies'), superadmin_companies_path, class: "block px-4 py-2 text-white hover:bg-gray-600" %>
                 <%= link_to t('navbar.categories'), superadmin_categories_path, class: "block px-4 py-2 text-white hover:bg-gray-600" %>
                 <%= link_to t('navbar.global_recommended_items'), superadmin_recommended_items_path, class: "block px-4 py-2 text-white hover:bg-gray-600" %>
                 <%= link_to t('navbar.payers'), superadmin_payers_path, class: "block px-4 py-2 text-white hover:bg-gray-600" %>

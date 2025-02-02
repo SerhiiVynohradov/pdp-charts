@@ -52,10 +52,10 @@
       <span class="text-sm <%= company.active? ? 'text-green-500' : 'text-red-500' %>">
         <%= company.active? ? t('buttons.active') : t('buttons.inactive') %>
       </span>
-      <%= link_to (company.active? ? t('buttons.deactivate') : t('buttons.activate')),
-                  toggle_status_superadmin_company_path(company),
-                  data: { turbo_method: :patch },
-                  class: (company.active? ? "bg-red-600" : "bg-green-600") + " text-white px-2 py-1 rounded" %>
+      <% # = link_to (company.active? ? t('buttons.deactivate') : t('buttons.activate')),
+         #           toggle_status_superadmin_company_path(company),
+         #           data: { turbo_method: :patch },
+         #           class: (company.active? ? "bg-red-600" : "bg-green-600") + " text-white px-2 py-1 rounded" %>
     </div>
   </td>
 

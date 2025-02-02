@@ -120,10 +120,10 @@ the_external_calendar_path = if @superadmin
       <span class="text-sm <%= user.paused? ? 'text-red-500' : 'text-green-500' %>">
         <%= user.paused? ? t('buttons.inactive') : t('buttons.active') %>
       </span>
-      <%= link_to (user.paused? ? t('buttons.activate') : t('buttons.deactivate')),
-                  the_pause_user_path,
-                  method: :patch,
-                  class: (user.paused? ? "bg-green-600" : "bg-yellow-600") + " text-white px-2 py-1 rounded" %>
+      <% # = link_to (user.paused? ? t('buttons.activate') : t('buttons.deactivate')),
+         #         the_pause_user_path,
+         #         method: :patch,
+         #         class: (user.paused? ? "bg-green-600" : "bg-yellow-600") + " text-white px-2 py-1 rounded" %>
     </div>
   </td>
 

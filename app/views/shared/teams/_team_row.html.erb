@@ -62,10 +62,10 @@ the_toggle_status_path = if @superadmin
       <span class="text-sm <%= team.active? ? 'text-green-500' : 'text-red-500' %>">
         <%= team.active? ? t('buttons.active') : t('buttons.inactive') %>
       </span>
-      <%= link_to (team.active? ? t('buttons.deactivate') : t('buttons.activate')),
-                  the_toggle_status_path,
-                  data: { turbo_method: :patch },
-                  class: (team.active? ? "bg-red-600" : "bg-green-600") + " text-white px-2 py-1 rounded" %>
+      <% # = link_to (team.active? ? t('buttons.deactivate') : t('buttons.activate')),
+         #           the_toggle_status_path,
+         #           data: { turbo_method: :patch },
+         #           class: (team.active? ? "bg-red-600" : "bg-green-600") + " text-white px-2 py-1 rounded" %>
     </div>
   </td>
 
