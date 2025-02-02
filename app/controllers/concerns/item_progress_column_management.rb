@@ -44,12 +44,26 @@ module ItemProgressColumnManagement
   def update
     if @item_progress_column.update(item_progress_column_params)
       respond_to do |format|
-        format.turbo_stream { render partial: "shared/item_progress_columns/update", locals: { item_progress_column: @item_progress_column }, formats: [:turbo_stream] }
-        format.html { redirect_to the_item_path(@item_progress_column.items.first), notice: I18n.t('messages.progress_column.updated_successfully') }
+        format.turbo_stream do
+          # Рендерим паршиал update.turbo_stream.erb
+          render partial: "shared/item_progress_columns/update",
+                 locals: { item_progress_column: @item_progress_column },
+                 formats: [:turbo_stream]
+        end
+
+        format.html do
+          redirect_to some_path, notice: t('messages.progress_column.updated_successfully')
+        end
       end
     else
       respond_to do |format|
-        format.turbo_stream { render partial: "shared/item_progress_columns/form", locals: { item_progress_column: @item_progress_column }, formats: [:turbo_stream] }
+        # Если ошибка — можно заново показать форму, но обычно проще inline...
+        format.turbo_stream do
+          render partial: "shared/item_progress_columns/form", # например
+                 locals: { item_progress_column: @item_progress_column },
+                 formats: [:turbo_stream],
+                 status: :unprocessable_entity
+        end
         format.html { render :edit, status: :unprocessable_entity }
       end
     end
@@ -57,9 +71,16 @@ module ItemProgressColumnManagement
 
   def destroy
     @item_progress_column.destroy
+
     respond_to do |format|
-      format.turbo_stream { render partial: "shared/item_progress_columns/destroy", locals: { item_progress_column: @item_progress_column }, formats: [:turbo_stream] }
-      format.html { redirect_to the_item_path(@item_progress_column.items.first), notice: I18n.t('messages.progress_column.deleted_successfully') }
+      format.turbo_stream do
+        render partial: "shared/item_progress_columns/destroy",
+               locals: { item_progress_column: @item_progress_column },
+               formats: [:turbo_stream]
+      end
+      format.html do
+        redirect_to some_path, notice: t('messages.progress_column.deleted_successfully')
+      end
     end
   end
 

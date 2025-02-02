@@ -1,10 +1,13 @@
-<turbo-stream action="replace" target="progress_column_<%= item_progress_column.id %>">
-  <template>
-    <th id="progress_column_<%= item_progress_column.id %>" class="px-4 py-2 text-left">
-      <div class="flex items-center space-x-2">
-        <%= item_progress_column.date.strftime("%d %b %Y") %>
-        <%= link_to t('buttons.edit'), edit_user_item_progress_column_path(@user, item_progress_column), class: "text-yellow-400 hover:underline", data: { turbo_frame: dom_id(item_progress_column, :edit) } %>
-      </div>
-    </th>
-  </template>
-</turbo-stream>
+<%= turbo_stream.replace("progress_column_#{item_progress_column.id}") do %>
+  <%= render partial: "shared/item_progress_columns/header_cell",
+             locals: {
+               item_progress_column: item_progress_column,
+               # передать нужные переменные
+               superadmin: @superadmin,
+               company: @company,
+               team: @team,
+               user: @user,
+               read_only_mode: false  # или по логике
+             }
+  %>
+<% end %>

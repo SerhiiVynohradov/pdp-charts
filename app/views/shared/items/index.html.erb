@@ -57,36 +57,16 @@
       <!-- Вторая строка заголовков: заголовки для прогресс-колонок -->
       <tr class="bg-gray-700 border-b border-gray-600" id="progress_columns_headers">
         <% @user.item_progress_columns.order(date: :asc).each do |column| %>
-          <th id="progress_column_<%= column.id %>" class="px-4 py-2 text-left">
-            <div class="flex flex-col space-y-1">
-              <%= column.date.strftime("%d %b %Y") %>
-              <% unless read_only_mode %>
-                <div class="flex justify-center">
-                  <% the_edit_column_path = if @superadmin
-                                              edit_superadmin_company_team_user_item_progress_column_path(@company, @team, @user, column)
-                                            elsif @company.present?
-                                              edit_company_owner_company_team_user_item_progress_column_path(@company, @team, @user, column)
-                                            elsif @team.present?
-                                              edit_manager_team_user_item_progress_column_path(@team, @user, column)
-                                            else
-                                              edit_my_item_progress_column_path(column)
-                                            end
-                  %>
-                  <%= link_to t('items_index.edit'), the_edit_column_path,
-                      class: "text-yellow-400 hover:underline",
-                      data: {
-                        controller: "cell-edit",
-                        action: "click->cell-edit#enableEdit",
-                        "cell-edit-url-value": the_edit_column_path,
-                        "cell-edit-field-name-value": "date",
-                        "cell-edit-initial-value-value": column.date,
-                        "cell-edit-resource-name-value": "item_progress_column"
-                      }
-                  %>
-                </div>
-              <% end %>
-            </div>
-          </th>
+          <%= render partial: "shared/item_progress_columns/header_cell",
+                     locals: {
+                       item_progress_column: column,
+                       superadmin: @superadmin,
+                       company: @company,
+                       team: @team,
+                       user: @user,
+                       read_only_mode: read_only_mode
+                     }
+          %>
         <% end %>
       </tr>
     </thead>

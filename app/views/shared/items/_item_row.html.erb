@@ -449,7 +449,7 @@ the_item_path = if @superadmin
         <% method = 'POST' %>
       <% end %>
 
-      <td id="progress_update_<%= column.id %>_<%= item.id %>" class="px-4 py-2 align-top">
+      <td id="progress_update_<%= column.id %>_<%= item.id %>" class="px-4 py-2 align-top progress-col-<%= column.id %>">
         <div
           class="cursor-pointer"
           data-controller="cell-edit"

@@ -1,0 +1,79 @@
+<% the_column_path = if superadmin
+                       superadmin_company_team_user_item_progress_column_path(company, team, user, item_progress_column)
+                     elsif company.present?
+                       company_owner_company_team_user_item_progress_column_path(company, team, user, item_progress_column)
+                     elsif team.present?
+                       manager_team_user_item_progress_column_path(team, user, item_progress_column)
+                     else
+                       my_item_progress_column_path(item_progress_column)
+                     end
+%>
+
+<th
+  id="progress_column_<%= item_progress_column.id %>"
+  class="px-4 py-2 text-left align-top"
+  data-controller="progress-column"
+>
+  <!-- Режим просмотра -->
+  <div data-progress-column-target="viewMode">
+    <!-- Отображаем дату -->
+    <span class="font-semibold text-sm">
+      <%= item_progress_column.date.strftime("%d %b %Y") %>
+    </span>
+
+    <!-- Если не read_only_mode, показываем кнопки -->
+    <% unless read_only_mode %>
+      <div class="text-xs mt-1 flex space-x-2">
+        <!-- Кнопка "Редактировать" переключает на форму -->
+        <button
+          type="button"
+          class="text-yellow-400 hover:underline"
+          data-action="click->progress-column#enableEdit"
+        >
+          Редактировать
+        </button>
+
+        <!-- Кнопка "Удалить" -->
+        <%= link_to "Удалить",
+          the_column_path,
+          data: { turbo_method: :delete, turbo_confirm: "Вы уверены, что хотите удалить эту колонку?" },
+          class: "text-red-400 hover:underline"
+        %>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Режим редактирования (скрыт по умолчанию) -->
+  <div data-progress-column-target="editMode" class="hidden mt-1">
+    <%= form_with model: item_progress_column,
+                  url: the_column_path,  # тот же путь, но методом PATCH
+                  method: :patch,
+                  data: { turbo_frame: "_top" },   # можно turbo_frame убрать, если используем turbo_stream
+                  local: true do |f| %>
+
+      <div class="flex items-center space-x-2 mb-2">
+        <%= f.label :date, "Новая дата:", class: "text-sm" %>
+        <%= f.date_field :date,
+              value: item_progress_column.date,
+              class: "bg-gray-700 border border-gray-500 px-2 py-1 text-white rounded"
+        %>
+      </div>
+
+      <div class="flex space-x-2">
+        <button
+          type="submit"
+          class="bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded"
+        >
+          Сохранить
+        </button>
+        <button
+          type="button"
+          class="bg-gray-600 hover:bg-gray-700 text-white px-2 py-1 rounded"
+          data-action="click->progress-column#disableEdit"
+        >
+          Отмена
+        </button>
+      </div>
+    <% end %>
+  </div>
+</th>

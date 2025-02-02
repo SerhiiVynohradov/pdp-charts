@@ -1,19 +1,30 @@
-<!-- Удаление <th> прогресс-колонки из заголовков -->
-<turbo-stream action="remove" target="progress_column_<%= @item_progress_column.id %>" />
+<% the_new_column_path = if @superadmin
+                           new_superadmin_company_team_user_item_progress_column_path(@company, @team, @user)
+                         elsif @company.present?
+                           new_company_owner_company_team_user_item_progress_column_path(@company, @team, @user)
+                         elsif @team.present?
+                           new_manager_team_user_item_progress_column_path(@team, @user)
+                         else
+                           new_my_item_progress_column_path
+                         end
+%>
 
-<!-- Обновление colspan в заголовке 'Progress' после удаления -->
+<%= turbo_stream.remove "progress_column_#{item_progress_column.id}" %>
+
+
 <turbo-stream action="replace" target="progress_header">
   <template>
     <th id="progress_header" class="px-4 py-2 text-left" colspan="<%= @user.item_progress_columns.count %>">
       <div class="flex items-center space-x-2">
         <span>Progress:</span>
-        <%= link_to "+", new_user_item_progress_column_path(@user), class: "bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded", data: { turbo_frame: "add_progress_column" } %>
+        <turbo-frame id="add_progress_column">
+          <%= link_to "+", the_new_column_path, class: "bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded" %>
+        </turbo-frame>
       </div>
     </th>
   </template>
 </turbo-stream>
 
-<!-- Удаление соответствующих <td> из каждой строки айтема -->
-<% @user.items.each do |item| %>
-  <turbo-stream action="remove" target="progress_update_<%= @item_progress_column.id %>_<%= item.id %>" />
-<% end %>
+<turbo-stream action="remove" targets=".progress-col-<%= item_progress_column.id %>">
+  <template></template>
+</turbo-stream>

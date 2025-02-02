@@ -9,63 +9,64 @@
                          end
 %>
 
-<!-- Заменяем Turbo Frame `add_progress_column` на кнопку `+` -->
+<!-- 1) Восстанавливаем Turbo Frame c кнопкой "+" -->
 <turbo-stream action="replace" target="add_progress_column">
   <template>
     <%= turbo_frame_tag "add_progress_column" do %>
-      <%= link_to "+", the_new_column_path, class: "bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded" %>
+      <%= link_to "+", the_new_column_path,
+            class: "bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded" %>
     <% end %>
   </template>
 </turbo-stream>
 
-<!-- Обновляем заголовки прогресс-колонок -->
 <turbo-stream action="replace" target="progress_columns_headers">
   <template>
-    <% @user.item_progress_columns.order(date: :asc).each do |column| %>
-      <th id="progress_column_<%= column.id %>" class="px-4 py-2 text-left">
-        <div class="flex flex-col space-y-1">
-          <%= column.date.strftime("%d %b %Y") %>
-          <% the_edit_column_path = if @superadmin
-                                      edit_superadmin_company_team_user_item_progress_column_path(@company, @team, @user, column)
-                                    elsif @company.present?
-                                      edit_company_owner_company_team_user_item_progress_column_path(@company, @team, @user, column)
-                                    elsif @team.present?
-                                      edit_manager_team_user_item_progress_column_path(@team, @user, column)
-                                    else
-                                      edit_my_item_progress_column_path(column)
-                                    end
-          %>
-
-          <div class="flex justify-center">
-            <%= link_to "Edit", the_edit_column_path, class: "text-yellow-400 hover:underline", data: { controller: "cell-edit", action: "click->cell-edit#enableEdit", "cell-edit-url-value": edit_my_item_progress_column_path(@user, column), "cell-edit-field-name-value": "date", "cell-edit-initial-value-value": column.date, "cell-edit-resource-name-value": "item_progress_column" } %>
-          </div>
-        </div>
-      </th>
-    <% end %>
+    <tr class="bg-gray-700 border-b border-gray-600" id="progress_columns_headers">
+      <% @user.item_progress_columns.order(date: :asc).each do |column| %>
+        <%= render partial: "shared/item_progress_columns/header_cell",
+          locals: {
+            item_progress_column: column,
+            superadmin: @superadmin,
+            company: @company,
+            team: @team,
+            user: @user,
+            read_only_mode: false
+          },
+          formats: [:html]
+        %>
+      <% end %>
+    </tr>
   </template>
 </turbo-stream>
 
-<!-- Обновляем строки айтемов, добавляя новую <td> -->
+<turbo-stream action="replace" target="progress_header">
+  <template>
+    <th
+      id="progress_header"
+      class="px-4 py-2 text-left"
+      colspan="<%= @user.item_progress_columns.count %>"
+    >
+      <div class="flex items-center space-x-2">
+        <span>Progress:</span>
+        <turbo-frame id="add_progress_column">
+          <%= link_to "+", the_new_column_path,
+                class: "bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded" %>
+        </turbo-frame>
+      </div>
+    </th>
+  </template>
+</turbo-stream>
+
 <turbo-stream action="replace" target="items-container">
   <template>
     <% @user.items.each do |item| %>
       <%= render partial: "shared/items/item_row",
-        locals: { item: item, progress_columns: @user.item_progress_columns.order(date: :asc) },
-        formats: [:html] %>
+                 locals: {
+                   item: item,
+                   progress_columns: @user.item_progress_columns.order(date: :asc)
+                 },
+                 formats: [:html]
+               %>
     <% end %>
-  </template>
-</turbo-stream>
-
-<!-- Обновляем заголовок Progress с новым colspan -->
-<turbo-stream action="replace" target="progress_header">
-  <template>
-    <th id="progress_header" class="px-4 py-2 text-left" colspan="<%= @user.item_progress_columns.count %>">
-      <div class="flex items-center space-x-2">
-        <span>Progress:</span>
-        <turbo-frame id="add_progress_column">
-          <%= link_to "+", the_new_column_path, class: "bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded" %>
-        </turbo-frame>
-      </div>
-    </th>
   </template>
 </turbo-stream>
