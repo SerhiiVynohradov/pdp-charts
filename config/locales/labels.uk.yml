@@ -31,6 +31,7 @@ uk:
       for_company: "Графік ІПР для компанії %{company}"
       for_team: "Графік ІПР для команди %{team}"
       for_user: "Графік ІПР для користувача %{user}"
+      for_item: "Графік ІПР для %{item}"
 
     pdp_items:
       for_user: "ІПР для користувача %{user}"

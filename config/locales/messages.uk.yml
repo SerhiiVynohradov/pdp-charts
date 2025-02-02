@@ -1,0 +1,46 @@
+uk:
+  messages:
+    welcome: "Ласкаво просимо на наш сайт! Ваш пароль: %{randompassword}. Будь ласка, змініть його у своєму профілі."
+
+    something_went_wrong: "Щось пішло не так. Будь ласка, спробуйте ще раз."
+    not_allowed: "Ви не маєте прав доступу до цієї сторінки."
+
+    company:
+      created_successfully: "Компанію успішно створено!"
+      updated_successfully: "Компанію успішно оновлено!"
+      not_allowed: "Ви не можете створити компанію."
+
+    settings:
+      saved_successfully: "Налаштування успішно збережено!"
+
+    plan:
+      updated_successfully: "План успішно оновлено!"
+
+    progress_column:
+      created_successfully: "Стовпець прогресу успішно створено!"
+      updated_successfully: "Стовпець прогресу успішно оновлено!"
+      deleted_successfully: "Стовпець прогресу успішно видалено!"
+
+    item:
+      recommended_successfully: "Елемент успішно рекомендовано!"
+
+    category:
+      created_successfully: "Категорію успішно створено!"
+      updated_successfully: "Категорію успішно оновлено!"
+      deleted_successfully: "Категорію успішно видалено!"
+
+    invoice:
+      created_successfully: "Рахунок успішно створено!"
+      updated_successfully: "Рахунок успішно оновлено!"
+      deleted_successfully: "Рахунок успішно видалено!"
+
+    team:
+      created_successfully: "Команду успішно створено!"
+      updated_successfully: "Команду успішно оновлено!"
+      deleted_successfully: "Команду успішно видалено!"
+      not_allowed: "Ви не можете створити команду."
+
+    suggestion:
+      created_successfully: "Пропозицію успішно створено!"
+      updated_successfully: "Пропозицію успішно оновлено!"
+      deleted_successfully: "Пропозицію успішно видалено!"

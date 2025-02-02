@@ -17,7 +17,7 @@ module Manager
 
       def update
         if @team.update(team_params)
-          redirect_to edit_manager_team_path(current_user.team), notice: "Team settings updated."
+          redirect_to edit_manager_team_path(current_user.team), notice: I18n.t('messages.settings.saved_successfully')
         else
           render :edit
         end

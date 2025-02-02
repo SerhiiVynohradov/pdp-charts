@@ -2,6 +2,7 @@ uk:
   items_index:
     my_items: "Мої предмети"
     name: "Назва"
+    user_name: "Ім'я"
     status: "Статус"
     description: "Опис"
     link: "Посилання"

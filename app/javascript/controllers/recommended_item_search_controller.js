@@ -22,10 +22,13 @@ export default class extends Controller {
       return
     }
 
+    // Получаем путь (возможно уже с ?locale=xxx)
     const path = this.recommendedItemsPathTarget.value
-    console.log(path)
 
-    fetch(`${path}?search=${encodeURIComponent(query)}`, {
+    // Если в path уже есть хотя бы один параметр, добавляем "&search=", иначе "?search="
+    const separator = path.includes("?") ? "&" : "?"
+
+    fetch(`${path}${separator}search=${encodeURIComponent(query)}`, {
       headers: { "Accept": "application/json" }
     })
       .then(r => r.json())

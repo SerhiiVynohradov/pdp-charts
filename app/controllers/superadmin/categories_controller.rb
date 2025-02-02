@@ -19,7 +19,7 @@ module Superadmin
     def create
       @category = Category.new(category_params)
       if @category.save
-        redirect_to superadmin_categories_path, notice: "Category создана!"
+        redirect_to superadmin_categories_path, notice: I18n.t('messages.category.created_successfully')
       else
         render :new
       end
@@ -30,7 +30,7 @@ module Superadmin
 
     def update
       if @category.update(category_params)
-        redirect_to superadmin_categories_path, notice: "Category обновлена!"
+        redirect_to superadmin_categories_path, notice: I18n.t('messages.category.updated_successfully')
       else
         render :edit
       end
@@ -38,7 +38,7 @@ module Superadmin
 
     def destroy
       @category.destroy
-      redirect_to superadmin_categories_path, notice: "Category удалена!"
+      redirect_to superadmin_categories_path, notice: I18n.t('messages.category.deleted_successfully')
     end
 
     private

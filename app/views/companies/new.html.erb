@@ -1,5 +1,5 @@
 <div class="max-w-md mx-auto mt-10 bg-gray-900 p-6 rounded shadow-md">
-  <h1 class="text-xl font-bold text-white mb-4">Create Company</h1>
+  <h1 class="text-xl font-bold text-white mb-4"><%= I18n.t('buttons.create_company') %></h1>
 
   <%= form_with model: @company, url: companies_path, local: true do |f| %>
     <% if @company.errors.any? %>

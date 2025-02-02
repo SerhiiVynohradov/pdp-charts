@@ -1,0 +1,47 @@
+en:
+  messages:
+    welcome: "Welcome to our site! Your password is %{randompassword}. Please change it in your profile."
+
+    something_went_wrong: "Something went wrong. Please try again."
+    not_allowed: "You are not authorized to access this page."
+
+    company:
+      created_successfully: "Company created successfully!"
+      updated_successfully: "Company updated successfully!"
+      not_allowed: "You are not allowed to create a company."
+
+    settings:
+      saved_successfully: "Settings saved successfully!"
+
+    plan:
+      updated_successfully: "Plan updated successfully!"
+
+    progress_column:
+      created_successfully: "Progress column created successfully!"
+      updated_successfully: "Progress column updated successfully!"
+      deleted_successfully: "Progress column deleted successfully!"
+
+    item:
+      recommended_successfully: "Item has been recommended!"
+
+    category:
+      created_successfully: "Category created successfully!"
+      updated_successfully: "Category updated successfully!"
+      deleted_successfully: "Category deleted successfully!"
+
+    invoice:
+      created_successfully: "Invoice created successfully!"
+      updated_successfully: "Invoice updated successfully!"
+      deleted_successfully: "Invoice deleted successfully!"
+
+    team:
+      created_successfully: "Team created successfully!"
+      updated_successfully: "Team updated successfully!"
+      deleted_successfully: "Team deleted successfully!"
+      not_allowed: "You are not allowed to create a team."
+
+    suggestion:
+      created_successfully: "Suggestion created successfully!"
+      updated_successfully: "Suggestion updated successfully!"
+      deleted_successfully: "Suggestion deleted successfully!"
+

@@ -9,7 +9,7 @@ module My
     def update
       @user = current_user
       if @user.update(user_params)
-        redirect_to edit_my_settings_path, notice: "Your settings have been updated."
+        redirect_to edit_my_settings_path, notice: I18n.t('messages.settings.saved_successfully')
       else
         render :edit
       end

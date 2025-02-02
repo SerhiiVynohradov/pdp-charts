@@ -10,7 +10,7 @@ class TeamsController < ApplicationController
     @team = Team.new(team_params)
     if @team.save
       current_user.update(team_id: @team.id)
-      redirect_to manager_team_path(@team), notice: "Team created successfully!"
+      redirect_to manager_team_path(@team), notice: I18n.t('messages.team.created_successfully')
     else
       render :new
     end
@@ -24,7 +24,7 @@ class TeamsController < ApplicationController
 
   def ensure_manager_without_team
     unless current_user.manager? && current_user.team.nil?
-      redirect_to root_path, alert: "You are not allowed to create a team."
+      redirect_to root_path, alert: I18n.t('messages.team.not_allowed')
     end
   end
 end

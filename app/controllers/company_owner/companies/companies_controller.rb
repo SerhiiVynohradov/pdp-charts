@@ -15,7 +15,7 @@ module CompanyOwner
 
       def update
         if @company.update(company_params)
-          redirect_to edit_company_owner_company_path(current_user.company), notice: "Company updated successfully."
+          redirect_to edit_company_owner_company_path(current_user.company), notice: I18n.t('messages.company.updated_successfully')
         else
           render :edit
         end

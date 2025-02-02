@@ -60,7 +60,7 @@ module ItemManagement
 
     # Шаг 3. Сохраняем RecommendedItem
     if recommended_item.save
-      flash[:notice] = "Item has been recommended!"
+      flash[:notice] = I18n.t('messages.item.recommended_successfully')
     else
       flash[:alert] = "Failed to recommend: #{recommended_item.errors.full_messages.join(', ')}"
     end
@@ -197,7 +197,7 @@ module ItemManagement
   end
 
   def chart_label_show
-    "PDP Chart for #{@item.name}"
+    I18n.t('labels.pdp_chart.for_item', item: @item.name)
   end
 
   def set_user

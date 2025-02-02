@@ -10,7 +10,7 @@ class CompaniesController < ApplicationController
     @company = Company.new(company_params)
     if @company.save
       current_user.update(company_id: @company.id)
-      redirect_to company_owner_company_path(@company), notice: "Company created successfully!"
+      redirect_to company_owner_company_path(@company), notice: I18n.t("messages.company.created_successfully")
     else
       render :new
     end
@@ -25,7 +25,7 @@ class CompaniesController < ApplicationController
   # Проверяем, что current_user - owner и у него нет company
   def ensure_owner_without_company
     unless current_user.company_owner? && current_user.company.nil?
-      redirect_to root_path, alert: "You are not allowed to create a company."
+      redirect_to root_path, alert: I18n.t('messages.company.not_allowed')
     end
   end
 end

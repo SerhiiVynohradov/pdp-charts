@@ -14,10 +14,10 @@ class PlansController < ApplicationController
       elsif current_user.company_owner? && current_user.company.blank?
         redirect_to new_company_path
       else
-        redirect_to root_path, notice: "Your plan has been updated."
+        redirect_to root_path, notice: I18n.t('messages.plan.updated_successfully')
       end
     else
-      redirect_to upgrade_plans_path, alert: "Something went wrong."
+      redirect_to upgrade_plans_path, I18n.t('messages.something_went_wrong')
     end
   end
 end

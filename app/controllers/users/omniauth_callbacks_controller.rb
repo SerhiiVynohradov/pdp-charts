@@ -37,7 +37,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     if !user_signed_in?
       sign_in user
       if @new_user
-        flash[:notice] = "Welcome to our site! Your password is #{randompassword}. Please change it in your profile."
+        flash[:notice] = I18n.t('messages.welcome', randompassword: randompassword)
         redirect_to upgrade_plans_path
       else
         redirect_to root_url
@@ -48,7 +48,6 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def linkedin
-    render text: request.env
   end
 
   def facebook

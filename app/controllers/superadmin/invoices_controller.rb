@@ -18,7 +18,7 @@ module Superadmin
       @invoice = @invoiceable.invoices.build(invoice_params)
       if @invoice.save
         redirect_to superadmin_payer_invoices_path(@invoiceable, invoiceable_type: invoiceable_class),
-          notice: "Invoice created."
+          notice: I18n.t("messages.invoice.created_successfully")
       else
         render :new
       end
@@ -30,7 +30,7 @@ module Superadmin
     def update
       if @invoice.update(invoice_params)
         redirect_to superadmin_payer_invoices_path(@invoiceable, invoiceable_type: invoiceable_class),
-          notice: "Invoice updated."
+          notice: I18n.t("messages.invoice.updated_successfully")
       else
         render :edit
       end
@@ -39,7 +39,7 @@ module Superadmin
     def destroy
       @invoice.destroy
       redirect_to superadmin_payer_invoices_path(@invoiceable, invoiceable_type: invoiceable_class),
-        alert: "Invoice deleted."
+        alert: I18n.t("messages.invoice.deleted_successfully")
     end
 
     private

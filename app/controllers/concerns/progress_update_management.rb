@@ -15,10 +15,13 @@ module ProgressUpdateManagement
     @progress_update.percent = progress_update_params[:percent]
 
     if @progress_update.save
+      result = @progress_update.attributes
+      result['percent'] = "#{result['percent']}%"
+
       respond_to do |format|
         format.turbo_stream { render partial: "shared/progress_updates/update", locals: { progress_update: @progress_update }, formats: [:turbo_stream] }
-        format.html { redirect_to the_item_path(@item_progress_column.items.first), notice: "Progress update successfully saved." }
-        format.json { render json: @progress_update, status: :created }
+        # format.html { redirect_to the_item_path(@item_progress_column.items.first), notice: "Progress update successfully saved." }
+        format.json { render json: result, status: :created }
       end
     else
       respond_to do |format|
@@ -30,10 +33,14 @@ module ProgressUpdateManagement
 
   def update
     if @progress_update.update(progress_update_params)
+
+      result = @progress_update.attributes
+      result['percent'] = "#{result['percent']}%"
+
       respond_to do |format|
         format.turbo_stream { render partial: "shared/progress_updates/update", locals: { progress_update: @progress_update }, formats: [:turbo_stream] }
-        format.json { render json: @progress_update, status: :ok }
-        format.html { redirect_to the_item_path(@progress_update.item), notice: "Progress update successfully updated." }
+        format.json { render json: result, status: :ok }
+        # format.html { redirect_to the_item_path(@progress_update.item), notice: "Progress update successfully updated." }
       end
     else
       respond_to do |format|
@@ -48,7 +55,7 @@ module ProgressUpdateManagement
     @progress_update.destroy
     respond_to do |format|
       format.turbo_stream { render partial: "shared/progress_updates/destroy", locals: { progress_update: @progress_update }, formats: [:turbo_stream] }
-      format.html { redirect_to the_item_path(@progress_update.item), notice: "Progress update successfully deleted." }
+      # format.html { redirect_to the_item_path(@progress_update.item), notice: "Progress update successfully deleted." }
     end
   end
 

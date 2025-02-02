@@ -2,6 +2,7 @@ en:
   items_index:
     my_items: "My Items"
     name: "Name"
+    user_name: "Name"
     status: "Status"
     description: "Description"
     link: "Link"

@@ -24,7 +24,7 @@ module ItemProgressColumnManagement
     if @item_progress_column.save
       respond_to do |format|
         format.turbo_stream { render partial: "shared/item_progress_columns/create", locals: { item_progress_column: @item_progress_column }, formats: [:turbo_stream] }
-        format.html { redirect_to the_item_path(@item_progress_column.items.first), notice: "Progress column successfully created." }
+        format.html { redirect_to the_item_path(@item_progress_column.items.first), notice: I18n.t('messages.progress_column.created_successfully') }
       end
     else
       respond_to do |format|
@@ -45,7 +45,7 @@ module ItemProgressColumnManagement
     if @item_progress_column.update(item_progress_column_params)
       respond_to do |format|
         format.turbo_stream { render partial: "shared/item_progress_columns/update", locals: { item_progress_column: @item_progress_column }, formats: [:turbo_stream] }
-        format.html { redirect_to the_item_path(@item_progress_column.items.first), notice: "Progress column successfully updated." }
+        format.html { redirect_to the_item_path(@item_progress_column.items.first), notice: I18n.t('messages.progress_column.updated_successfully') }
       end
     else
       respond_to do |format|
@@ -59,7 +59,7 @@ module ItemProgressColumnManagement
     @item_progress_column.destroy
     respond_to do |format|
       format.turbo_stream { render partial: "shared/item_progress_columns/destroy", locals: { item_progress_column: @item_progress_column }, formats: [:turbo_stream] }
-      format.html { redirect_to the_item_path(@item_progress_column.items.first), notice: "Progress column successfully deleted." }
+      format.html { redirect_to the_item_path(@item_progress_column.items.first), notice: I18n.t('messages.progress_column.deleted_successfully') }
     end
   end
 

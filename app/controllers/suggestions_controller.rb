@@ -25,7 +25,7 @@ class SuggestionsController < ApplicationController
       if @suggestion.save
         path_to_redirect_to = current_user.superadmin? ? suggestions_path : root_path
 
-        format.html { redirect_to path_to_redirect_to, notice: "Suggestion was successfully created." }
+        format.html { redirect_to path_to_redirect_to, notice: I18n.t("messages.suggestion.created_successfully") }
         format.json { render :show, status: :created, location: @suggestion }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -37,7 +37,7 @@ class SuggestionsController < ApplicationController
   def update
     respond_to do |format|
       if @suggestion.update(suggestion_params)
-        format.html { redirect_to @suggestion, notice: "Suggestion was successfully updated." }
+        format.html { redirect_to @suggestion, notice: I18n.t("messages.suggestion.updated_successfully") }
         format.json { render :show, status: :ok, location: @suggestion }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -50,7 +50,7 @@ class SuggestionsController < ApplicationController
     @suggestion.destroy!
 
     respond_to do |format|
-      format.html { redirect_to suggestions_path, status: :see_other, notice: "Suggestion was successfully destroyed." }
+      format.html { redirect_to suggestions_path, status: :see_other, notice: I18n.t("messages.suggestion.deleted_successfully") }
       format.json { head :no_content }
     end
   end
@@ -65,6 +65,6 @@ class SuggestionsController < ApplicationController
   end
 
   def require_superadmin
-    redirect_to root_path, alert: "You are not authorized to access this page." unless current_user.superadmin?
+    redirect_to root_path, alert: I1in.t('messages.not_allowed') unless current_user.superadmin?
   end
 end
