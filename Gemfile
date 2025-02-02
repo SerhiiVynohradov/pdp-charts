@@ -56,10 +56,12 @@ group :development do
   gem "web-console"
   gem 'letter_opener'
   gem 'letter_opener_web'
+  gem 'i18n-tasks'
 end
 
 
 gem "devise", "~> 4.9"
+gem 'devise-i18n'
 gem 'omniauth'
 gem 'omniauth-rails_csrf_protection'
 gem 'omniauth-google-oauth2'

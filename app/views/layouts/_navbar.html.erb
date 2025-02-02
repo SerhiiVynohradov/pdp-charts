@@ -43,6 +43,12 @@
       </div>
 
       <div class="hidden md:flex items-center space-x-4 ml-auto">
+        <% if I18n.locale == :uk %>
+          <%= link_to "English", url_for(locale: :en), class: "text-white hover:text-blue-300" %>
+        <% else %>
+          <%= link_to "Українська", url_for(locale: :uk), class: "text-white hover:text-blue-300" %>
+        <% end %>
+
         <% if user_signed_in? %>
           <% if !current_user.superadmin? %>
             <%= link_to "Upgrade", upgrade_plans_path, class: "text-white hover:text-blue-300" %>
@@ -123,6 +129,12 @@
 
 
         <hr class="border-gray-700 my-2" />
+
+        <% if I18n.locale == :uk %>
+          <%= link_to "English", url_for(locale: :en), class: "block px-3 py-2 rounded text-white hover:bg-gray-700" %>
+        <% else %>
+          <%= link_to "Українська", url_for(locale: :uk), class: "block px-3 py-2 rounded text-white hover:bg-gray-700" %>
+        <% end %>
 
         <% if !current_user.superadmin? %>
           <%= link_to "Upgrade", upgrade_plans_path, class: "block px-3 py-2 rounded text-white hover:bg-gray-700" %>

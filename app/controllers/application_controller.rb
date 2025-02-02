@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   allow_browser versions: :modern
   before_action :create_team_or_company
   before_action :redirect_to_www
+  before_action :set_locale
 
   private
 
@@ -27,5 +28,18 @@ class ApplicationController < ActionController::Base
     if request.host == 'pdpcharts.com'
       redirect_to("https://www.pdpcharts.com#{request.fullpath}", status: 301, allow_other_host: true)
     end
+  end
+
+  def set_locale
+    if params[:locale].present? && I18n.available_locales.include?(params[:locale].to_sym)
+      I18n.locale = params[:locale]
+      session[:locale] = I18n.locale
+    else
+      I18n.locale = session[:locale] || I18n.default_locale
+    end
+  end
+
+  def default_url_options
+    { locale: I18n.locale }
   end
 end
