@@ -3,7 +3,7 @@
     <th id="progress_column_<%= item_progress_column.id %>" class="px-4 py-2 text-left">
       <div class="flex items-center space-x-2">
         <%= item_progress_column.date.strftime("%d %b %Y") %>
-        <%= link_to "Edit", edit_user_item_progress_column_path(@user, item_progress_column), class: "text-yellow-400 hover:underline", data: { turbo_frame: dom_id(item_progress_column, :edit) } %>
+        <%= link_to t('buttons.edit'), edit_user_item_progress_column_path(@user, item_progress_column), class: "text-yellow-400 hover:underline", data: { turbo_frame: dom_id(item_progress_column, :edit) } %>
       </div>
     </th>
   </template>

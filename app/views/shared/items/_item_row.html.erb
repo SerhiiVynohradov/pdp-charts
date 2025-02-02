@@ -12,7 +12,7 @@ the_item_path = if @superadmin
 
 <tr id="<%= dom_id(item) %>" class="border-b border-gray-600 hover:bg-gray-700">
   <td class="px-4 py-2 align-top">
-    <%= link_to "Details", the_item_path,
+    <%= link_to t('buttons.details'), the_item_path,
       class: "bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded shadow-sm" %>
   </td>
   <!-- NAME -->
@@ -45,7 +45,7 @@ the_item_path = if @superadmin
           type="submit"
           class="bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded"
         >
-          Save
+          <%= t('buttons.save') %>
         </button>
       </form>
     </div>
@@ -100,7 +100,7 @@ the_item_path = if @superadmin
           type="submit"
           class="bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded"
         >
-          Save
+          <%= t('buttons.save') %>
         </button>
       </form>
     </div>
@@ -145,7 +145,7 @@ the_item_path = if @superadmin
           type="submit"
           class="bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded"
         >
-          Save
+          <%= t('buttons.save') %>
         </button>
       </form>
     </div>
@@ -180,7 +180,7 @@ the_item_path = if @superadmin
           type="submit"
           class="bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded"
         >
-          Save
+          <%= t('buttons.save') %>
         </button>
       </form>
     </div>
@@ -215,7 +215,7 @@ the_item_path = if @superadmin
           type="submit"
           class="bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded"
         >
-          Save
+          <%= t('buttons.save') %>
         </button>
       </form>
     </div>
@@ -312,7 +312,7 @@ the_item_path = if @superadmin
           type="submit"
           class="bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded"
         >
-          Save
+          <%= t('buttons.save') %>
         </button>
       </form>
     </div>
@@ -412,7 +412,7 @@ the_item_path = if @superadmin
           type="submit"
           class="bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded"
         >
-          Save
+          <%= t('buttons.save') %>
         </button>
       </form>
     </div>
@@ -478,7 +478,7 @@ the_item_path = if @superadmin
               value="<%= progress_update&.percent || '' %>"
             >
             <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded">
-              Save
+              <%= t('buttons.save') %>
             </button>
           </form>
         </div>
@@ -515,7 +515,7 @@ the_item_path = if @superadmin
           type="submit"
           class="bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded"
         >
-          Save
+          <%= t('buttons.save') %>
         </button>
       </form>
     </div>
@@ -557,7 +557,7 @@ the_item_path = if @superadmin
           value="<%= item.certificate_link %>"
         >
         <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded">
-          Save
+          <%= t('buttons.save') %>
         </button>
       </form>
     </div>
@@ -566,9 +566,9 @@ the_item_path = if @superadmin
   <!-- ACTIONS (Delete Button) -->
   <td class="px-4 py-2 align-top text-right">
     <div class="inline-flex items-center space-x-2">
-      <%= link_to "Delete",
+      <%= link_to t('buttons.delete'),
         the_item_path,
-        data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' },
+        data: { turbo_method: :delete, turbo_confirm: t('buttons.are_you_sure') },
         class: "bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded shadow-sm" %>
 
       <% if current_user.superadmin? || current_user.company_owner? || current_user.manager? %>
@@ -582,7 +582,7 @@ the_item_path = if @superadmin
                               "#"
                             end %>
 
-                            <%= link_to "Recommend",
+                            <%= link_to t('buttons.recommend'),
                               recommend_path,
                               data: { turbo_method: :post },
                               class: "bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded shadow-sm" %>

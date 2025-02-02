@@ -1,6 +1,6 @@
 <tr id="<%= dom_id(company) %>" class="border-b border-gray-600 hover:bg-gray-700">
   <td class="px-4 py-2 align-top">
-    <%= link_to "Details", superadmin_company_path(company), class: "bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded" %>
+    <%= link_to t('buttons.details'), superadmin_company_path(company), class: "bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded" %>
   </td>
 
   <!-- Name -->
@@ -35,7 +35,7 @@
           type="submit"
           class="bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded"
         >
-          Save
+          <%= t('buttons.save') %>
         </button>
       </form>
     </div>
@@ -52,7 +52,7 @@
       <span class="text-sm <%= company.active? ? 'text-green-500' : 'text-red-500' %>">
         <%= company.active? ? "Active" : "Inactive" %>
       </span>
-      <%= link_to (company.active? ? "Deactivate" : "Activate"),
+      <%= link_to (company.active? ? t('buttons.deactivate') : t('buttons.activate')),
                   toggle_status_superadmin_company_path(company),
                   data: { turbo_method: :patch },
                   class: (company.active? ? "bg-red-600" : "bg-green-600") + " text-white px-2 py-1 rounded" %>
@@ -61,6 +61,6 @@
 
   <!-- Manage Actions -->
   <td class="px-4 py-2 align-top text-right space-x-2">
-    <%= link_to "Delete", superadmin_company_path(company), data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: "bg-red-600 hover:bg-red-700 text-white px-2 py-1 rounded" %>
+    <%= link_to t('buttons.delete'), superadmin_company_path(company), data: { turbo_method: :delete, turbo_confirm: t('buttons.are_you_sure') }, class: "bg-red-600 hover:bg-red-700 text-white px-2 py-1 rounded" %>
   </td>
 </tr>

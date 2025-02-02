@@ -1,0 +1,17 @@
+uk:
+  items_index:
+    my_items: "Мої предмети"
+    name: "Назва"
+    status: "Статус"
+    description: "Опис"
+    link: "Посилання"
+    reason: "Причина"
+    expected_results: "Очікувані результати"
+    category: "Категорія"
+    effort: "Зусилля"
+    progress: "Прогрес:"
+    result: "Результат"
+    certificate_link: "Посилання на сертифікат"
+    actions: "Дії"
+    edit: "Редагувати"
+    email: "Email"

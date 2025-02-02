@@ -1,0 +1,12 @@
+en:
+  labels:
+    errors: 'Errors'
+    name: 'Name'
+    description: 'Description'
+    edit_category: 'Edit Category'
+    categories: 'Categories'
+    new_category: 'New Category'
+    no_categories_found: 'No categories found.'
+    category: 'Category'
+    company_name: 'Company Name'
+    all_companies_chart: 'All Companies Chart'

@@ -18,7 +18,7 @@
   <%= f.date_field :date, class: "rounded bg-gray-700 border border-gray-600 px-2 py-1 text-white", required: true %>
 
   <div class="flex flex-col space-y-1">
-    <%= f.submit "Save", class: "bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 rounded" %>
-    <%= link_to "Cancel", "#", class: "text-red-500 hover:underline", data: { action: "click->cell-edit#cancelEdit" } %>
+    <%= f.submit t('buttons.save'), class: "bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 rounded" %>
+    <%= link_to t('buttons.cancel'), "#", class: "text-red-500 hover:underline", data: { action: "click->cell-edit#cancelEdit" } %>
   </div>
 <% end %>

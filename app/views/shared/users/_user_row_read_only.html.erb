@@ -9,7 +9,7 @@ the_user_path = if @company.present?
 <tr id="<%= dom_id(user) %>" class="border-b border-gray-600 hover:bg-gray-700">
   <!-- Actions (Details) -->
   <td class="px-4 py-2 align-top">
-    <%= link_to "Details", the_user_path, class: "bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded" %>
+    <%= link_to t('buttons.details'), the_user_path, class: "bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded" %>
   </td>
 
   <!-- Name (read-only) -->
@@ -25,7 +25,7 @@ the_user_path = if @company.present?
   <!-- Status (read-only, без кнопки Pause) -->
   <td class="px-4 py-2 align-top">
     <span class="text-sm <%= user.paused? ? 'text-red-500' : 'text-green-500' %>">
-      <%= user.paused? ? "Paused" : "Active" %>
+      <%= user.paused? ? t('buttons.inactive') : t('buttons.active') %>
     </span>
   </td>
 

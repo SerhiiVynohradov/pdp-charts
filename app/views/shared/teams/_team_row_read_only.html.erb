@@ -9,7 +9,7 @@ the_team_path = if @company.present?
 <tr id="<%= dom_id(team) %>" class="border-b border-gray-600 hover:bg-gray-700">
   <!-- Actions (Details) -->
   <td class="px-4 py-2 align-top">
-    <%= link_to "Details", the_team_path, class: "bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded" %>
+    <%= link_to t('buttons.details'), the_team_path, class: "bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded" %>
   </td>
 
   <!-- Name (read-only) -->
@@ -20,7 +20,7 @@ the_team_path = if @company.present?
   <!-- Status (read-only) -->
   <td class="px-4 py-2 align-top">
     <span class="text-sm <%= team.active? ? 'text-green-500' : 'text-red-500' %>">
-      <%= team.active? ? "Active" : "Inactive" %>
+      <%= team.active? ? t('buttons.active') : t('buttons.inactive') %>
     </span>
   </td>
 

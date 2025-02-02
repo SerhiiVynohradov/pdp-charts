@@ -15,7 +15,7 @@ the_toggle_status_path = if @superadmin
 
 <tr id="<%= dom_id(team) %>" class="border-b border-gray-600 hover:bg-gray-700">
   <td class="px-4 py-2 align-top">
-    <%= link_to "Details", the_team_path, class: "bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded" %>
+    <%= link_to t('buttons.details'), the_team_path, class: "bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded" %>
   </td>
 
   <!-- Name -->
@@ -50,7 +50,7 @@ the_toggle_status_path = if @superadmin
           type="submit"
           class="bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded"
         >
-          Save
+          <%= t('buttons.save') %>
         </button>
       </form>
     </div>
@@ -62,7 +62,7 @@ the_toggle_status_path = if @superadmin
       <span class="text-sm <%= team.active? ? 'text-green-500' : 'text-red-500' %>">
         <%= team.active? ? "Active" : "Inactive" %>
       </span>
-      <%= link_to (team.active? ? "Deactivate" : "Activate"),
+      <%= link_to (team.active? ? t('buttons.deactivate') : t('buttons.activate'),
                   the_toggle_status_path,
                   data: { turbo_method: :patch },
                   class: (team.active? ? "bg-red-600" : "bg-green-600") + " text-white px-2 py-1 rounded" %>
@@ -71,6 +71,6 @@ the_toggle_status_path = if @superadmin
 
   <!-- Manage Actions -->
   <td class="px-4 py-2 align-top text-right space-x-2">
-    <%= link_to "Delete", the_team_path, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: "bg-red-600 hover:bg-red-700 text-white px-2 py-1 rounded" %>
+    <%= link_to t('buttons.delete'), the_team_path, data: { turbo_method: :delete, turbo_confirm: t('buttons.are_you_sure') }, class: "bg-red-600 hover:bg-red-700 text-white px-2 py-1 rounded" %>
   </td>
 </tr>

@@ -6,7 +6,7 @@
                 data: { turbo_frame: dom_id(progress_update, :edit) },
                 class: "flex items-center space-x-2 bg-gray-800 p-2 rounded" do |f| %>
     <%= f.number_field :percent, min: 0, max: 100, class: "w-16 rounded bg-gray-700 border border-gray-600 px-2 py-1 text-white" %>
-    <%= f.submit "Save", class: "bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 rounded" %>
-    <%= link_to "Cancel", "#", class: "text-red-500 hover:underline", data: { action: "click->cell-edit#cancelEdit" } %>
+    <%= f.submit t('buttons.save'), class: "bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 rounded" %>
+    <%= link_to t('buttons.cancel'), "#", class: "text-red-500 hover:underline", data: { action: "click->cell-edit#cancelEdit" } %>
   <% end %>
 <% end %>

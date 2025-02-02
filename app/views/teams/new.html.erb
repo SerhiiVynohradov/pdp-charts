@@ -1,10 +1,10 @@
 <div class="max-w-md mx-auto mt-10 bg-gray-900 p-6 rounded shadow-md">
-  <h1 class="text-xl font-bold text-white mb-4">Create Team</h1>
+  <h1 class="text-xl font-bold text-white mb-4"><%= t('buttons.create_team') %></h1>
 
   <%= form_with model: @team, url: teams_path, local: true do |f| %>
     <% if @team.errors.any? %>
       <div class="mb-4 bg-red-600 text-white p-3 rounded">
-        <p><strong>Errors:</strong></p>
+        <p><strong><%= t('labels.errors') %>:</strong></p>
         <ul class="list-disc list-inside">
           <% @team.errors.full_messages.each do |msg| %>
             <li><%= msg %></li>
@@ -18,7 +18,7 @@
       <%= f.text_field :name, class: "w-full mt-1 p-2 bg-gray-800 text-white rounded border border-gray-700" %>
     </div>
 
-    <%= f.submit "Create Team",
+    <%= f.submit t('buttons.create_team'),
                  class: "bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded" %>
   <% end %>
 </div>

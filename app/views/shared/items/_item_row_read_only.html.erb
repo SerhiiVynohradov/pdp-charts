@@ -10,7 +10,7 @@ the_item_path = if @company.present?
 
 <tr id="<%= dom_id(item) %>" class="border-b border-gray-600 hover:bg-gray-700">
   <td class="px-4 py-2 align-top">
-    <%= link_to "Details", the_item_path, class: "bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded" %>
+    <%= link_to t('buttons.details'), the_item_path, class: "bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded" %>
   </td>
   <!-- NAME (read-only) -->
   <td class="px-4 py-2 align-top">

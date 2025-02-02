@@ -2,8 +2,8 @@
 
 <%= form_with url: superadmin_company_path(@company), method: :patch, local: true do |f| %>
   <div class="mb-2">
-    <%= f.label :name, "Company Name" %>
+    <%= f.label :name, t('labels.company_name') %>
     <%= f.text_field :name, class: "border rounded px-2 py-1 w-64" %>
   </div>
-  <%= f.submit "Update", class: "bg-blue-600 text-white px-3 py-1 rounded" %>
+  <%= f.submit t('buttons.update'), class: "bg-blue-600 text-white px-3 py-1 rounded" %>
 <% end %>

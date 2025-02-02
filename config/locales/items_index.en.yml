@@ -1,0 +1,17 @@
+en:
+  items_index:
+    my_items: "My Items"
+    name: "Name"
+    status: "Status"
+    description: "Description"
+    link: "Link"
+    reason: "Reason"
+    expected_results: "Expected Results"
+    category: "Category"
+    effort: "Effort"
+    progress: "Progress:"
+    result: "Result"
+    certificate_link: "Certificate Link"
+    actions: "Actions"
+    edit: "Edit"
+    email: "Email"

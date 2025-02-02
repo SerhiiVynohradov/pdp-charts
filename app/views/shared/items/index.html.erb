@@ -1,5 +1,5 @@
 <div class="bg-gray-900 text-white min-h-screen p-6">
-  <h1 class="text-2xl font-bold mb-4">My Items</h1>
+  <h1 class="text-2xl font-bold mb-4"><%= t('items_index.my_items') %></h1>
 
   <!-- Partial for charts -->
   <%= render partial: "shared/pdp_charts", locals: { chart_data: @chart_data } %>
@@ -18,19 +18,19 @@
       <tr class="bg-gray-700 border-b border-gray-600">
         <!-- Стандартные столбцы с rowspan=2 -->
         <th class="px-4 py-2 text-left" rowspan="2"></th>
-        <th class="px-4 py-2 text-left" rowspan="2">Name</th>
-        <th class="px-4 py-2 text-left" rowspan="2">Status</th>
-        <th class="px-4 py-2 text-left" rowspan="2">Description</th>
-        <th class="px-4 py-2 text-left" rowspan="2">Link</th>
-        <th class="px-4 py-2 text-left" rowspan="2">Reason</th>
-        <th class="px-4 py-2 text-left" rowspan="2">Expected Results</th>
-        <th class="px-4 py-2 text-left" rowspan="2">Category</th>
-        <th class="px-4 py-2 text-left" rowspan="2">Effort</th>
+        <th class="px-4 py-2 text-left" rowspan="2"><%= t('items_index.name') %></th>
+        <th class="px-4 py-2 text-left" rowspan="2"><%= t('items_index.status') %></th>
+        <th class="px-4 py-2 text-left" rowspan="2"><%= t('items_index.description') %></th>
+        <th class="px-4 py-2 text-left" rowspan="2"><%= t('items_index.link') %></th>
+        <th class="px-4 py-2 text-left" rowspan="2"><%= t('items_index.reason') %></th>
+        <th class="px-4 py-2 text-left" rowspan="2"><%= t('items_index.expected_results') %></th>
+        <th class="px-4 py-2 text-left" rowspan="2"><%= t('items_index.category') %></th>
+        <th class="px-4 py-2 text-left" rowspan="2"><%= t('items_index.effort') %></th>
 
         <!-- Столбец Progress с динамическим colspan и кнопкой + -->
         <th id="progress_header" class="px-4 py-2 text-left" colspan="<%= @user.item_progress_columns.count %>">
           <div class="flex items-center space-x-2">
-            <span>Progress:</span>
+            <span><%= t('items_index.progress') %></span>
             <% unless read_only_mode %>
               <turbo-frame id="add_progress_column">
                 <% the_new_column_path = if @superadmin
@@ -43,17 +43,15 @@
                                            new_my_item_progress_column_path
                                          end
                 %>
-
-
                 <%= link_to "+", the_new_column_path, class: "bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded" %>
               </turbo-frame>
             <% end %>
           </div>
         </th>
 
-        <th class="px-4 py-2 text-left" rowspan="2">Result</th>
-        <th class="px-4 py-2 text-left" rowspan="2">Certificate Link</th>
-        <th class="px-4 py-2 text-left" rowspan="2">Actions</th>
+        <th class="px-4 py-2 text-left" rowspan="2"><%= t('items_index.result') %></th>
+        <th class="px-4 py-2 text-left" rowspan="2"><%= t('items_index.certificate_link') %></th>
+        <th class="px-4 py-2 text-left" rowspan="2"><%= t('items_index.actions') %></th>
       </tr>
 
       <!-- Вторая строка заголовков: заголовки для прогресс-колонок -->
@@ -74,7 +72,8 @@
                                               edit_my_item_progress_column_path(column)
                                             end
                   %>
-                <%= link_to "Edit", the_edit_column_path, class: "text-yellow-400 hover:underline",
+                  <%= link_to t('items_index.edit'), the_edit_column_path,
+                      class: "text-yellow-400 hover:underline",
                       data: {
                         controller: "cell-edit",
                         action: "click->cell-edit#enableEdit",
@@ -83,7 +82,7 @@
                         "cell-edit-initial-value-value": column.date,
                         "cell-edit-resource-name-value": "item_progress_column"
                       }
-                %>
+                  %>
                 </div>
               <% end %>
             </div>
