@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   private
 
   def create_team_or_company
-    if user_signed_in?
+    if user_signed_in? && !request.path.include?("sign_out")
       if current_user.manager? && current_user.team.blank? && !request.path.include?("teams")
         redirect_to new_team_path
       elsif current_user.company_owner? && current_user.company.blank? && !request.path.include?("companies")

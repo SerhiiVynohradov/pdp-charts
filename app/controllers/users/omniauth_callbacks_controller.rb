@@ -7,8 +7,11 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
     user = current_user || User.find_or_initialize_by(email: auth.info.email)
 
+    @new_user = false
+
     # If this is a new user - get info from google
     if user.new_record?
+      @new_user = true
       user.name = auth.info.name
       randompassword = Devise.friendly_token.first(8)
       user.password = randompassword
@@ -33,7 +36,12 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     # Login the user if he is not signed in and redirect to his root url
     if !user_signed_in?
       sign_in user
-      redirect_to root_url
+      if @new_user
+        flash[:notice] = "Welcome to our site! Your password is #{randompassword}. Please change it in your profile."
+        redirect_to upgrade_plans_path
+      else
+        redirect_to root_url
+      end
     else
       redirect_to origin
     end
