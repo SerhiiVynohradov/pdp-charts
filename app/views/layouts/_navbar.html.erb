@@ -15,6 +15,7 @@
             <%= link_to "Categories", superadmin_categories_path, class: "text-white hover:text-blue-300" %>
             <%= link_to "Global Recommended Items", superadmin_recommended_items_path, class: "text-white hover:text-blue-300" %>
             <%= link_to "Payers", superadmin_payers_path, class: "text-white hover:text-blue-300" %>
+            <%= link_to "Suggestions", suggestions_path, class: "text-white hover:text-blue-300" %>
 
           <% elsif current_user.company_owner? && current_user.company.present? %>
             <% # Company Owner links %>
@@ -47,6 +48,8 @@
             <%= link_to "Upgrade", upgrade_plans_path, class: "text-white hover:text-blue-300" %>
             <%= link_to "My Settings", edit_my_settings_path, class: "text-white hover:text-blue-300" %>
           <% end %>
+
+          <%= link_to "Suggest Improvement", new_suggestion_path, class: "text-white hover:text-blue-300" %>
 
           <% if current_user.manager? && current_user.team.present? %>
             <%= link_to "#{current_user.team.name} Settings", edit_manager_team_path(current_user.team), class: "text-white hover:text-blue-300" %>
@@ -95,6 +98,7 @@
           <%= link_to "Categories", superadmin_categories_path, class: "block px-3 py-2 rounded text-white hover:bg-gray-700" %>
           <%= link_to "Global Recommended Items", superadmin_recommended_items_path, class: "block px-3 py-2 rounded text-white hover:bg-gray-700" %>
           <%= link_to "Payers", superadmin_payers_path, class: "block px-3 py-2 rounded text-white hover:bg-gray-700" %>
+          <%= link_to "Suggestions", suggestions_path, class: "block px-3 py-2 rounded text-white hover:bg-gray-700" %>
 
         <% elsif current_user.company_owner? && current_user.company.present? %>
           <% # Company Owner mobile links %>
@@ -124,6 +128,8 @@
           <%= link_to "Upgrade", upgrade_plans_path, class: "block px-3 py-2 rounded text-white hover:bg-gray-700" %>
           <%= link_to "Settings", edit_my_settings_path, class: "block px-3 py-2 rounded text-white hover:bg-gray-700" %>
         <% end %>
+
+        <%= link_to "Suggest Improvement", new_suggestion_path, class: "block px-3 py-2 rounded text-white hover:bg-gray-700" %>
 
         <% if current_user.manager? && current_user.team.present? %>
           <%= link_to "#{current_user.team.name} Settings", edit_manager_team_path(current_user.team), class: "block px-3 py-2 rounded text-white hover:bg-gray-700" %>

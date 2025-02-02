@@ -1,0 +1,25 @@
+<%= form_with model: @suggestion, url: suggestions_path, local: true do |f| %>
+  <% if @suggestion.errors.any? %>
+    <div class="mb-4 bg-red-600 text-white p-3 rounded">
+      <p><strong>Errors:</strong></p>
+      <ul class="list-disc list-inside">
+        <% @suggestion.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-4">
+    <%= f.label :title, class: "block text-gray-400" %>
+    <%= f.text_field :title, class: "w-full mt-1 p-2 bg-gray-800 text-white rounded border border-gray-700" %>
+  </div>
+
+  <div class="mb-4">
+    <%= f.label :description, class: "block text-gray-400" %>
+    <%= f.text_area :description, class: "w-full mt-1 p-2 bg-gray-800 text-white rounded border border-gray-700" %>
+  </div>
+
+  <%= f.submit "Create Team",
+               class: "bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded" %>
+<% end %>

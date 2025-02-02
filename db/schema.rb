@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_01_17_221846) do
+ActiveRecord::Schema[7.2].define(version: 2025_02_02_094806) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -100,6 +100,15 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_17_221846) do
     t.index ["team_id"], name: "index_recommended_items_on_team_id"
   end
 
+  create_table "suggestions", force: :cascade do |t|
+    t.string "title"
+    t.text "description"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_suggestions_on_user_id"
+  end
+
   create_table "teams", force: :cascade do |t|
     t.string "name"
     t.boolean "charts_visible", default: false
@@ -134,6 +143,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_17_221846) do
   add_foreign_key "items", "users"
   add_foreign_key "progress_updates", "item_progress_columns"
   add_foreign_key "progress_updates", "items"
+  add_foreign_key "suggestions", "users"
   add_foreign_key "teams", "companies"
   add_foreign_key "users", "companies"
   add_foreign_key "users", "teams"

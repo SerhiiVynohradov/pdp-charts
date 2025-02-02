@@ -1,0 +1,24 @@
+<div class="bg-gray-900 text-white min-h-screen p-6">
+  <h1 class="text-2xl font-bold mb-4">Suggestions</h1>
+
+  <!-- Suggestoins Table -->
+  <table class="min-w-full border-collapse bg-gray-800 text-gray-50">
+    <thead>
+      <!-- Первая строка заголовков -->
+      <tr class="bg-gray-700 border-b border-gray-600">
+        <!-- Стандартные столбцы с rowspan=2 -->
+        <th class="px-4 py-2 text-left" rowspan="2"></th>
+        <th class="px-4 py-2 text-left" rowspan="2">Title</th>
+        <th class="px-4 py-2 text-left" rowspan="2">Description</th>
+        <th class="px-4 py-2 text-left" rowspan="2">User</th>
+        <th class="px-4 py-2 text-left" rowspan="2">Role</th>
+        <th class="px-4 py-2 text-left" rowspan="2">Actions</th>
+      </tr>
+    </thead>
+    <tbody id="items-container">
+      <% @suggestions.each do |suggestion| %>
+        <%= render suggestion %>
+      <% end %>
+    </tbody>
+  </table>
+</div>
