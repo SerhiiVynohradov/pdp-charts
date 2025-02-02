@@ -30,8 +30,14 @@ Devise.setup do |config|
                                   scope: 'userinfo.email, userinfo.profile, offline'
                   }
 
-  config.omniauth :linkedin,       ENV['LINKEDIN_CLIENT_ID'], ENV['LINKEDIN_CLIENT_SECRET'],
-                  scope: 'r_liteprofile r_emailaddress'
+  config.omniauth :linkedin, ENV['LINKEDIN_CLIENT_ID'], ENV['LINKEDIN_CLIENT_SECRET'],
+    scope: 'profile',
+    fields: ['id', 'first-name', 'last-name', 'email-address'],
+    client_options: {
+      site: 'https://api.linkedin.com',
+      authorize_url: "https://www.linkedin.com/oauth/v2/authorization",
+      token_url: "https://www.linkedin.com/oauth/v2/accessToken"
+    }
 
   config.omniauth :facebook, ENV['FACEBOOK_APP_ID'], ENV['FACEBOOK_APP_SECRET'], scope: 'email'
 

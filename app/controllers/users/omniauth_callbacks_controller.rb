@@ -40,7 +40,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def linkedin
-    # Аналогично
+    render text: request.env
   end
 
   def facebook
