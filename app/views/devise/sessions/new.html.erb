@@ -2,11 +2,23 @@
   <div class="max-w-md w-full bg-gray-800 p-8 rounded-lg shadow-lg">
 
     <h2 class="text-3xl font-bold mb-2 text-center text-white">
-      Вхід у систему
+      <%= t('login.enter') %>
     </h2>
     <p class="text-sm text-gray-400 mb-6 text-center">
-      Ласкаво просимо назад! Продовжуйте ваш шлях до розвитку.
+      <%= t('login.welcome_back') %>
     </p>
+
+    <% if devise_mapping.omniauthable? %>
+      <div class="flex items-center justify-center gap-2">
+        <% #todo: [:google_oauth2, :linkedin, :facebook] or resource_class.omniauth_providers %>
+        <%= turbo_frame_tag "google_login" do %>
+          <%= button_to omniauth_authorize_path(User, :google_oauth2), data: { turbo: false }, class: "flex items-center justify-center gap-2 px-4 py-2 bg-white text-gray-700 border border-gray-300 rounded-lg shadow-sm hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 focus:outline-none w-full" do %>
+            <%= image_tag 'Google_Logo.svg', class: "h-5 w-5" %>
+            <span><%= t('login.google_button') %></span>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
 
     <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "space-y-6" }) do |f| %>
       <!-- Email -->

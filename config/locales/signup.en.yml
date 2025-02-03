@@ -1,0 +1,10 @@
+en:
+  signup:
+    create_account: 'Create an account'
+    limited_offer: 'Free until March 2025 — don’t miss your chance to try it!'
+    google_button: 'Sign up with Google'
+
+  login:
+    enter: 'Log in'
+    welcome_back: 'Welcome back! Continue on your path to growth.'
+    google_button: 'Sign in with Google'

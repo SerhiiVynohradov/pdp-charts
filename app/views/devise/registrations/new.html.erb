@@ -3,11 +3,23 @@
 
     <!-- Heading & subtle marketing subtext -->
     <h1 class="text-3xl font-bold text-white mb-2 text-center">
-      Створити обліковий запис
+      <%= t('signup.create_account') %>
     </h1>
     <p class="text-sm text-gray-400 mb-6 text-center">
-      Безкоштовно до березня 2025 року — встигніть спробувати!
+      <%= t('signup.limited_offer') %>
     </p>
+
+    <% if devise_mapping.omniauthable? %>
+      <div class="flex items-center justify-center gap-2">
+        <% #todo: [:google_oauth2, :linkedin, :facebook] or resource_class.omniauth_providers %>
+        <%= turbo_frame_tag "google_login" do %>
+          <%= button_to omniauth_authorize_path(User, :google_oauth2), data: { turbo: false }, class: "flex items-center justify-center gap-2 px-4 py-2 bg-white text-gray-700 border border-gray-300 rounded-lg shadow-sm hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 focus:outline-none w-full" do %>
+            <%= image_tag 'Google_Logo.svg', class: "h-5 w-5" %>
+            <span><%= t('signup.google_button') %></span>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
 
     <!-- Error messages (if any) -->
     <%= render "devise/shared/error_messages", resource: resource %>
@@ -67,11 +79,6 @@
               class: "w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded shadow-md transition-transform transform hover:-translate-y-0.5" %>
       </div>
     <% end %>
-
-    <!-- OAuth -->
-    <div class="mt-6 text-center">
-      <p class="text-gray-300 mb-2">Або зареєструватися через:</p>
-    </div>
 
     <!-- Link to sign in (and other Devise links) -->
     <div class="mt-6 text-center">

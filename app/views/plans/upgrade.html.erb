@@ -48,12 +48,9 @@
 
       <!-- CTA button -->
       <% if current_plan == 'user' %>
-        <button
-          disabled
-          class="w-full cursor-not-allowed text-center bg-gray-600 text-white font-semibold py-2 px-4 rounded"
-        >
-          <%= t('upgrade.current_plan_btn') %>
-        </button>
+        <%= link_to t('upgrade.current_plan_btn'),
+                    root_path,
+                    class: 'w-full text-center bg-gray-600 text-white font-semibold py-2 px-4 rounded' %>
       <% else %>
         <%= link_to t('upgrade.plan_personal.choose_btn'),
                     update_role_plans_path(plan: 'user'),
@@ -94,12 +91,9 @@
       </div>
 
       <% if current_plan == 'manager' %>
-        <button
-          disabled
-          class="w-full cursor-not-allowed text-center bg-gray-600 text-white font-semibold py-2 px-4 rounded"
-        >
-          <%= t('upgrade.current_plan_btn') %>
-        </button>
+        <%= link_to t('upgrade.current_plan_btn'),
+                    root_path,
+                    class: 'w-full text-center bg-gray-600 text-white font-semibold py-2 px-4 rounded' %>
       <% else %>
         <%= link_to t('upgrade.plan_manager.choose_btn'),
                     update_role_plans_path(plan: 'manager'),
@@ -135,12 +129,9 @@
       </div>
 
       <% if current_plan == 'company_owner' %>
-        <button
-          disabled
-          class="w-full cursor-not-allowed text-center bg-gray-600 text-white font-semibold py-2 px-4 rounded"
-        >
-          <%= t('upgrade.current_plan_btn') %>
-        </button>
+        <%= link_to t('upgrade.current_plan_btn'),
+                    root_path,
+                    class: 'w-full text-center bg-gray-600 text-white font-semibold py-2 px-4 rounded' %>
       <% else %>
         <%= link_to t('upgrade.plan_company_owner.choose_btn'),
                     update_role_plans_path(plan: 'company_owner'),
