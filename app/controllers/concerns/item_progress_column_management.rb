@@ -19,18 +19,37 @@ module ItemProgressColumnManagement
     end
   end
 
+
   def create
-    @item_progress_column = @user.item_progress_columns.build(item_progress_column_params)
-    if @item_progress_column.save
-      respond_to do |format|
-        format.turbo_stream { render partial: "shared/item_progress_columns/create", locals: { item_progress_column: @item_progress_column }, formats: [:turbo_stream] }
-        format.html { redirect_to the_item_path(@item_progress_column.items.first), notice: I18n.t('messages.progress_column.created_successfully') }
+    if params[:item_progress_column][:full_year] == "1"
+      year = params[:item_progress_column][:date].to_date.year  # Берём год из выбранной даты
+      quarter_dates = [
+        Date.new(year, 1, 10),
+        Date.new(year, 4, 10),
+        Date.new(year, 7, 10),
+        Date.new(year, 11, 10)
+      ]
+
+      begin
+        ActiveRecord::Base.transaction do
+          quarter_dates.each do |d|
+            @user.item_progress_columns.find_or_create_by(date: d)
+          end
+        end
+        respond_successfully
+      rescue ActiveRecord::RecordInvalid => e
+        respond_with_errors(e.message)
       end
+
     else
-      respond_to do |format|
-        format.turbo_stream { render partial: "shared/item_progress_columns/create", locals: { item_progress_column: @item_progress_column }, formats: [:turbo_stream] }
-        format.html { render :new, status: :unprocessable_entity }
-      end
+      @item_progress_column = @user.item_progress_columns.find_or_create_by(item_progress_column_params)
+
+      respond_successfully
+      # todo: notify if it already exists
+      # if @item_progress_column.save
+      # else
+      # respond_with_errors(@item_progress_column.errors.full_messages.join(", "))
+      # end
     end
   end
 
@@ -85,6 +104,38 @@ module ItemProgressColumnManagement
   end
 
   private
+
+  def item_progress_column_params
+    params.require(:item_progress_column).permit(:date, :full_year)
+  end
+
+  def respond_successfully
+    respond_to do |format|
+      format.turbo_stream {
+        render partial: "shared/item_progress_columns/create",
+               locals: { item_progress_column: @item_progress_column }, # можно nil или последний
+               formats: [:turbo_stream]
+      }
+      format.html {
+        redirect_to some_path, notice: t('messages.progress_column.created_successfully')
+      }
+    end
+  end
+
+  def respond_with_errors(error_message)
+    respond_to do |format|
+      format.turbo_stream {
+        render partial: "shared/item_progress_columns/form",
+               locals: { item_progress_column: @item_progress_column },
+               formats: [:turbo_stream],
+               status: :unprocessable_entity
+      }
+      format.html {
+        flash[:alert] = error_message
+        render :new, status: :unprocessable_entity
+      }
+    end
+  end
 
   def set_item_progress_column
     @item_progress_column = @user.item_progress_columns.find(params[:id])

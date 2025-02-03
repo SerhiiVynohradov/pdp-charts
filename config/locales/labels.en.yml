@@ -21,6 +21,9 @@ en:
     no_manager: 'No Manager'
     title: 'Title'
     recommended_items: 'Recommended Items'
+    date: 'Date'
+    full_year_explain: "If you do not select \"Add full year\", a single column will be created on the specified date."
+    full_year_checkbox: "Add full year (Jan 10, Apr 10, Jul 10, Nov 10)."
 
     status:
       done: 'Done'

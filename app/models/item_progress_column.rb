@@ -1,4 +1,6 @@
 class ItemProgressColumn < ApplicationRecord
+  attr_accessor :full_year
+
   belongs_to :user
   has_many :progress_updates, dependent: :destroy
 
