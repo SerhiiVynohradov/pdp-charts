@@ -70,6 +70,7 @@ module ItemManagement
   end
 
   def create
+    byebug
     @item = @user.items.build(item_params)
 
     if params[:item][:recommended_item_id].present?

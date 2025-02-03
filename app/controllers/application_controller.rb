@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   allow_browser versions: :modern
+
   before_action :create_team_or_company
   before_action :redirect_to_www
   before_action :set_locale

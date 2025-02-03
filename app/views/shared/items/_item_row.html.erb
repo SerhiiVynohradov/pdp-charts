@@ -579,14 +579,16 @@ the_item_path = if @superadmin
                             elsif @team.present?
                               recommend_manager_team_user_item_path(@team, @user, item)
                             else
-                              "#"
+                              nil
                             end %>
 
-                            <%= link_to t('buttons.recommend'),
-                              recommend_path,
-                              data: { turbo_method: :post },
-                              class: "bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded shadow-sm" %>
-                          <% end %>
+        <% if recommend_path.present? %>
+          <%= link_to t('buttons.recommend'),
+            recommend_path,
+            data: { turbo_method: :post },
+            class: "bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded shadow-sm" %>
+        <% end %>
+      <% end %>
     </div>
   </td>
 </tr>
