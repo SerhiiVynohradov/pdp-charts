@@ -57,6 +57,9 @@
               @click.away="openDropdown = false"
               class="absolute right-0 mt-2 py-2 w-48 bg-gray-700 rounded shadow-xl z-20"
             >
+              <!-- My Events -->
+              <%= link_to t('navbar.my_events'), my_events_path, class: "block px-4 py-2 text-white hover:bg-gray-600" %>
+
               <!-- Superadmin links -->
               <% if current_user.superadmin? %>
                 <%= link_to t('navbar.categories'), superadmin_categories_path, class: "block px-4 py-2 text-white hover:bg-gray-600" %>
@@ -160,6 +163,8 @@
         <% elsif current_user.manager? && current_user.team.present? %>
           <%= link_to t('navbar.manager_dash'), manager_root_path, class: "block px-3 py-2 rounded text-white hover:bg-gray-700" %>
         <% end %>
+
+        <%= link_to t('navbar.my_events'), my_events_path, class: "block px-3 py-2 rounded text-white hover:bg-gray-700" %>
 
         <% if current_user.superadmin? %>
           <%= link_to t('navbar.companies'), superadmin_companies_path, class: "block px-3 py-2 rounded text-white hover:bg-gray-700" %>

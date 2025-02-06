@@ -1,0 +1,11 @@
+<turbo-stream action="append" target="events-container">
+  <template>
+    <%= render partial: "shared/events/event_row", locals: { event: event }, formats: [:html] %>
+  </template>
+</turbo-stream>
+
+<turbo-stream action="replace" target="<%= dom_id(Team.new, :new) %>">
+  <template>
+    <%= render partial: "shared/events/form", locals: { event: Team.new }, formats: [:html] %>
+  </template>
+</turbo-stream>

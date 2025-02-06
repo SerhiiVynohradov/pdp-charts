@@ -13,6 +13,7 @@ module CompanyManagement
   def index
     @chart_data = chart_data_index
     @chart_label = chart_label_index
+    @events = set_events
 
     render 'shared/companies/index', locals: { read_only_mode: read_only_mode }
   end
@@ -20,6 +21,7 @@ module CompanyManagement
   def show
     @chart_data = chart_data_show
     @chart_label = chart_label_show
+    @events = set_events
 
     render 'shared/companies/show'
   end

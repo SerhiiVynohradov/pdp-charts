@@ -5,6 +5,8 @@ en:
     user_name: "Name"
     status: "Status"
     description: "Description"
+    events: "Events"
+    date: "Date"
     link: "Link"
     reason: "Reason"
     expected_results: "Expected Results"

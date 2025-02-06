@@ -1,0 +1,30 @@
+<div class="bg-gray-900 text-white min-h-screen p-6">
+  <h1 class="text-2xl font-bold mb-4"><%= t('labels.events') %></h1>
+
+  <% unless read_only_mode %>
+    <div class="mb-6">
+      <%= render partial: "shared/events/form", locals: { event: Event.new } %>
+    </div>
+  <% end %>
+
+  <!-- Event List -->
+  <table class="min-w-full border-collapse bg-gray-800 text-gray-50">
+    <thead>
+      <tr class="bg-gray-700 border-b border-gray-600">
+        <th class="px-4 py-2 text-left"></th>
+        <th class="px-4 py-2 text-left"><%= t('items_index.name') %></th>
+        <th class="px-4 py-2 text-left"><%= t('items_index.date') %></th>
+        <th class="px-4 py-2 text-left"><%= t('items_index.actions') %></th>
+      </tr>
+    </thead>
+    <tbody id="events-container">
+      <% @events.each do |event| %>
+        <% if read_only_mode %>
+          <%= render partial: "shared/events/event_row_read_only", locals: { event: event } %>
+        <% else %>
+          <%= render partial: "shared/events/event_row", locals: { event: event } %>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+</div>

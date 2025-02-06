@@ -1,0 +1,64 @@
+<%
+create_event_path = if @superadmin && @company.present? && !@team.present?
+                      superadmin_company_events_path(@company)
+                    elsif @superadmin && @company.present? && @team.present? && !@user.present?
+                      superadmin_company_team_events_path(@company, @team)
+                    elsif @superadmin && @company.present? && @team.present? && @user.present?
+                      superadmin_company_team_user_events_path(@company, @team, @user)
+
+                    # Company Owner context
+                    elsif @company.present? && !@team.present? # company
+                      company_owner_company_events_path(@company)
+                    elsif @company.present? && @team.present? && !@user.present? # company team
+                      company_owner_company_team_events_path(@company, @team)
+                    elsif @company.present? && @team.present? && @user.present? # company team user
+                      company_owner_company_team_user_events_path(@company, @team, @user)
+
+                    # Manager context
+                    elsif @team.present? && !@user.present? # team
+                      manager_team_events_path(@team)
+                    elsif @team.present? && @user.present? # team user
+                      manager_team_user_events_path(@team, @user)
+
+                    # My Events context
+                    else
+                      my_events_path
+                    end
+%>
+
+<%= turbo_frame_tag dom_id(event, :new) do %>
+  <%= form_with(model: event,
+                url: create_event_path,
+                local: true,
+                data: { turbo_frame: dom_id(event, :new) },
+                class: "bg-gray-800 p-4 rounded") do |f| %>
+
+    <!-- Контейнер, в одну строку -->
+    <div class="flex items-end space-x-4">
+
+      <!-- Name Field -->
+      <div class="flex flex-col">
+        <%= f.label :name, t('labels.event_name'), class: "text-sm mb-1" %>
+        <%= f.text_field :name, class: "rounded bg-gray-700 border border-gray-600 px-2 py-1 text-white" %>
+        <% if event.errors[:name].any? %>
+          <span class="text-red-500 text-sm"><%= event.errors[:name].first %></span>
+        <% end %>
+      </div>
+
+      <!-- Date Field -->
+      <div class="flex flex-col">
+        <%= f.label :date, t('labels.event_date'), class: "text-sm mb-1" %>
+        <%= f.date_field :date, class: "rounded bg-gray-700 border border-gray-600 px-2 py-1 text-white" %>
+        <% if event.errors[:date].any? %>
+          <span class="text-red-500 text-sm"><%= event.errors[:date].first %></span>
+        <% end %>
+      </div>
+
+      <!-- Submit Button -->
+      <div>
+        <%= f.submit t('buttons.create_event'), class: "bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded" %>
+      </div>
+
+    </div>
+  <% end %>
+<% end %>

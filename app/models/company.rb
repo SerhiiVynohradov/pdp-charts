@@ -6,6 +6,8 @@ class Company < ApplicationRecord
   has_one :owner, class_name: 'User'
   has_many :invoices, as: :invoiceable, dependent: :nullify
 
+  has_many :events, as: :eventable, dependent: :destroy
+
   validates :name, presence: true
 
   def active?

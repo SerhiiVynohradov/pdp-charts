@@ -3,6 +3,7 @@ uk:
     errors: "Помилки"
     name: "Назва"
     description: "Опис"
+    events: "Події"
     edit_category: "Редагувати категорію"
     categories: "Категорії"
     new_category: "Нова категорія"
@@ -24,6 +25,11 @@ uk:
     date: "Дата"
     full_year_explain: "Якщо не позначено «Додати цілий рік», буде створено одну колонку саме на цю дату."
     full_year_checkbox: "Додати цілий рік (10 січ., 10 квіт., 10 лип., 10 лис.)."
+    event_name: "Назва події"
+    event_date: "Дата події"
+    add_event: "Додати подію"
+    manage_events: "Керування подіями"
+    no_events_yet: "Подій ще не було."
 
     status:
       done: "Виконано"

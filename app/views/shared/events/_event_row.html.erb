@@ -1,0 +1,115 @@
+<%
+the_event_path = if @superadmin && @company.present? && !@team.present?
+                   superadmin_company_event_path(@company, event)
+                 elsif @superadmin && @company.present? && @team.present? && !@user.present?
+                   superadmin_company_team_event_path(@company, @team, event)
+                 elsif @superadmin && @company.present? && @team.present? && @user.present?
+                   superadmin_company_team_user_event_path(@company, @team, @user, event)
+
+                 # Company Owner context
+                 elsif @company.present? && !@team.present? # company owner company context
+                   company_owner_company_event_path(@company, event)
+                 elsif @company.present? && @team.present? && !@user.present? # company owner team context
+                   company_owner_company_team_event_path(@company, @team, event)
+                 elsif @company.present? && @team.present? && @user.present? # company owner user context
+                   company_owner_company_team_user_event_path(@company, @team, @user, event)
+
+                 # Manager context
+                 elsif @team.present? && !@user.present? # team owner team context
+                   manager_team_event_path(@team, event)
+                 elsif @team.present? && @user.present? # team owner user context
+                   manager_team_user_event_path(@team, @user, event)
+
+                 # My context
+                 else
+                   my_event_path(event)
+                 end
+%>
+
+
+<tr id="<%= dom_id(event) %>" class="border-b border-gray-600 hover:bg-gray-700">
+  <td class="px-4 py-2 align-top">
+    <%= link_to t('buttons.details'), the_event_path, class: "bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded" %>
+  </td>
+
+  <!-- Name -->
+  <td class="px-4 py-2 align-top">
+    <div
+      class="cursor-pointer"
+      data-controller="cell-edit"
+      data-action="click->cell-edit#enableEdit"
+      data-cell-edit-url-value="<%= the_event_path %>"
+      data-cell-edit-field-name-value="name"
+      data-cell-edit-initial-value-value="<%= event.name || '' %>"
+      data-cell-edit-resource-name-value="event"
+    >
+      <!-- Display -->
+      <span data-cell-edit-target="display">
+        <%= event.name.presence || "-" %>
+      </span>
+      <!-- Inline form (hidden) -->
+      <form
+        data-cell-edit-target="form"
+        class="hidden flex items-center space-x-2 mt-1"
+        data-action="submit->cell-edit#submit"
+      >
+        <input
+          type="text"
+          class="rounded bg-gray-800 border border-gray-500 px-2 py-1 text-white"
+          data-cell-edit-target="input"
+          value="<%= event.name %>"
+          required
+        >
+        <button
+          type="submit"
+          class="bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded"
+        >
+          <%= t('buttons.save') %>
+        </button>
+      </form>
+    </div>
+  </td>
+
+  <!-- Date -->
+  <td class="px-4 py-2 align-top">
+    <div
+      class="cursor-pointer"
+      data-controller="cell-edit"
+      data-action="click->cell-edit#enableEdit"
+      data-cell-edit-url-value="<%= the_event_path %>"
+      data-cell-edit-field-name-value="date"
+      data-cell-edit-initial-value-value="<%= event.date || '' %>"
+      data-cell-edit-resource-name-value="event"
+    >
+      <!-- Display -->
+      <span data-cell-edit-target="display">
+        <%= event.date.presence || "-" %>
+      </span>
+      <!-- Inline form (hidden) -->
+      <form
+        data-cell-edit-target="form"
+        class="hidden flex items-center space-x-2 mt-1"
+        data-action="submit->cell-edit#submit"
+      >
+        <input
+          type="date"
+          class="rounded bg-gray-800 border border-gray-500 px-2 py-1 text-white"
+          data-cell-edit-target="input"
+          value="<%= event.date %>"
+          required
+        >
+        <button
+          type="submit"
+          class="bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded"
+        >
+          <%= t('buttons.save') %>
+        </button>
+      </form>
+    </div>
+  </td>
+
+  <!-- Manage Actions -->
+  <td class="px-4 py-2 align-top text-right space-x-2">
+    <%= link_to t('buttons.delete'), the_event_path, data: { turbo_method: :delete, turbo_confirm: t('buttons.are_you_sure') }, class: "bg-red-600 hover:bg-red-700 text-white px-2 py-1 rounded" %>
+  </td>
+</tr>

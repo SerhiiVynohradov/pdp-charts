@@ -29,9 +29,45 @@
     </div>
 
     <!-- Отдельная секция-легенда для ивентов -->
-    <% if @events.present? %>
-      <div class="mb-6 bg-gray-800 p-4 rounded">
-        <h3 class="text-lg font-semibold mb-2">Events</h3>
+    <%
+      create_event_path = if @superadmin && @company.present? && !@team.present?
+                            superadmin_company_events_path(@company)
+                          elsif @superadmin && @company.present? && @team.present? && !@user.present?
+                            superadmin_company_team_events_path(@company, @team)
+                          elsif @superadmin && @company.present? && @team.present? && @user.present?
+                            superadmin_company_team_user_events_path(@company, @team, @user)
+
+                          # Company Owner context
+                          elsif @company.present? && !@team.present? # company
+                            company_owner_company_events_path(@company)
+                          elsif @company.present? && @team.present? && !@user.present? # company team
+                            company_owner_company_team_events_path(@company, @team)
+                          elsif @company.present? && @team.present? && @user.present? # company team user
+                            company_owner_company_team_user_events_path(@company, @team, @user)
+
+                          # Manager context
+                          elsif @team.present? && !@user.present? # team
+                            manager_team_events_path(@team)
+                          elsif @team.present? && @user.present? # team user
+                            manager_team_user_events_path(@team, @user)
+
+                          # My Events context
+                          else
+                            my_events_path
+                          end
+    %>
+
+
+    <div class="mb-6 bg-gray-800 p-4 rounded">
+      <div class="flex items-center justify-between mb-2">
+        <h3 class="text-lg font-semibold"><%= t('labels.events') %></h3>
+
+        <%= link_to "+ #{t('labels.manage_events')}",
+                    create_event_path,
+                    class: "bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded" %>
+      </div>
+
+      <% if @events.present? %>
         <ul class="list-disc list-inside">
           <% @events.each do |ev| %>
             <li class="text-gray-200">
@@ -39,8 +75,11 @@
             </li>
           <% end %>
         </ul>
-      </div>
-    <% end %>
+      <% else %>
+        <p class="text-sm text-gray-400"><%= t('labels.no_events_yet') %></p>
+      <% end %>
+    </div>
+
   </div>
 
   <script type="text/javascript">

@@ -19,6 +19,10 @@ uk:
     logout: "Вийти"
     sign_in: "Увійти"
     sign_up: "Зареєструватися"
+    events: "Події"
+    my_events: "Мої події"
+    my_company_events: "Події моєї компанії"
+    my_team_events: "Події моєї команди"
 
     # Для интерполяции
     recommended_items_for_company: "%{company_name} Рекомендовані пункти"

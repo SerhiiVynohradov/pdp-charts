@@ -33,8 +33,11 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_06_104943) do
   create_table "events", force: :cascade do |t|
     t.string "name"
     t.date "date"
+    t.string "eventable_type"
+    t.bigint "eventable_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["eventable_type", "eventable_id"], name: "index_events_on_eventable"
   end
 
   create_table "invoices", force: :cascade do |t|

@@ -43,4 +43,9 @@ class ApplicationController < ActionController::Base
   def default_url_options
     { locale: I18n.locale }
   end
+
+  def set_events
+    [@company, @team, @user, current_user].compact.map(&:events).flatten.uniq
+  end
+
 end

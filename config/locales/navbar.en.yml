@@ -19,6 +19,10 @@ en:
     logout: "Logout"
     sign_in: "Sign In"
     sign_up: "Sign Up"
+    events: "Events"
+    my_events: "My Events"
+    my_company_events: "My Company Events"
+    my_team_events: "My Team Events"
 
     # Для интерполяции
     recommended_items_for_company: "%{company_name} Recommended Items"

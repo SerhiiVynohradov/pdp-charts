@@ -15,6 +15,8 @@ class User < ApplicationRecord
   has_many :progress_updates, through: :item_progress_columns
   has_many :invoices, as: :invoiceable, dependent: :nullify
 
+  has_many :events, as: :eventable, dependent: :destroy
+
   has_many :user_accounts, dependent: :destroy
 
   enum role: {
@@ -65,7 +67,7 @@ class User < ApplicationRecord
   end
 
   def subordinates_ids
-    team.users.pluck(:id)
+    team.users.pluck(:id) - [id]
   end
 
   def owned_teams

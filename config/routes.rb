@@ -31,6 +31,7 @@ Rails.application.routes.draw do
 
   # My Namespace
   namespace :my do
+    resources :events, module: 'events'
     resources :recommended_items, only: [:index]
     resource :settings, only: [:edit, :update]
     resources :items, module: 'items' do
@@ -41,13 +42,16 @@ Rails.application.routes.draw do
     resources :item_progress_columns, only: [:new, :create, :edit, :update, :destroy]
 
     resources :teams, only: [:show], module: 'teams' do
+      resources :events, only: [:index, :show], module: 'events', module: 'events'
       resources :users, only: [:index, :show], module: 'users' do
         resources :items, only: [:index, :show], module: 'items'
       end
     end
 
     resources :companies, only: [:show], module: 'companies' do
+      resources :events, only: [:index, :show], module: 'events', module: 'events'
       resources :teams, only: [:index, :show], module: 'teams' do
+        resources :events, only: [:index, :show], module: 'events', module: 'events'
         resources :users, only: [:index, :show], module: 'users' do
           resources :items, only: [:index, :show], module: 'items'
         end
@@ -60,6 +64,8 @@ Rails.application.routes.draw do
   # Manager Namespace
   namespace :manager do
     resources :teams, only: [:show, :edit, :update], module: 'teams' do
+      resources :events, module: 'events'
+
       member do
         get :charts
         get :settings
@@ -72,6 +78,8 @@ Rails.application.routes.draw do
       resources :recommended_items, only: [:index, :create, :update, :destroy, :show]
 
       resources :users, only: [:index, :new, :create, :edit, :update, :destroy, :show], module: 'users' do
+        resources :events, module: 'events'
+
         resources :recommended_items, only: [:index]
         resources :item_progress_columns, only: [:new, :create, :edit, :update, :destroy]
 
@@ -101,9 +109,12 @@ Rails.application.routes.draw do
   # CompanyOwner Namespace
   namespace :company_owner do
     resources :companies, only: [:show, :edit, :update], module: 'companies' do
+      resources :events, module: 'events'
       resources :recommended_items, only: [:index, :create, :update, :destroy, :show]
 
       resources :teams, module: 'teams' do
+        resources :events, module: 'events'
+
         member do
           patch :toggle_status
           get :members
@@ -117,6 +128,8 @@ Rails.application.routes.draw do
         end
 
         resources :users, only: [:index, :new, :create, :edit, :update, :destroy, :show], module: 'users' do
+          resources :events, module: 'events'
+
           resources :recommended_items, only: [:index]
           resources :item_progress_columns, only: [:new, :create, :edit, :update, :destroy]
 
@@ -151,6 +164,7 @@ Rails.application.routes.draw do
 
   # Superadmin Namespace
   namespace :superadmin do
+    resources :events, module: 'events'
     resources :categories
     resources :recommended_items, only: [:index, :create, :update, :destroy, :show]
 
@@ -161,12 +175,16 @@ Rails.application.routes.draw do
     resources :pricing, only: [:index, :update]
 
     resources :companies, module: 'companies' do
+      resources :events, module: 'events'
+
       member do
         patch :toggle_status
         get :settings
       end
 
       resources :teams, module: 'teams' do
+        resources :events, module: 'events'
+
         member do
           patch :toggle_status
           get :members
@@ -180,6 +198,7 @@ Rails.application.routes.draw do
         end
 
         resources :users, only: [:index, :new, :create, :edit, :update, :destroy, :show], module: 'users' do
+          resources :events, module: 'events'
           resources :recommended_items, only: [:index]
           resources :item_progress_columns, only: [:new, :create, :edit, :update, :destroy]
 

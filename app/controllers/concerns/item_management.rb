@@ -14,7 +14,7 @@ module ItemManagement
   def index
     @chart_data = chart_data_index
     @chart_label = chart_label_index
-    @events = Event.order(:date)
+    @events = set_events
 
     render 'shared/items/index', locals: { read_only_mode: read_only_mode }
   end
@@ -22,6 +22,7 @@ module ItemManagement
   def show
     @chart_data = chart_data_show
     @chart_label = chart_label_show
+    @events = set_events
 
     render 'shared/items/show'
   end

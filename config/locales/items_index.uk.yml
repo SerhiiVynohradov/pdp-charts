@@ -5,6 +5,8 @@ uk:
     user_name: "Ім'я"
     status: "Статус"
     description: "Опис"
+    events: "Події"
+    date: "Дата"
     link: "Посилання"
     reason: "Причина"
     expected_results: "Очікувані результати"
