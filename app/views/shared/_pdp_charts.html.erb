@@ -30,132 +30,139 @@
   </div>
 
   <script type="text/javascript">
-  document.addEventListener("turbo:load", function() {
+    document.addEventListener("turbo:load", function() {
 
-    const dataSetsRaw = <%= raw(@chart_data.to_json) %>;
+      const dataSetsRaw = <%= raw(@chart_data.to_json) %>;
+      console.log("Chart data:", dataSetsRaw);
 
-    console.log(dataSetsRaw);
+      // Функция для преобразования строковых дат (JSON) в объекты Date (JS)
+      function parseData(arr) {
+        if (!arr) return [];
+        return arr.map(pt => ({ x: new Date(pt.x), y: pt.y }));
+      }
 
-    // Функция для преобразования строковых дат в объекты Date
-    function parseData(arr) {
-      return arr.map(pt => ({ x: new Date(pt.x), y: pt.y }));
-    }
+      // Определение цветовой палитры (без красного)
+      const colorPalette = [
+        "#66bb6a", "#29b6f6", "#ab47bc", "#ec407a",
+        "#ffa726", "#8d6e63", "#78909c", "#5c6bc0",
+        "#ffa000", "#7cb342", "#26c6da", "#ff9800"
+      ];
 
-    // Определение цветовой палитры
-    const colorPalette = [
-      "#66bb6a", "#29b6f6", "#ab47bc", "#ec407a", "#ffa726", "#8d6e63",
-      "#78909c", "#5c6bc0", "#ffa000", "#7cb342", "#26c6da", "#ff9800"
-    ];
+      // Красный цвет для «линий-нормативов»
+      const redColor = "#f44336";
 
-    const redColor = "#f44336";
+      let colorIndex = 0;
 
-    let colorIndex = 0;
+      // Массивы данных для каждого из трёх графиков
+      let waChartLines     = [];
+      let effortChartLines = [];
+      let itemsChartLines  = [];
 
-    // Инициализация массивов данных для каждого графика
-    let waChartLines = [];
-    let effortChartLines = [];
-    let itemsChartLines = [];
+      dataSetsRaw.forEach((ds) => {
+        let waData  = parseData(ds.wa_data);
+        let effData = parseData(ds.effort_data);
+        let itmData = parseData(ds.items_data);
 
-    dataSetsRaw.forEach((ds) => {
-      // Парсинг данных
-      let wa = parseData(ds.wa_data);
-      let eff = parseData(ds.effort_data);
-      let itm = parseData(ds.items_data);
+        // Проверяем, является ли это "линия-норматив" (по названию)
+        let isNormativeLine =
+          ds.label.includes("Лінія ризику вигоряння") ||
+          ds.label.includes("Лінія зміни пріорітетів") ||
+          ds.label.includes("Лінія розпилення");
 
-      // Назначение цветов
-      let waColor = colorPalette[colorIndex % colorPalette.length];
-      colorIndex++;
-      let effColor = colorPalette[colorIndex % colorPalette.length];
-      colorIndex++;
-      let itemsColor = colorPalette[colorIndex % colorPalette.length];
-      colorIndex++;
+        // Если это одна из "линий", задаём красный
+        // Иначе берём очередной цвет из палитры
+        let waColor     = isNormativeLine ? redColor : colorPalette[colorIndex % colorPalette.length];
+        colorIndex++;
+        let effColor    = isNormativeLine ? redColor : colorPalette[colorIndex % colorPalette.length];
+        colorIndex++;
+        let itemsColor  = isNormativeLine ? redColor : colorPalette[colorIndex % colorPalette.length];
+        colorIndex++;
 
-      // Добавление линий в соответствующие массивы
-      waChartLines.push({
-        type: "line",
-        name: ds.label,
-        color: waColor,
-        lineThickness: 3,
-        markerSize: 5,
-        showInLegend: true,
-        dataPoints: wa
+        // Добавляем в соответствующие массивы
+        // (Если данные пустые, линия не отобразится)
+        waChartLines.push({
+          type: "line",
+          name: ds.label,
+          color: waColor,
+          lineThickness: 3,
+          markerSize: 5,
+          showInLegend: true,
+          dataPoints: waData
+        });
+
+        effortChartLines.push({
+          type: "line",
+          name: ds.label,
+          color: effColor,
+          lineThickness: 3,
+          markerSize: 5,
+          showInLegend: true,
+          dataPoints: effData
+        });
+
+        itemsChartLines.push({
+          type: "line",
+          name: ds.label,
+          color: itemsColor,
+          lineThickness: 3,
+          markerSize: 5,
+          showInLegend: true,
+          dataPoints: itmData
+        });
       });
 
-      effortChartLines.push({
-        type: "line",
-        name: ds.label,
-        color: effColor,
-        lineThickness: 3,
-        markerSize: 5,
-        showInLegend: true,
-        dataPoints: eff
-      });
-
-      itemsChartLines.push({
-        type: "line",
-        name: ds.label,
-        color: itemsColor,
-        lineThickness: 3,
-        markerSize: 5,
-        showInLegend: true,
-        dataPoints: itm
-      });
-    });
-
-    // Функция для создания графика
-    function createChart(containerId, titleText, yAxisTitle, yAxisOptions = {}) {
-      return new CanvasJS.Chart(containerId, {
-        theme: "dark2",
-        backgroundColor: "#1f2937",
-        animationEnabled: true,
-        title: {
-          text: titleText,
-          fontColor: "#FFFFFF"
-        },
-        axisX: {
-          valueFormatString: "MMM YYYY",
-          labelFontColor: "#FFFFFF",
-          gridColor: "#4B5563"
-        },
-        axisY: {
-          title: yAxisTitle,
-          titleFontColor: "#FFFFFF",
-          labelFontColor: "#FFFFFF",
-          gridColor: "#4B5563",
-          ...yAxisOptions
-        },
-        toolTip: {
-          shared: true
-        },
-        legend: {
-          cursor: "pointer",
-          itemclick: function(e) {
-            if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
-              e.dataSeries.visible = false;
-            } else {
-              e.dataSeries.visible = true;
-            }
-            e.chart.render();
+      // Шаблон для создания графиков (CanvasJS)
+      function createChart(containerId, titleText, yAxisTitle) {
+        return new CanvasJS.Chart(containerId, {
+          theme: "dark2",
+          backgroundColor: "#1f2937",
+          animationEnabled: true,
+          title: {
+            text: titleText,
+            fontColor: "#FFFFFF"
           },
-          fontColor: "#FFFFFF"
-        },
-        data: []
-      });
-    }
+          axisX: {
+            valueFormatString: "MMM YYYY",
+            labelFontColor: "#FFFFFF",
+            gridColor: "#4B5563"
+          },
+          axisY: {
+            title: yAxisTitle,
+            titleFontColor: "#FFFFFF",
+            labelFontColor: "#FFFFFF",
+            gridColor: "#4B5563"
+          },
+          toolTip: {
+            shared: true
+          },
+          legend: {
+            cursor: "pointer",
+            fontColor: "#FFFFFF",
+            itemclick: function(e) {
+              if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                e.dataSeries.visible = false;
+              } else {
+                e.dataSeries.visible = true;
+              }
+              e.chart.render();
+            }
+          },
+          data: []
+        });
+      }
 
-    // Создание графиков
-    const waChart = createChart("waChartContainer", "Weighted Average (WA)", "WA");
-    waChart.options.data = waChartLines;
-    waChart.render();
+      // Создаём три графика: WA, Effort, Items
+      const effortChart = createChart("effortChartContainer", "Effort", "Effort");
+      effortChart.options.data = effortChartLines;
+      effortChart.render();
 
-    const effortChart = createChart("effortChartContainer", "Effort", "Effort");
-    effortChart.options.data = effortChartLines;
-    effortChart.render();
+      const waChart = createChart("waChartContainer", "Weighted Average (WA)", "WA");
+      waChart.options.data = waChartLines;
+      waChart.render();
 
-    const itemsChart = createChart("itemsChartContainer", "# Items", "# Items");
-    itemsChart.options.data = itemsChartLines;
-    itemsChart.render();
-
-  });
+      const itemsChart = createChart("itemsChartContainer", "# Items", "# Items");
+      itemsChart.options.data = itemsChartLines;
+      itemsChart.render();
+    });
   </script>
 <% end %>

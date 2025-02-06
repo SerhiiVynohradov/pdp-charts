@@ -136,33 +136,6 @@ module ItemManagement
   end
 
   private
-  def read_only_mode
-    false
-  end
-
-  def item_params
-    params.require(:item).permit(
-      :name,
-      :description,
-      :link,
-      :reason,
-      :expected_results,
-      :category,
-      :category_id,
-      :progress,        # integer
-      :effort,          # string
-      :result,
-      :certificate_link
-    )
-  end
-
-  def set_items
-    @items = @user.items.order(created_at: :desc)
-  end
-
-  def set_item
-    @item = @user.items.find(params[:id])
-  end
 
   def chart_data_index
     data = []
@@ -181,26 +154,54 @@ module ItemManagement
       data << build_pdp_charts_data(@items.where(category: category), label: category.name)
     end
 
+    # 4) Добавляем три «нормативных» линии:
+    #    - Бернаут (только на графике Effort)
+    #    - Изменение приоритетов (только на графике WA)
+    #    - Распыление (только на графике Items)
+    data << build_pdp_constant_line_data(
+      1000,
+      label: 'Лінія ризику вигоряння',
+      chart_type: :effort
+    )
+    data << build_pdp_constant_line_data(
+      40,
+      label: 'Лінія зміни пріорітетів',
+      chart_type: :wa
+    )
+    data << build_pdp_constant_line_data(
+      5,
+      label: 'Лінія розпилення',
+      chart_type: :items
+    )
+
     data
   end
 
-  def chart_items_label_index
-    I18n.t('labels.pdp_items.for_user', user: @user.name)
+  def chart_data_show
+    [ build_pdp_charts_data([@item], label: @item.name) ]
   end
 
   def chart_label_index
     I18n.t('labels.pdp_chart.for_user', user: @user.name)
   end
 
-  def chart_data_show
-    [build_pdp_charts_data([@item], label: @item.name)]
-  end
-
   def chart_label_show
     I18n.t('labels.pdp_chart.for_item', item: @item.name)
   end
 
+  def set_items
+    @items = @user.items.order(created_at: :desc)
+  end
+
+  def set_item
+    @item = @user.items.find(params[:id])
+  end
+
   def set_user
     @user = @team.users.find(params[:user_id])
+  end
+
+  def read_only_mode
+    false
   end
 end

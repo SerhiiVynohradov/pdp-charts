@@ -104,9 +104,31 @@ module UserManagement
   end
 
   def chart_data
-    @team.users.map do |u|
+    data = @team.users.map do |u|
       build_pdp_charts_data(u.items, label: u.name)
     end
+
+    # 4) Добавляем три «нормативных» линии:
+    #    - Бернаут (только на графике Effort)
+    #    - Изменение приоритетов (только на графике WA)
+    #    - Распыление (только на графике Items)
+    data << build_pdp_constant_line_data(
+      1000,
+      label: 'Лінія ризику вигоряння',
+      chart_type: :effort
+    )
+    data << build_pdp_constant_line_data(
+      40,
+      label: 'Лінія зміни пріорітетів',
+      chart_type: :wa
+    )
+    data << build_pdp_constant_line_data(
+      5,
+      label: 'Лінія розпилення',
+      chart_type: :items
+    )
+
+    data
   end
 
   def chart_label
