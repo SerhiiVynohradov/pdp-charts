@@ -138,6 +138,21 @@ module ItemManagement
   end
 
   private
+  def item_params
+    params.require(:item).permit(
+      :name,
+      :description,
+      :link,
+      :reason,
+      :expected_results,
+      :category,
+      :category_id,
+      :progress,        # integer
+      :effort,          # string
+      :result,
+      :certificate_link
+    )
+  end
 
   def chart_data_index
     data = []

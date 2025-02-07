@@ -14,6 +14,7 @@ module My
           def index
             @chart_data = chart_data_index
             @chart_label = chart_label_index
+            @events = set_events
 
             render 'shared/items/index', locals: { read_only_mode: true }
           end
@@ -58,6 +59,22 @@ module My
             Category.where(id: category_ids).each do |category|
               data << build_pdp_charts_data(@items.where(category: category), label: category.name)
             end
+
+            data << build_pdp_constant_line_data(
+              1000,
+              label: 'Лінія ризику вигоряння',
+              chart_type: :effort
+            )
+            data << build_pdp_constant_line_data(
+              40,
+              label: 'Лінія зміни пріорітетів',
+              chart_type: :wa
+            )
+            data << build_pdp_constant_line_data(
+              5,
+              label: 'Лінія розпилення',
+              chart_type: :items
+            )
 
             data
           end

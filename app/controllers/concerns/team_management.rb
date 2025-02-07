@@ -13,6 +13,7 @@ module TeamManagement
   def index
     @chart_data = chart_data
     @chart_label = chart_label
+    @events = set_events
 
     render 'shared/teams/index', locals: { read_only_mode: read_only_mode }
   end

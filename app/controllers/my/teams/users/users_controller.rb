@@ -12,6 +12,7 @@ module My
           @users = @team.users
           @chart_data = chart_data_index
           @chart_label = chart_label_index
+          @events = set_events
 
           render 'shared/users/index', locals: { read_only_mode: true }
         end
@@ -31,9 +32,27 @@ module My
         end
 
         def chart_data_index
-          @team.users.map do |u|
+          data = @team.users.map do |u|
             build_pdp_charts_data(u.items, label: u.name)
           end
+
+          data << build_pdp_constant_line_data(
+            1000,
+            label: 'Лінія ризику вигоряння',
+            chart_type: :effort
+          )
+          data << build_pdp_constant_line_data(
+            40,
+            label: 'Лінія зміни пріорітетів',
+            chart_type: :wa
+          )
+          data << build_pdp_constant_line_data(
+            5,
+            label: 'Лінія розпилення',
+            chart_type: :items
+          )
+
+          data
         end
 
         def chart_label_index

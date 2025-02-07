@@ -45,7 +45,8 @@ class ApplicationController < ActionController::Base
   end
 
   def set_events
-    [@company, @team, @user, current_user].compact.map(&:events).flatten.uniq
+    # , current_user
+    [@company, @team, @user].compact.map(&:events).flatten.uniq
   end
 
 end
