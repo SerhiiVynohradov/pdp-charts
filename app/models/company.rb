@@ -2,8 +2,8 @@ class Company < ApplicationRecord
   default_scope { order(:name) }
 
   has_many :teams, dependent: :destroy
-  has_many :users # direct employees without teams
-  has_one :owner, class_name: 'User'
+  has_many :users, dependent: :nullify
+  has_one :owner, class_name: 'User', foreign_key: 'company_owner_id', dependent: :nullify
   has_many :invoices, as: :invoiceable, dependent: :nullify
 
   has_many :events, as: :eventable, dependent: :destroy
