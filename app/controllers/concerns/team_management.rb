@@ -90,12 +90,16 @@ module TeamManagement
   end
 
   def chart_data
+    labels_and_items = {}
+
     @teams.map do |t|
       team_users = t.users
       team_items = Item.where(user: team_users)
 
-      build_pdp_charts_data(team_items, label: t.name)
+      labels_and_items[t.name] = team_items
     end
+
+    data = build_pdp_charts_data_for_sets(labels_and_items)
   end
 
   def chart_label

@@ -6,6 +6,7 @@ module ItemProgressColumnManagement
 
     before_action :set_item_progress_column, only: [:edit, :update, :destroy]
     before_action :authorize_manage_progress_columns!
+    before_action :set_data
   end
 
   def new
@@ -135,6 +136,11 @@ module ItemProgressColumnManagement
         render :new, status: :unprocessable_entity
       }
     end
+  end
+
+  def set_data
+    @categories = Category.all
+    @progress_columns = @user.item_progress_columns.order(date: :asc)
   end
 
   def set_item_progress_column

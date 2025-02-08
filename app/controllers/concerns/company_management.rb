@@ -98,13 +98,17 @@ module CompanyManagement
   end
 
   def chart_data_index
-    @companies.map do |c|
-      company_teams = c.teams
-      company_users = User.where(team: company_teams)
-      company_items = Item.where(user: company_users)
+    labels_and_items = {}
 
-      build_pdp_charts_data(company_items, label: c.name)
+    @companies.each do |c|
+      teams = c.teams
+      users = User.where(team: teams)
+      items = Item.where(user: users)
+
+      labels_and_items[c.name] = items
     end
+
+    data = build_pdp_charts_data_for_sets(labels_and_items)
   end
 
   def chart_data_show

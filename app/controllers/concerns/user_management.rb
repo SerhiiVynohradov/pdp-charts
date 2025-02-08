@@ -105,9 +105,15 @@ module UserManagement
   end
 
   def chart_data
-    data = @team.users.map do |u|
+    labels_and_items = {}
+
+    @team.users.map do |u|
       build_pdp_charts_data(u.items, label: u.name)
+
+      labels_and_items[u.name] = u.items
     end
+
+    data = build_pdp_charts_data_for_sets(labels_and_items)
 
     # 4) Добавляем три «нормативных» линии:
     #    - Бернаут (только на графике Effort)

@@ -9,6 +9,7 @@ module ItemManagement
 
     before_action :set_items, only: [:index]
     before_action :set_item, only: [:show, :update, :destroy, :recommend]
+    before_action :set_data
   end
 
   def index
@@ -155,26 +156,20 @@ module ItemManagement
   end
 
   def chart_data_index
-    data = []
+    labels_and_items = {}
 
-    # 1) Все айтемы (одна линия)
-    data << build_pdp_charts_data(@items, label: 'All')
+    labels_and_items['All'] = @items
 
-    # 2) Айтемы без категории (одна линия)
-    if @items.where(category_id: nil).any?
-      data << build_pdp_charts_data(@items.where(category_id: nil), label: 'No Category')
-    end
+    no_cat_items = @items.where(category_id: nil)
+    labels_and_items['No Category'] = no_cat_items if no_cat_items.exists?
 
-    # 3) Айтемы по каждой категории (каждая категория — своя линия)
     category_ids = @items.where.not(category_id: nil).pluck(:category_id).uniq
     Category.where(id: category_ids).each do |category|
-      data << build_pdp_charts_data(@items.where(category: category), label: category.name)
+      labels_and_items[category.name] = @items.where(category: category)
     end
 
-    # 4) Добавляем три «нормативных» линии:
-    #    - Бернаут (только на графике Effort)
-    #    - Изменение приоритетов (только на графике WA)
-    #    - Распыление (только на графике Items)
+    data = build_pdp_charts_data_for_sets(labels_and_items)
+
     data << build_pdp_constant_line_data(
       @team&.effort_line || 1000,
       label: 'Лінія ризику вигоряння',
@@ -206,9 +201,12 @@ module ItemManagement
     I18n.t('labels.pdp_chart.for_item', item: @item.name)
   end
 
-  def set_items
+  def set_data
     @progress_columns = @user.item_progress_columns.order(date: :asc)
     @categories = Category.all
+  end
+
+  def set_items
     @items = @user.items
                  .order(created_at: :desc)
                  .includes(:category, progress_updates: :item_progress_column)
