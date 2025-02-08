@@ -176,17 +176,17 @@ module ItemManagement
     #    - Изменение приоритетов (только на графике WA)
     #    - Распыление (только на графике Items)
     data << build_pdp_constant_line_data(
-      1000,
+      @team&.effort_line || 1000,
       label: 'Лінія ризику вигоряння',
       chart_type: :effort
     )
     data << build_pdp_constant_line_data(
-      40,
+      @team&.wa_line || 40,
       label: 'Лінія зміни пріорітетів',
       chart_type: :wa
     )
     data << build_pdp_constant_line_data(
-      5,
+      @team&.items_line || 5,
       label: 'Лінія розпилення',
       chart_type: :items
     )

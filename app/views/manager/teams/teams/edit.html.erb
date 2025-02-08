@@ -23,6 +23,21 @@
                   class: "ml-2 text-gray-400" %>
     </div>
 
+    <div class="mb-4">
+      <%= f.label :effort_line, t('team_settings.effort_line_label'), class: "block text-gray-400" %>
+      <%= f.number_field :effort_line, class: "w-full mt-1 p-2 bg-gray-800 text-white rounded border border-gray-700" %>
+    </div>
+
+    <div class="mb-4">
+      <%= f.label :wa_line, t('team_settings.wa_line_label'), class: "block text-gray-400" %>
+      <%= f.number_field :wa_line, class: "w-full mt-1 p-2 bg-gray-800 text-white rounded border border-gray-700" %>
+    </div>
+
+    <div class="mb-4">
+      <%= f.label :items_line, t('team_settings.items_line_label'), class: "block text-gray-400" %>
+      <%= f.number_field :items_line, class: "w-full mt-1 p-2 bg-gray-800 text-white rounded border border-gray-700" %>
+    </div>
+
     <%= f.submit t('team_settings.update_team_button'),
                  class: "bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded" %>
   <% end %>

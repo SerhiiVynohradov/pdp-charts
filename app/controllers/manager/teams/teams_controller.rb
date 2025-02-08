@@ -37,7 +37,7 @@ module Manager
       end
 
       def team_params
-        params.require(:team).permit(:name, :charts_visible, :status)
+        params.require(:team).permit(:name, :charts_visible, :status, :effort_line, :wa_line, :items_line)
       end
     end
   end

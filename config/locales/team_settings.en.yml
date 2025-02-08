@@ -4,3 +4,7 @@ en:
     charts_visible_label: "General Team charts Visible for all team members"
     active_question: "Active?"
     update_team_button: "Update Team"
+    effort_line_label: 'Effort Line (burnout)'
+    wa_line_label: 'WA Line (change of priorities)'
+    items_line_label: 'Items Line (spreading thin)'
+

@@ -4,3 +4,6 @@ uk:
     charts_visible_label: "Загальні діаграми команди доступні всім учасникам"
     active_question: "Активна?"
     update_team_button: "Оновити команду"
+    effort_line_label: 'Effort лінія (вигоряння)'
+    wa_line_label: 'WA лінія (зміна пріоритетів)'
+    items_line_label: 'Items лінія (розпилення)'

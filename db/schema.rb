@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_02_06_104943) do
+ActiveRecord::Schema[7.2].define(version: 2025_02_08_145539) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -126,6 +126,9 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_06_104943) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "company_id"
+    t.integer "effort_line", default: 1000
+    t.integer "wa_line", default: 40
+    t.integer "items_line", default: 5
     t.index ["company_id"], name: "index_teams_on_company_id"
   end
 
