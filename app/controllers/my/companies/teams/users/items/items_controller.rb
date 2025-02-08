@@ -10,6 +10,7 @@ module My
             before_action :set_user
             before_action :set_items, only: :index
             before_action :set_item, only: :show
+            before_action :set_data
 
             include PdpChartsHelper
 
@@ -28,6 +29,11 @@ module My
             end
 
             private
+            def set_data
+              @progress_columns = @user.item_progress_columns.order(date: :asc)
+              @categories = Category.all
+            end
+
             def set_items
               @items = @user.items.order(created_at: :desc)
             end
