@@ -5,20 +5,95 @@
     <div class="max-w-7xl mx-auto px-4 text-center">
       <!-- Heading -->
       <h1 class="text-5xl md:text-6xl font-extrabold mb-6 leading-tight">
-        Графіки ІПР
+        <%= t('home.hero.title') %>
       </h1>
+
       <!-- Subtitle -->
       <p class="text-xl md:text-2xl text-gray-300 max-w-2xl mx-auto mb-8">
-        Індивідуальний План Розвитку для відслідковування динаміки
-        та досягнення максимального потенціалу — і для людини, і
-        для бізнесу.
+        <%= t('home.hero.subtitle') %>
       </p>
 
       <!-- CTA Button -->
       <div class="mt-8">
-        <%= link_to "Спробувати зараз",
+        <%= link_to t('home.hero.cta'),
                     new_user_registration_path,
                     class: "inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-md shadow-lg transition-transform transform hover:-translate-y-1" %>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tutorials Section -->
+  <section class="py-12 bg-gray-800">
+    <div class="max-w-7xl mx-auto px-4">
+      <!-- Заголовок и подзаголовок -->
+      <h2 class="text-3xl md:text-4xl font-bold mb-4 text-white text-center">
+        <%= t('home.tutorials.title') %>
+      </h2>
+      <p class="text-gray-300 max-w-2xl mx-auto text-center mb-8">
+        <%= t('home.tutorials.intro') %>
+      </p>
+
+      <!-- 3 колонки (на узком экране будет 1) -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- 1) User interface -->
+        <div class="bg-gray-900 p-4 rounded-md shadow-md flex flex-col">
+          <div class="aspect-w-16 aspect-h-9 mb-4">
+            <iframe
+              class="rounded"
+              src="https://www.youtube.com/embed/YdLI-nr0zpY"
+              title="User Interface Demo"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen>
+            </iframe>
+          </div>
+          <h3 class="text-xl font-semibold text-white mb-2">
+            <%= t('home.tutorials.user.title') %>
+          </h3>
+          <p class="text-gray-300 flex-grow">
+            <%= t('home.tutorials.user.description') %>
+          </p>
+        </div>
+
+        <!-- 2) Manager interface -->
+        <div class="bg-gray-900 p-4 rounded-md shadow-md flex flex-col">
+          <div class="aspect-w-16 aspect-h-9 mb-4">
+            <iframe
+              class="rounded"
+              src="https://www.youtube.com/embed/28H9TfgIBYE"
+              title="Manager Interface Demo"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen>
+            </iframe>
+          </div>
+          <h3 class="text-xl font-semibold text-white mb-2">
+            <%= t('home.tutorials.manager.title') %>
+          </h3>
+          <p class="text-gray-300 flex-grow">
+            <%= t('home.tutorials.manager.description') %>
+          </p>
+        </div>
+
+        <!-- 3) Company Owner interface -->
+        <div class="bg-gray-900 p-4 rounded-md shadow-md flex flex-col">
+          <div class="aspect-w-16 aspect-h-9 mb-4">
+            <iframe
+              class="rounded"
+              src="https://www.youtube.com/embed/Y7awT7e5No8"
+              title="Company Owner Interface Demo"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen>
+            </iframe>
+          </div>
+          <h3 class="text-xl font-semibold text-white mb-2">
+            <%= t('home.tutorials.owner.title') %>
+          </h3>
+          <p class="text-gray-300 flex-grow">
+            <%= t('home.tutorials.owner.description') %>
+          </p>
+        </div>
       </div>
     </div>
   </section>
@@ -27,40 +102,34 @@
   <section class="py-12 px-4 flex-grow">
     <div class="max-w-7xl mx-auto">
       <h2 class="text-3xl md:text-4xl font-bold mb-8 text-white text-center">
-        Чому Графіки ІПР важливі?
+        <%= t('home.benefits.title') %>
       </h2>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         <!-- Benefit 1 -->
         <div class="bg-gray-800 rounded-lg p-6 shadow-md hover:shadow-xl transition-shadow">
           <h3 class="text-xl font-semibold text-white mb-3">
-            Швидке виявлення вигоряння
+            <%= t('home.benefits.items.1.title') %>
           </h3>
           <p class="text-gray-300 leading-relaxed">
-            Один погляд на графік допомагає побачити, хто з
-            працівників "просідає" і потребує підтримки, щоб уникнути
-            вигорання.
+            <%= t('home.benefits.items.1.description') %>
           </p>
         </div>
         <!-- Benefit 2 -->
         <div class="bg-gray-800 rounded-lg p-6 shadow-md hover:shadow-xl transition-shadow">
           <h3 class="text-xl font-semibold text-white mb-3">
-            Прозорі рішення про підвищення
+            <%= t('home.benefits.items.2.title') %>
           </h3>
           <p class="text-gray-300 leading-relaxed">
-            Графіки чітко показують, у кого достатньо ресурсу та
-            прогресу для збільшення обов'язків і зарплати, а кому
-            варто знизити навантаження.
+            <%= t('home.benefits.items.2.description') %>
           </p>
         </div>
         <!-- Benefit 3 -->
         <div class="bg-gray-800 rounded-lg p-6 shadow-md hover:shadow-xl transition-shadow">
           <h3 class="text-xl font-semibold text-white mb-3">
-            Зручна звітність і економія часу
+            <%= t('home.benefits.items.3.title') %>
           </h3>
           <p class="text-gray-300 leading-relaxed">
-            Замість багатогодинних характеристик — один інтуїтивний
-            графік. Менеджери і керівництво бачать усю картину за
-            хвилини.
+            <%= t('home.benefits.items.3.description') %>
           </p>
         </div>
       </div>
@@ -71,35 +140,34 @@
   <section class="py-12 bg-gray-800">
     <div class="max-w-7xl mx-auto px-4">
       <h2 class="text-3xl md:text-4xl font-bold mb-8 text-white text-center">
-        Як це працює?
+        <%= t('home.how_it_works.title') %>
       </h2>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-gray-300">
+        <!-- Step 1 -->
         <div class="bg-gray-900 rounded-lg p-6 shadow-md hover:shadow-xl transition-shadow">
           <h3 class="text-xl text-white font-semibold mb-3">
-            Крок 1
+            <%= t('home.how_it_works.steps.1.title') %>
           </h3>
           <p class="leading-relaxed">
-            Додаєте цілі та задачі (Goals) — будь то покращення
-            професійних навичок чи особистого розвитку.
+            <%= t('home.how_it_works.steps.1.description') %>
           </p>
         </div>
+        <!-- Step 2 -->
         <div class="bg-gray-900 rounded-lg p-6 shadow-md hover:shadow-xl transition-shadow">
           <h3 class="text-xl text-white font-semibold mb-3">
-            Крок 2
+            <%= t('home.how_it_works.steps.2.title') %>
           </h3>
           <p class="leading-relaxed">
-            Виставляєте “зусилля” (Effort) у балах, залежно від
-            складності та часу, потрібного на реалізацію кожної задачі.
+            <%= t('home.how_it_works.steps.2.description') %>
           </p>
         </div>
+        <!-- Step 3 -->
         <div class="bg-gray-900 rounded-lg p-6 shadow-md hover:shadow-xl transition-shadow">
           <h3 class="text-xl text-white font-semibold mb-3">
-            Крок 3
+            <%= t('home.how_it_works.steps.3.title') %>
           </h3>
           <p class="leading-relaxed">
-            Раз на квартал оновлюєте відсоток прогресу. Отримуєте
-            наочні графіки, аналіз і готові рішення для команди чи
-            особистого розвитку.
+            <%= t('home.how_it_works.steps.3.description') %>
           </p>
         </div>
       </div>
@@ -110,13 +178,12 @@
   <section class="py-16">
     <div class="max-w-7xl mx-auto px-4 text-center">
       <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">
-        Готові підняти ефективність на новий рівень?
+        <%= t('home.cta_section.title') %>
       </h2>
       <p class="text-gray-300 max-w-xl mx-auto mb-6">
-        Зареєструйтесь і спробуйте Графіки ІПР для себе або
-        вашої команди.
+        <%= t('home.cta_section.description') %>
       </p>
-      <%= link_to "Почати зараз",
+      <%= link_to t('home.cta_section.btn_text'),
                   new_user_registration_path,
                   class: "inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-md shadow-lg transition-transform transform hover:-translate-y-1" %>
     </div>

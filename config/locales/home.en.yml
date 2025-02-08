@@ -1,0 +1,50 @@
+en:
+  home:
+    hero:
+      title: "IPD Charts"
+      subtitle: "An Individual Development Plan to track dynamics and achieve maximum potential — for both individuals and businesses."
+      cta: "Try Now"
+
+    tutorials:
+      title: "Video Demonstrations"
+      intro: "Here are 3 videos: user, manager, and company owner interfaces."
+      user:
+        title: "User Interface (20 min)"
+        description: "Burnout thresholds, skill focus (no more than 5), personal events, real 2024 data, etc."
+      manager:
+        title: "Manager Interface (11 min)"
+        description: "Team management, training recommendations, corporate events, and team-wide stats access."
+      owner:
+        title: "Company Owner Interface (10 min)"
+        description: "Creating departments, comparing departments' performance, company-wide events & recommendations."
+
+    benefits:
+      title: "Why are IPD Charts Important?"
+      items:
+        1:
+          title: "Rapid Burnout Detection"
+          description: "A quick glance at the chart helps identify who is 'slipping' and needs support."
+        2:
+          title: "Transparent Promotion Decisions"
+          description: "Charts clearly show who has enough resources and progress for increased responsibilities."
+        3:
+          title: "Convenient Reporting & Time Savings"
+          description: "Instead of hours of descriptions — one intuitive chart. Management sees the whole picture in minutes."
+
+    how_it_works:
+      title: "How It Works"
+      steps:
+        1:
+          title: "Step 1"
+          description: "Add goals and tasks (Goals) — whether they're professional skills or personal development."
+        2:
+          title: "Step 2"
+          description: "Assign “effort” points based on complexity and time required for each task."
+        3:
+          title: "Step 3"
+          description: "Every quarter, update the progress percentage. Receive charts, analysis, and ready-made solutions."
+
+    cta_section:
+      title: "Ready to Take Efficiency to the Next Level?"
+      description: "Sign up and try IPD Charts for yourself or your team."
+      btn_text: "Get Started"

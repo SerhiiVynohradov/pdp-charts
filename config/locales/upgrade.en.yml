@@ -1,7 +1,7 @@
 en:
   upgrade:
     heading: "Choose Your Plan"
-    subheading: "Empower your personal growth or scale up your organization with the perfect plan."
+    subheading: "Empower your personal growth or scale your organization with the perfect plan."
 
     price_label: "Price:"
     current_plan_btn: "Current Plan"
@@ -9,31 +9,31 @@ en:
     plan_personal:
       special_offer: "Free until March 2025"
       name: "Personal"
-      teaser: "Great for individual tasks & goals"
+      teaser: "Individual development with no team management"
       features:
-        item1: "Edit your own items"
-        item2: "Track personal progress"
-        item3: "No team or company management"
+        item1: "Manage personal goals and tasks"
+        item2: "Early warnings about approaching burnout"
+        item3: "Personal events and progress charts"
       price: "FREE"
       choose_btn: "Choose Personal"
 
     plan_manager:
       badge: "Most Popular"
       name: "Team Lead"
-      teaser: "Perfect for managing a single team"
+      teaser: "Full control over a single team"
       features:
-        item1: "Create & manage one team"
-        item2: "Invite team members"
-        item3: "Manage tasks & track progress"
+        item1: "Create & manage one team (up to X members)"
+        item2: "Team-wide charts (burnout risks & top performers)"
+        item3: "Corporate events, training recommendations, and access control"
       price: "$300 /mo"
       choose_btn: "Upgrade to Team Lead"
 
     plan_company_owner:
       name: "Company Owner"
-      teaser: "Best for managing multiple teams & departments"
+      teaser: "Manage multiple departments and drive company-wide growth"
       features:
-        item1: "Create multiple teams/departments"
-        item2: "Full access to company-wide stats"
-        item3: "Manage company info & data"
+        item1: "Unlimited teams/departments with manager assignments"
+        item2: "Comparative performance analysis across departments"
+        item3: "Company-wide events, recommendations, and full access rights"
       price: "$1500 /mo"
       choose_btn: "Go Company Owner"

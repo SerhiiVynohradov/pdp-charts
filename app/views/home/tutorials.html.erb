@@ -1,0 +1,95 @@
+<div class="min-h-screen bg-gray-900 text-white py-10 px-4">
+  <div class="max-w-7xl mx-auto">
+    <h1 class="text-4xl md:text-5xl font-extrabold text-center mb-8">
+      <%= t('home.tutorials.title') %>
+    </h1>
+    <p class="text-center text-gray-300 mb-16 max-w-2xl mx-auto">
+      <%= t('home.tutorials.intro') %>
+    </p>
+
+    <!-- 1) User Interface Section -->
+    <section class="mb-12">
+      <div class="grid grid-cols-1 md:grid-cols-2 md:gap-8 items-center">
+        <!-- Видео -->
+        <div class="mb-6 md:mb-0">
+          <div class="aspect-w-16 aspect-h-9">
+            <iframe
+              class="rounded-md"
+              src="https://www.youtube.com/embed/YdLI-nr0zpY"
+              title="User Interface Demo"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen>
+            </iframe>
+          </div>
+        </div>
+        <!-- Описание -->
+        <div>
+          <h2 class="text-2xl font-bold mb-4">
+            <%= t('home.tutorials.user.title') %>
+          </h2>
+          <p class="text-gray-300 leading-relaxed">
+            <%= t('home.tutorials.user.description') %>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2) Manager Interface Section -->
+    <section class="mb-12">
+      <div class="grid grid-cols-1 md:grid-cols-2 md:gap-8 items-center">
+        <!-- Видео -->
+        <div class="mb-6 md:mb-0">
+          <div class="aspect-w-16 aspect-h-9">
+            <iframe
+              class="rounded-md"
+              src="https://www.youtube.com/embed/28H9TfgIBYE"
+              title="Manager Interface Demo"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen>
+            </iframe>
+          </div>
+        </div>
+        <!-- Описание -->
+        <div>
+          <h2 class="text-2xl font-bold mb-4">
+            <%= t('home.tutorials.manager.title') %>
+          </h2>
+          <p class="text-gray-300 leading-relaxed">
+            <%= t('home.tutorials.manager.description') %>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3) Owner Interface Section -->
+    <section>
+      <div class="grid grid-cols-1 md:grid-cols-2 md:gap-8 items-center">
+        <!-- Видео -->
+        <div class="mb-6 md:mb-0">
+          <div class="aspect-w-16 aspect-h-9">
+            <iframe
+              class="rounded-md"
+              src="https://www.youtube.com/embed/Y7awT7e5No8"
+              title="Owner Interface Demo"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen>
+            </iframe>
+          </div>
+        </div>
+        <!-- Описание -->
+        <div>
+          <h2 class="text-2xl font-bold mb-4">
+            <%= t('home.tutorials.owner.title') %>
+          </h2>
+          <p class="text-gray-300 leading-relaxed">
+            <%= t('home.tutorials.owner.description') %>
+          </p>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</div>
