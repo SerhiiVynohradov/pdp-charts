@@ -276,7 +276,7 @@ the_item_path = if @superadmin
             data-custom-dropdown-target="menu"
           >
             <ul class="py-1">
-              <% Category.all.each do |cat| %>
+              <% @categories.each do |cat| %>
                 <li>
                   <button
                     type="button"
@@ -423,8 +423,11 @@ the_item_path = if @superadmin
     <td class="px-4 py-2 align-top">
     </td>
   <% else %>
+    <% updates_map = item.progress_updates.index_by(&:item_progress_column_id) %>
+
     <% progress_columns.each do |column| %>
-      <% progress_update = item.progress_updates.find_by(item_progress_column: column) %>
+      <% progress_update = updates_map[column.id] %>
+
       <% if progress_update %>
         <% progress_update_path = if @superadmin
                                     superadmin_company_team_user_item_item_progress_column_progress_update_path(@company, @team, @user, item, column, progress_update)

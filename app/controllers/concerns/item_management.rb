@@ -207,7 +207,11 @@ module ItemManagement
   end
 
   def set_items
-    @items = @user.items.order(created_at: :desc)
+    @progress_columns = @user.item_progress_columns.order(date: :asc)
+    @categories = Category.all
+    @items = @user.items
+                 .order(created_at: :desc)
+                 .includes(:category, progress_updates: :item_progress_column)
   end
 
   def set_item

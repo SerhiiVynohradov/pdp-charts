@@ -321,6 +321,7 @@ GEM
       rubocop-minitest
       rubocop-performance
       rubocop-rails
+    ruby-prof (1.7.1)
     ruby-progressbar (1.13.0)
     ruby_http_client (3.5.5)
     securerandom (0.4.1)
@@ -411,6 +412,7 @@ DEPENDENCIES
   rails (~> 7.2.2, >= 7.2.2.1)
   recaptcha
   rubocop-rails-omakase
+  ruby-prof
   sendgrid-ruby
   sprockets-rails
   stimulus-rails

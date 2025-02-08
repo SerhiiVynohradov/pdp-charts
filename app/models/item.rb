@@ -15,15 +15,17 @@ class Item < ApplicationRecord
 
   # todo: validate so that each next progress_update has a bigger progress than the previous one
   def quarter_progress(q_start, q_end)
-    # Находим все ProgressUpdates, связанные с ItemProgressColumns, попадающими в указанный период
     relevant_progress_updates = progress_updates.joins(:item_progress_column)
-                                               .where(item_progress_columns: { date: q_start..q_end })
+                                                .where(item_progress_columns: { date: q_start..q_end })
 
-    # Возвращаем максимальный процент за этот период или 0, если нет данных
     relevant_progress_updates.maximum(:percent) || 0
   end
 
   def progress
-    progress_updates.maximum(:percent) || 0
+    if progress_updates.loaded?
+      progress_updates.map(&:percent).compact.max || 0
+    else
+      progress_updates.maximum(:percent) || 0
+    end
   end
 end

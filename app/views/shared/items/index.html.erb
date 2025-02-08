@@ -73,9 +73,9 @@
     <tbody id="items-container">
       <% @items.each do |item| %>
         <% if read_only_mode %>
-          <%= render partial: "shared/items/item_row_read_only", locals: { item: item, progress_columns: @user.item_progress_columns.order(date: :asc) } %>
+          <%= render partial: "shared/items/item_row_read_only", locals: { item: item , progress_columns: @progress_columns } %>
         <% else %>
-          <%= render partial: "shared/items/item_row", locals: { item: item, progress_columns: @user.item_progress_columns.order(date: :asc) } %>
+          <%= render partial: "shared/items/item_row", locals: { item: item, progress_columns: @progress_columns } %>
         <% end %>
       <% end %>
     </tbody>

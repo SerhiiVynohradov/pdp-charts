@@ -78,8 +78,10 @@ the_item_path = if @company.present?
     <td class="px-4 py-2 align-top">
     </td>
   <% else %>
+    <% updates_map = item.progress_updates.index_by(&:item_progress_column_id) %>
+
     <% progress_columns.each do |column| %>
-      <% progress_update = item.progress_updates.find_by(item_progress_column: column) %>
+      <% progress_update = updates_map[column.id] %>
       <td class="px-4 py-2 align-top">
         <%= progress_update&.percent.present? ? "#{progress_update.percent}%" : "-" %>
       </td>
