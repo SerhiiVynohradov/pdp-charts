@@ -13,27 +13,35 @@ module PdpChartsHelper
 
     historical_max = {} # Для отслеживания исторического максимума прогресса каждого айтема
 
+    item_ids = items.map(&:id)
+
+
     qtrs.each do |q|
+      progress_map = ProgressUpdate
+        .joins(:item_progress_column)
+        .where(item_id: item_ids)
+        .where(item_progress_columns: { date: q[:start]..q[:end] })
+        .group(:item_id)
+        .maximum(:percent)
+
       items_count              = 0
       sum_of_diff_times_effort = 0.0
       sum_of_effort_for_active = 0.0
 
       items.each do |item|
-        current_progress = item.quarter_progress(q[:start], q[:end])
+        current_progress = progress_map[item.id] || 0
         prev_max = historical_max[item.id] || 0
 
         if current_progress > prev_max
           diff = current_progress - prev_max
           items_count += 1
           w = item.effort.to_f
-          sum_of_diff_times_effort += (diff * w)
+          sum_of_diff_times_effort += diff * w
           sum_of_effort_for_active  += w
 
-          # Обновляем исторический максимум
           historical_max[item.id] = current_progress
         else
           diff = 0
-          # Исторический максимум не изменяется
         end
       end
 
