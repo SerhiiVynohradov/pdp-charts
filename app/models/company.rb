@@ -13,4 +13,14 @@ class Company < ApplicationRecord
   def active?
     status
   end
+
+  # todo: n+1
+  def items_count
+    teams.map { |t| t.items_count }.sum
+  end
+
+  # todo: n+1
+  def items_finished_count
+    teams.map { |t| t.items_finished_count }.sum
+  end
 end

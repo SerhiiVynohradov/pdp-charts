@@ -41,6 +41,220 @@ module ApplicationHelper
     crumbs
   end
 
+  # Sidenav resource links
+  def company_path(company)
+    if company
+      if @superadmin
+        superadmin_company_path(company)
+      elsif current_user.company_owner?
+        company_owner_company_path(company)
+      else
+        my_company_path(company)
+      end
+    else
+      '#'
+    end
+  end
+
+  def team_path(company, team)
+    if company && team # todo: for manager there may or may not be a company
+      if @superadmin
+        superadmin_company_team_path(company, team)
+      elsif current_user.company_owner?
+        company_owner_company_team_path(company, team)
+      else
+        my_team_path(team)
+      end
+    else
+      '#'
+    end
+  end
+
+  def user_path(company, team, user)
+    if company && team && user
+
+      if @superadmin
+        superadmin_company_team_user_path(company, team, user)
+      elsif current_user.company_owner?
+        company_owner_company_team_user_path(company, team, user)
+      elsif current_user.manager?
+        manager_team_user_path(team, user)
+      else
+        my_team_user_path(team, user)
+      end
+
+    else
+      '#'
+    end
+  end
+
+  # Sidenav resource settings links
+  def company_settings_path(company)
+    if company
+
+      if @superadmin
+        edit_superadmin_company_path(company)
+      elsif current_user.company_owner?
+        edit_company_owner_company_path(company)
+      elsif current_user.manager?
+        edit_manager_company_path(company)
+      else
+        edit_my_company_path(company)
+      end
+
+    else
+      '#'
+    end
+  end
+
+  def team_settings_path(company, team)
+    if company && team
+
+      if @superadmin
+        edit_superadmin_company_team_path(company, team)
+      elsif current_user.company_owner?
+        edit_company_owner_company_team_path(company, team)
+      elsif current_user.manager?
+        edit_manager_team_path(team)
+      else
+        edit_my_team_path(team)
+      end
+
+    else
+      '#'
+    end
+
+  end
+
+  def user_settings_path(company, team, user)
+    if company && team && user
+
+      if @superadmin
+        edit_superadmin_company_team_user_path(company, team, user)
+      elsif current_user.company_owner?
+        edit_company_owner_company_team_user_path(company, team, user)
+      elsif current_user.manager?
+        edit_manager_team_user_path(team, user)
+      else
+        edit_my_team_user_path(team, user)
+      end
+
+    else
+      '#'
+    end
+  end
+
+  # Sidenav resource events links
+  def company_events_path(company)
+    if company
+
+      if @superadmin
+        superadmin_company_events_path(company)
+      elsif current_user.company_owner?
+        company_owner_company_events_path(company)
+      elsif current_user.manager?
+        manager_company_events_path(company)
+      else
+        my_company_events_path(company)
+      end
+
+    else
+      '#'
+    end
+
+  end
+
+  def team_events_path(company, team)
+    if company && team
+
+      if @superadmin
+        superadmin_company_team_events_path(company, team)
+      elsif current_user.company_owner?
+        company_owner_company_team_events_path(company, team)
+      elsif current_user.manager?
+        manager_team_events_path(team)
+      else
+        my_team_events_path(team)
+      end
+
+    else
+      '#'
+    end
+  end
+
+  def user_events_path(company, team, user)
+    if company && team && user
+
+      if @superadmin
+        superadmin_company_team_user_events_path(company, team, user)
+      elsif current_user.company_owner?
+        company_owner_company_team_user_events_path(company, team, user)
+      elsif current_user.manager?
+        manager_team_user_events_path(team, user)
+      else
+        my_team_user_events_path(team, user)
+      end
+
+    else
+      '#'
+    end
+  end
+
+  def user_path_active?(company, team, user)
+    return false unless company && team && user
+    request.path.include?(URI.parse(user_path(company, team, user)).path)
+  end
+
+  def user_settings_path_active?(company, team, user)
+    return false unless company && team && user
+    request.path.include?(URI.parse(user_settings_path(company, team, user)).path)
+  end
+
+  def user_events_path_active?(company, team, user)
+    return false unless company && team && user
+    request.path.include?(URI.parse(user_events_path(company, team, user)).path)
+  end
+
+  def team_path_open?(company, team)
+    return false unless company && team
+    request.path.include?(URI.parse(team_path(company, team)).path)
+  end
+
+  def company_path_open?(company)
+    request.path.include?(URI.parse(company_path(company)).path)
+  end
+
+  def company_path_active?(company)
+    request.path == URI.parse(company_path(company)).path + '/teams'
+  end
+
+  def team_path_active?(company, team)
+    return false unless company && team
+    request.path == URI.parse(team_path(company, team)).path + '/users'
+  end
+
+  def company_settings_path_active?(company)
+    request.path.include?(URI.parse(company_settings_path(company)).path)
+  end
+
+  def team_settings_path_active?(company, team)
+    return false unless company && team
+    request.path.include?(URI.parse(team_settings_path(company, team)).path)
+  end
+
+  def company_events_path_active?(company)
+    request.path.include?(URI.parse(company_events_path(company)).path)
+  end
+
+  def team_events_path_active?(company, team)
+    return false unless company && team
+    request.path.include?(URI.parse(team_events_path(company, team)).path)
+  end
+
+  def root_path_active?
+    request.path == URI.parse(superadmin_companies_path).path
+  end
+
   private
 
   def manager_breadcrumbs

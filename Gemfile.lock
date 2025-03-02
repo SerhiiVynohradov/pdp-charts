@@ -116,6 +116,8 @@ GEM
     globalid (1.2.1)
       activesupport (>= 6.1)
     hashie (5.0.0)
+    heroicon (1.0.0)
+      rails (>= 5.2)
     highline (3.1.2)
       reline
     i18n (1.14.6)
@@ -397,6 +399,7 @@ DEPENDENCIES
   devise (~> 4.9)
   devise-i18n
   dotenv
+  heroicon
   i18n-tasks
   importmap-rails
   jbuilder

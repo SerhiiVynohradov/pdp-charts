@@ -16,4 +16,12 @@ class Team < ApplicationRecord
   def manager
     users.where(role: "manager").first
   end
+
+  def items_count
+    users.map { |u| u.items.count }.sum
+  end
+
+  def items_finished_count
+    users.map { |u| u.items.select { |i| i.progress == 100 }.count }.sum
+  end
 end

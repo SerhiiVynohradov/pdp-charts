@@ -13,3 +13,15 @@
  *= require_tree .
  *= require_self
  */
+
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px; /* толщина скроллбара */
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #2d3748; /* track цвет (Tailwind gray-700) */
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #4a5568; /* ползунок (Tailwind gray-600) */
+  border-radius: 4px;
+}

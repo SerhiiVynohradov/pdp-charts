@@ -35,7 +35,7 @@ module CompanyOwner
       end
 
       def company_params
-        params.require(:company).permit(:name, :charts_visible, :status)
+        params.require(:company).permit(:name, :charts_visible)
       end
     end
   end

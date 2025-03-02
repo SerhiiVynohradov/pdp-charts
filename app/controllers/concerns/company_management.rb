@@ -6,8 +6,8 @@ module CompanyManagement
 
     before_action :set_companies, only: [:index]
 
-    before_action :set_company, only: [:show, :update, :destroy]
-    before_action :authorize_manage_company!, only: [:show, :update, :destroy]
+    before_action :set_company, only: [:show, :edit, :update, :destroy]
+    before_action :authorize_manage_company!, only: [:show, :edit, :update, :destroy]
   end
 
   def index
@@ -24,6 +24,10 @@ module CompanyManagement
     @events = set_events
 
     render 'shared/companies/show'
+  end
+
+  def edit
+    render 'shared/companies/edit'
   end
 
   def create
@@ -50,6 +54,13 @@ module CompanyManagement
       else
         render json: { errors: @company.errors.full_messages }, status: :unprocessable_entity
       end
+
+    else
+      if @company.update(company_params)
+        redirect_to request.referrer, notice: I18n.t('messages.company.updated_successfully')
+      else
+        redirect_to request.referrer, alert: I18n.t('messages.company.update_failed')
+      end
     end
   end
 
@@ -60,32 +71,6 @@ module CompanyManagement
     @company.destroy
   end
 
-  # def details
-  #   # open manager-like view but from company perspective
-  # end
-
-  # def settings
-  #   # ...
-  # end
-
-  # def recommended
-  #   # ...
-  # end
-
-  # def charts
-  #   @team = current_user.managed_teams.find(params[:id])
-  #   # build multi-line chart for each user in the team
-  # end
-
-  # def settings
-  #   @team = current_user.managed_teams.find(params[:id])
-  # end
-
-  # def recommended
-  #   @team = current_user.managed_teams.find(params[:id])
-  #   # recommended items CRUD
-  # end
-
   private
   def read_only_mode
     false
@@ -93,7 +78,8 @@ module CompanyManagement
 
   def company_params
     params.require(:company).permit(
-      :name
+      :name,
+      :charts_visible
     )
   end
 

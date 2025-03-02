@@ -7,7 +7,7 @@ module UserManagement
     before_action :set_team
     before_action :authorize_manage_team!
 
-    before_action :set_user, only: [:show, :update, :destroy, :pause, :generate_meeting, :external_calendar, :make_manager]
+    before_action :set_user, only: [:show, :edit, :update, :destroy, :pause, :generate_meeting, :external_calendar, :make_manager]
   end
 
   def index
@@ -16,6 +16,10 @@ module UserManagement
     @events = set_events
 
     render 'shared/users/index', locals: { read_only_mode: read_only_mode }
+  end
+
+  def edit
+    render 'shared/users/edit'
   end
 
   def create
@@ -48,6 +52,12 @@ module UserManagement
         ), status: :ok
       else
         render json: { errors: @user.errors.full_messages }, status: :unprocessable_entity
+      end
+    else
+      if @user.update(user_params)
+        redirect_to request.referrer, notice: I18n.t('messages.user.updated_successfully')
+      else
+        redirect_to request.referrer, alert: I18n.t('messages.user.update_failed')
       end
     end
   end
@@ -143,7 +153,11 @@ module UserManagement
   end
 
   def user_params
-    params.require(:user).permit(:name, :email, :role)
+    params.require(:user).permit(
+      :name,
+      :email,
+      :role
+    )
   end
 
   def authorize_manage_team!

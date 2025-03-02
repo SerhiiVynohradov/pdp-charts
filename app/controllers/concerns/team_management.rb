@@ -6,8 +6,8 @@ module TeamManagement
 
     before_action :set_teams, only: [:index]
 
-    before_action :set_team, only: [:show, :update, :destroy]
-    before_action :authorize_manage_team!, only: [:show, :update, :destroy]
+    before_action :set_team, only: [:show, :edit, :update, :destroy]
+    before_action :authorize_manage_team!, only: [:show, :edit, :update, :destroy]
   end
 
   def index
@@ -16,6 +16,10 @@ module TeamManagement
     @events = set_events
 
     render 'shared/teams/index', locals: { read_only_mode: read_only_mode }
+  end
+
+  def edit
+    render 'shared/teams/edit'
   end
 
   def create
@@ -33,7 +37,7 @@ module TeamManagement
   end
 
   def update
-    if request.format.json?
+    if request.format.json? # inline table
       if @team.update(team_params)
         render json: @team.slice(
           :id,
@@ -41,6 +45,12 @@ module TeamManagement
         ), status: :ok
       else
         render json: { errors: @team.errors.full_messages }, status: :unprocessable_entity
+      end
+    else # html form
+      if @team.update(team_params)
+        redirect_to request.referrer, notice: I18n.t('messages.team.updated_successfully')
+      else
+        redirect_to request.referrer, alert: I18n.t('messages.team.update_failed')
       end
     end
   end
@@ -52,32 +62,6 @@ module TeamManagement
     @team.destroy
   end
 
-  # def details
-  #   # open manager-like view but from company perspective
-  # end
-
-  # def settings
-  #   # ...
-  # end
-
-  # def recommended
-  #   # ...
-  # end
-
-  # def charts
-  #   @team = current_user.managed_teams.find(params[:id])
-  #   # build multi-line chart for each user in the team
-  # end
-
-  # def settings
-  #   @team = current_user.managed_teams.find(params[:id])
-  # end
-
-  # def recommended
-  #   @team = current_user.managed_teams.find(params[:id])
-  #   # recommended items CRUD
-  # end
-
   private
   def read_only_mode
     false
@@ -85,7 +69,12 @@ module TeamManagement
 
   def team_params
     params.require(:team).permit(
-      :name
+      :name,
+      :charts_visible,
+      # :status
+      :effort_line,
+      :wa_line,
+      :items_line
     )
   end
 

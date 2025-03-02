@@ -5,19 +5,89 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+
     <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
     <%= javascript_include_tag "canvasjs.stock.min" %>
+
+    <!-- Alpine.js -->
     <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
   </head>
 
   <body class="bg-gray-900 text-white">
+    <!-- Верхнее меню -->
     <%= render "layouts/navbar" %>
+
+    <!-- Хлебные крошки, флэш-сообщения, если нужны -->
     <%= render "layouts/breadcrumbs" %>
     <%= render "layouts/flash_messages" %>
 
-    <div class="min-h-screen">
-      <%= yield %>
+    <!-- Главная обёртка: боковое меню + основной контент -->
+    <!-- x-data: хранит состояние (открыто/закрыто меню, строка поиска, списки для поиска) -->
+    <div
+      class="flex min-h-screen"
+      x-data="sideMenuState()"
+      x-init="initData()"
+    >
+      <!-- Сайд-бар (меню). Подключаем партиал -->
+      <%= render "layouts/side_menu" %>
+
+      <!-- Основной контент. Сдвигаем его вправо, когда меню открыто на md+ -->
+      <div
+        class="flex-1 p-6 transition-all duration-300"
+        :class="menuOpen ? 'ml-0 md:ml-80' : 'ml-0'"
+      >
+        <%= yield %>
+      </div>
     </div>
+
+    <!-- JS для Alpine: локальная логика -->
+    <script>
+      function sideMenuState() {
+        return {
+          menuOpen: true,
+          searchQuery: '',
+          // Массивы (демо-данные) — в реальности вы можете засовывать их в JSON из контроллера
+          allUsers: [],
+          allTeams: [],
+          allCompanies: [],
+
+          // Вызывается при загрузке, можно, например, взять JSON с сервера
+          initData() {
+            // Пример: если передать в контроллере @all_users, @all_teams, @all_companies
+            // И потом сделать:
+            // window.allUsers = JSON.parse('<%= @all_users.to_json %>');
+            // или что-то вроде того.
+            if (window.allUsers)  { this.allUsers  = window.allUsers }
+            if (window.allTeams)  { this.allTeams  = window.allTeams }
+            if (window.allCompanies) { this.allCompanies = window.allCompanies }
+          },
+
+          // Функции фильтрации
+          filteredUsers() {
+            if (!this.searchQuery) return []
+            const q = this.searchQuery.toLowerCase()
+            return this.allUsers.filter(u =>
+              (u.name && u.name.toLowerCase().includes(q)) ||
+              (u.email && u.email.toLowerCase().includes(q))
+            )
+          },
+          filteredTeams() {
+            if (!this.searchQuery) return []
+            const q = this.searchQuery.toLowerCase()
+            return this.allTeams.filter(t =>
+              t.name && t.name.toLowerCase().includes(q)
+            )
+          },
+          filteredCompanies() {
+            if (!this.searchQuery) return []
+            const q = this.searchQuery.toLowerCase()
+            return this.allCompanies.filter(c =>
+              c.name && c.name.toLowerCase().includes(q)
+            )
+          }
+        }
+      }
+    </script>
   </body>
 </html>

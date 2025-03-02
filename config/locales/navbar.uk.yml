@@ -31,3 +31,24 @@ uk:
     stats_for_team: "%{team_name} Статистика"
     settings_for_team: "%{team_name} Налаштування"
     settings_for_company: "%{company_name} Налаштування"
+
+  sidenav:
+    my_personal_records: 'Мої особисті записи'
+    search_placeholder: 'Пошук...'
+    my_settings: 'Мої налаштування'
+    my_events: 'Мої події'
+    entire_company: 'Вся компанія'
+    company_settings: 'Налаштування компанії'
+    company_events: 'Події компанії'
+    entire_team: 'Вся команда'
+    team_settings: 'Налаштування команди'
+    team_events: 'Події команди'
+    high: 'Високий'
+    low: 'Низький'
+    user_settings: 'Налаштування користувача'
+    user_events: 'Події користувача'
+    no_companies_found: 'Компанії не знайдено'
+    found_users: 'Знайдені користувачі'
+    found_teams: 'Знайдені команди'
+    found_companies: 'Знайдені компанії'
+    home: 'Головна'

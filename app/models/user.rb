@@ -83,4 +83,16 @@ class User < ApplicationRecord
   def paused?
     false
   end
+
+  def items_count
+    items.count
+  end
+
+  def items_finished_count
+    items.select { |i| i.progress == 100 }.count
+  end
+
+  def performance
+    ['high', 'low', 'medium'].sample
+  end
 end

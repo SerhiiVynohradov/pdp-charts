@@ -31,3 +31,24 @@ en:
     stats_for_team: "%{team_name} Stats"
     settings_for_team: "%{team_name} Settings"
     settings_for_company: "%{company_name} Settings"
+
+  sidenav:
+    my_personal_records: 'My Personal Records'
+    search_placeholder: 'Search...'
+    my_settings: 'My Settings'
+    my_events: 'My Events'
+    entire_company: 'Entire Company'
+    company_settings: 'Company Settings'
+    company_events: 'Company Events'
+    entire_team: 'Entire Team'
+    team_settings: 'Team Settings'
+    team_events: 'Team Events'
+    high: 'High'
+    low: 'Low'
+    user_settings: 'User Settings'
+    user_events: 'User Events'
+    no_companies_found: 'No companies found.'
+    found_users: 'Found Users'
+    found_teams: 'Found Teams'
+    found_companies: 'Found Companies'
+    home: 'Home'
