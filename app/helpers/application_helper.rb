@@ -46,7 +46,7 @@ module ApplicationHelper
     if company
       if @sidebar_context == :superadmin
         superadmin_company_path(company)
-      elsif current_user.company_owner?
+      elsif @sidebar_context == :company_owner
         company_owner_company_path(company)
       else
         my_company_path(company)
@@ -60,7 +60,7 @@ module ApplicationHelper
     if company && team # todo: for manager there may or may not be a company
       if @sidebar_context == :superadmin
         superadmin_company_team_path(company, team)
-      elsif current_user.company_owner?
+      elsif @sidebar_context == :company_owner
         company_owner_company_team_path(company, team)
       else
         my_team_path(team)
@@ -75,9 +75,9 @@ module ApplicationHelper
 
       if @sidebar_context == :superadmin
         superadmin_company_team_user_path(company, team, user)
-      elsif current_user.company_owner?
+      elsif @sidebar_context == :company_owner
         company_owner_company_team_user_path(company, team, user)
-      elsif current_user.manager?
+      elsif @sidebar_context == :manager
         manager_team_user_path(team, user)
       else
         my_team_user_path(team, user)
@@ -94,12 +94,12 @@ module ApplicationHelper
 
       if @sidebar_context == :superadmin
         edit_superadmin_company_path(company)
-      elsif current_user.company_owner?
+      elsif @sidebar_context == :company_owner
         edit_company_owner_company_path(company)
-      elsif current_user.manager?
+      elsif @sidebar_context == :manager
         edit_manager_company_path(company)
       else
-        my_company_path
+        '#'
       end
 
     else
@@ -112,12 +112,12 @@ module ApplicationHelper
 
       if @sidebar_context == :superadmin
         edit_superadmin_company_team_path(company, team)
-      elsif current_user.company_owner?
+      elsif @sidebar_context == :company_owner
         edit_company_owner_company_team_path(company, team)
-      elsif current_user.manager?
+      elsif @sidebar_context == :manager
         edit_manager_team_path(team)
       else
-        edit_my_team_path(team)
+        '#'
       end
 
     else
@@ -131,12 +131,12 @@ module ApplicationHelper
 
       if @sidebar_context == :superadmin
         edit_superadmin_company_team_user_path(company, team, user)
-      elsif current_user.company_owner?
+      elsif @sidebar_context == :company_owner
         edit_company_owner_company_team_user_path(company, team, user)
-      elsif current_user.manager?
+      elsif @sidebar_context == :manager
         edit_manager_team_user_path(team, user)
       else
-        edit_my_team_user_path(team, user)
+        '#'
       end
 
     else
@@ -150,12 +150,12 @@ module ApplicationHelper
 
       if @sidebar_context == :superadmin
         superadmin_company_events_path(company)
-      elsif current_user.company_owner?
+      elsif @sidebar_context == :company_owner
         company_owner_company_events_path(company)
-      elsif current_user.manager?
+      elsif @sidebar_context == :manager
         manager_company_events_path(company)
       else
-        my_company_events_path(company)
+        '#'
       end
 
     else
@@ -169,12 +169,12 @@ module ApplicationHelper
 
       if @sidebar_context == :superadmin
         superadmin_company_team_events_path(company, team)
-      elsif current_user.company_owner?
+      elsif @sidebar_context == :company_owner
         company_owner_company_team_events_path(company, team)
-      elsif current_user.manager?
+      elsif @sidebar_context == :manager
         manager_team_events_path(team)
       else
-        my_team_events_path(team)
+        '#'
       end
 
     else
@@ -187,12 +187,12 @@ module ApplicationHelper
 
       if @sidebar_context == :superadmin
         superadmin_company_team_user_events_path(company, team, user)
-      elsif current_user.company_owner?
+      elsif @sidebar_context == :company_owner
         company_owner_company_team_user_events_path(company, team, user)
-      elsif current_user.manager?
+      elsif @sidebar_context == :manager
         manager_team_user_events_path(team, user)
       else
-        my_team_user_events_path(team, user)
+        '#'
       end
 
     else
@@ -252,7 +252,8 @@ module ApplicationHelper
   end
 
   def root_path_active?
-    request.path == URI.parse(superadmin_companies_path).path
+    return request.path == URI.parse(superadmin_companies_path).path if current_user.superadmin?
+    return request.path == URI.parse(company_owner_company_teams_path(current_user.company)).path if current_user.company_owner? && current_user.company.present?
   end
 
   def my_items_path_active?

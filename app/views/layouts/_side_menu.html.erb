@@ -55,8 +55,8 @@
   </div>
 
   <div data-search-filter-target="hierarchyContainer" class="p-4 space-y-4">
-    <% if Company.all.present? %>
-      <% Company.all.each do |company| %>
+    <% if @sidebar_companies.present? %>
+      <% @sidebar_companies.each do |company| %>
         <div x-data="{ openCompany: <%= company_path_open?(company) %> }" class="border border-gray-700 rounded">
           <div
             @click="openCompany = !openCompany"
@@ -174,7 +174,7 @@
     <div>
       <h3 class="font-bold mb-2 text-sm text-gray-400"><%= t('sidenav.found_users') %></h3>
       <ul data-search-filter-target="usersList" class="space-y-1">
-        <% User.all.each do |user| %>
+        <% @search_users.each do |user| %>
           <li class="flex items-center justify-between text-sm <%= 'bg-gray-500' if user_path_active?(user&.team&.company, user&.team, user) %>" data-name="<%= user.name.downcase %>">
             <div class="flex items-center space-x-1">
               <%= link_to user_path(user&.team&.company, user&.team, user), class: 'hover:underline hover:text-blue-300' do %>
@@ -210,7 +210,7 @@
     <div>
       <h3 class="font-bold mb-2 text-sm text-gray-400"><%= t('sidenav.found_teams') %></h3>
       <ul data-search-filter-target="teamsList" class="space-y-1">
-        <% Team.all.each do |team| %>
+        <% @search_teams.each do |team| %>
           <li class="flex items-center justify-between text-sm <%= 'bg-gray-500' if team_path_active?(team.company, team) %>" data-name="<%= team.name.downcase %>">
             <div class="flex items-center space-x-1">
               <%= link_to team_path(team.company, team), class: 'hover:underline hover:text-blue-300' do %>
@@ -241,7 +241,7 @@
     <div>
       <h3 class="font-bold mb-2 text-sm text-gray-400"><%= t('sidenav.found_companies') %></h3>
       <ul data-search-filter-target="companiesList" class="space-y-1">
-        <% Company.all.each do |c| %>
+        <% @search_companies.each do |c| %>
           <li class="flex items-center justify-between text-sm <%= 'bg-gray-500' if company_path_active?(c) %>" data-name="<%= c.name.downcase %>">
             <div class="flex items-center space-x-1">
               <%= link_to company_path(c), class: 'hover:underline hover:text-blue-300' do %>

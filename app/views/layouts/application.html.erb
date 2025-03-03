@@ -30,7 +30,9 @@
       x-init="initData()"
     >
       <!-- Сайд-бар (меню). Подключаем партиал -->
-      <%= render "layouts/side_menu" %>
+      <% if current_user %>
+        <%= render "layouts/side_menu" %>
+      <% end %>
 
       <!-- Основной контент. Сдвигаем его вправо, когда меню открыто на md+ -->
       <div
@@ -45,7 +47,7 @@
     <script>
       function sideMenuState() {
         return {
-          menuOpen: true,
+          menuOpen: <%= current_user ? "true" : "false" %>,
           searchQuery: '',
           // Массивы (демо-данные) — в реальности вы можете засовывать их в JSON из контроллера
           allUsers: [],
