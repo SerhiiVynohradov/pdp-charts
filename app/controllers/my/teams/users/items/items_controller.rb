@@ -2,10 +2,7 @@ module My
   module Teams
     module Users
       module Items
-        class ItemsController < ApplicationController
-          before_action :authenticate_user!
-          before_action :set_team
-          before_action :set_user
+        class ItemsController < My::Teams::Users::BaseController
           before_action :set_items, only: :index
           before_action :set_item, only: :show
           before_action :set_data
@@ -39,14 +36,6 @@ module My
 
           def set_item
             @item = @user.items.find(params[:id])
-          end
-
-          def set_team
-            @team = current_user.team
-          end
-
-          def set_user
-            @user = @team.users.find(params[:user_id])
           end
 
           def chart_data_index

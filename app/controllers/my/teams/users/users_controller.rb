@@ -1,11 +1,7 @@
 module My
   module Teams
     module Users
-      class UsersController < ApplicationController
-        before_action :authenticate_user!
-        before_action :set_team
-        before_action :set_user, only: :show
-
+      class UsersController < My::Teams::Users::BaseController
         include PdpChartsHelper
 
         def index
@@ -22,14 +18,6 @@ module My
         end
 
         private
-
-        def set_team
-          @team = current_user.team
-        end
-
-        def set_user
-          @user = @team.users.find(params[:id])
-        end
 
         def chart_data_index
           data = @team.users.map do |u|
@@ -57,10 +45,6 @@ module My
 
         def chart_label_index
           I18n.t('labels.pdp_chart.for_team', team: @team.name)
-        end
-
-        def read_only_mode
-          true
         end
       end
     end

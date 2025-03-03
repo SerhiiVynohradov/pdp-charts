@@ -1,6 +1,6 @@
 module My
   module Companies
-    class CompaniesController < ApplicationController
+    class CompaniesController < My::BaseController
       before_action :authenticate_user!
       before_action :set_company, only: :show
 

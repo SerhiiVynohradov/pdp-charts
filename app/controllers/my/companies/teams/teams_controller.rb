@@ -1,9 +1,7 @@
 module My
   module Companies
     module Teams
-      class TeamsController < ApplicationController
-        before_action :authenticate_user!
-        before_action :set_company
+      class TeamsController < My::Companies::BaseController
         before_action :set_teams, only: :index
         before_action :set_team, only: :show
 
@@ -20,10 +18,6 @@ module My
         end
 
         private
-
-        def set_company
-          @company = Company.find(params[:company_id])
-        end
 
         def set_teams
           @teams = @company.teams

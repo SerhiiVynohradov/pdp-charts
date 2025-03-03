@@ -2,10 +2,7 @@ module My
   module Companies
     module Teams
       module Users
-        class UsersController < ApplicationController
-          before_action :authenticate_user!
-          before_action :set_company
-          before_action :set_team
+        class UsersController < My::Companies::Teams::BaseController
           before_action :set_users, only: :index
           before_action :set_user, only: :show
 
@@ -22,14 +19,6 @@ module My
           end
 
           private
-
-          def set_company
-            @company = Company.find(params[:company_id])
-          end
-
-          def set_team
-            @team = @company.teams.find(params[:team_id])
-          end
 
           def set_users
             @users = @team.users

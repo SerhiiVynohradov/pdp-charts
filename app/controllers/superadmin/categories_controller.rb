@@ -1,7 +1,5 @@
 module Superadmin
-  class CategoriesController < ApplicationController
-    before_action :authenticate_user!
-    before_action :require_superadmin!
+  class CategoriesController < Superadmin::BaseController
     before_action :set_category, only: [:show, :edit, :update, :destroy]
 
     def index
@@ -45,10 +43,6 @@ module Superadmin
 
     def category_params
       params.require(:category).permit(:name, :description)
-    end
-
-    def require_superadmin!
-      redirect_to root_path unless current_user&.superadmin?
     end
 
     def set_category

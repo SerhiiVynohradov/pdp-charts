@@ -4,9 +4,6 @@ module UserManagement
   included do
     include PdpChartsHelper
 
-    before_action :set_team
-    before_action :authorize_manage_team!
-
     before_action :set_user, only: [:show, :edit, :update, :destroy, :pause, :generate_meeting, :external_calendar, :make_manager]
   end
 
@@ -158,10 +155,6 @@ module UserManagement
       :email,
       :role
     )
-  end
-
-  def authorize_manage_team!
-    redirect_to root_path unless @team.present? && (can? :manage, @team)
   end
 
   def set_user

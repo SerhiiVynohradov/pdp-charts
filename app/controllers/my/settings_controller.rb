@@ -1,13 +1,9 @@
 module My
-  class SettingsController < ApplicationController
-    before_action :authenticate_user!
-
+  class SettingsController < My::BaseController
     def edit
-      @user = current_user
     end
 
     def update
-      @user = current_user
       if @user.update(user_params)
         redirect_to edit_my_settings_path, notice: I18n.t('messages.settings.saved_successfully')
       else

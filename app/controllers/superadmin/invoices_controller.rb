@@ -1,5 +1,5 @@
 module Superadmin
-  class InvoicesController < ApplicationController
+  class InvoicesController < Superadmin::BaseController
     before_action :set_invoiceable
     before_action :set_invoice, only: [:show, :edit, :update, :destroy]
 

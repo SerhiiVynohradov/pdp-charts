@@ -1,7 +1,5 @@
 module Superadmin
-  class PayersController < ApplicationController
-    before_action :set_context!
-
+  class PayersController < Superadmin::BaseController
     def index
       @self_employed = User.where(team_id: nil).to_a
       @managers = User.where(role: :manager).select { |user| user.team.company.nil? }.to_a
@@ -16,11 +14,6 @@ module Superadmin
 
     def show
       @payer = User.find(params[:id])
-    end
-
-    private
-    def set_context!
-      redirect_to root_path unless current_user.superadmin?
     end
   end
 end

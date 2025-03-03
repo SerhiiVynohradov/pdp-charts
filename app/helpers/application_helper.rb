@@ -44,7 +44,7 @@ module ApplicationHelper
   # Sidenav resource links
   def company_path(company)
     if company
-      if @superadmin
+      if @sidebar_context == :superadmin
         superadmin_company_path(company)
       elsif current_user.company_owner?
         company_owner_company_path(company)
@@ -58,7 +58,7 @@ module ApplicationHelper
 
   def team_path(company, team)
     if company && team # todo: for manager there may or may not be a company
-      if @superadmin
+      if @sidebar_context == :superadmin
         superadmin_company_team_path(company, team)
       elsif current_user.company_owner?
         company_owner_company_team_path(company, team)
@@ -73,7 +73,7 @@ module ApplicationHelper
   def user_path(company, team, user)
     if company && team && user
 
-      if @superadmin
+      if @sidebar_context == :superadmin
         superadmin_company_team_user_path(company, team, user)
       elsif current_user.company_owner?
         company_owner_company_team_user_path(company, team, user)
@@ -92,14 +92,14 @@ module ApplicationHelper
   def company_settings_path(company)
     if company
 
-      if @superadmin
+      if @sidebar_context == :superadmin
         edit_superadmin_company_path(company)
       elsif current_user.company_owner?
         edit_company_owner_company_path(company)
       elsif current_user.manager?
         edit_manager_company_path(company)
       else
-        edit_my_company_path(company)
+        my_company_path
       end
 
     else
@@ -110,7 +110,7 @@ module ApplicationHelper
   def team_settings_path(company, team)
     if company && team
 
-      if @superadmin
+      if @sidebar_context == :superadmin
         edit_superadmin_company_team_path(company, team)
       elsif current_user.company_owner?
         edit_company_owner_company_team_path(company, team)
@@ -129,7 +129,7 @@ module ApplicationHelper
   def user_settings_path(company, team, user)
     if company && team && user
 
-      if @superadmin
+      if @sidebar_context == :superadmin
         edit_superadmin_company_team_user_path(company, team, user)
       elsif current_user.company_owner?
         edit_company_owner_company_team_user_path(company, team, user)
@@ -148,7 +148,7 @@ module ApplicationHelper
   def company_events_path(company)
     if company
 
-      if @superadmin
+      if @sidebar_context == :superadmin
         superadmin_company_events_path(company)
       elsif current_user.company_owner?
         company_owner_company_events_path(company)
@@ -167,7 +167,7 @@ module ApplicationHelper
   def team_events_path(company, team)
     if company && team
 
-      if @superadmin
+      if @sidebar_context == :superadmin
         superadmin_company_team_events_path(company, team)
       elsif current_user.company_owner?
         company_owner_company_team_events_path(company, team)
@@ -185,7 +185,7 @@ module ApplicationHelper
   def user_events_path(company, team, user)
     if company && team && user
 
-      if @superadmin
+      if @sidebar_context == :superadmin
         superadmin_company_team_user_events_path(company, team, user)
       elsif current_user.company_owner?
         company_owner_company_team_user_events_path(company, team, user)
@@ -253,6 +253,18 @@ module ApplicationHelper
 
   def root_path_active?
     request.path == URI.parse(superadmin_companies_path).path
+  end
+
+  def my_items_path_active?
+    request.path.include?(URI.parse(my_root_path).path)
+  end
+
+  def my_settings_path_active?
+    request.path == URI.parse(edit_my_settings_path).path
+  end
+
+  def my_events_path_active?
+    request.path == URI.parse(my_events_path).path
   end
 
   private

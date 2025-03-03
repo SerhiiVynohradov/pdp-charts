@@ -2,8 +2,6 @@ module ItemProgressColumnManagement
   extend ActiveSupport::Concern
 
   included do
-    before_action :set_user
-
     before_action :set_item_progress_column, only: [:edit, :update, :destroy]
     before_action :authorize_manage_progress_columns!
     before_action :set_data

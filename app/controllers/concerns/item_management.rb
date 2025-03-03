@@ -4,9 +4,6 @@ module ItemManagement
   included do
     include PdpChartsHelper
 
-    before_action :set_user
-    # todo: before_action :authorize_manage_user!
-
     before_action :set_items, only: [:index]
     before_action :set_item, only: [:show, :update, :destroy, :recommend]
     before_action :set_data
@@ -214,10 +211,6 @@ module ItemManagement
 
   def set_item
     @item = @user.items.find(params[:id])
-  end
-
-  def set_user
-    @user = @team.users.find(params[:user_id])
   end
 
   def read_only_mode

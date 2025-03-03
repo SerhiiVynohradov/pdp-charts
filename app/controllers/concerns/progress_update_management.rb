@@ -2,8 +2,6 @@ module ProgressUpdateManagement
   extend ActiveSupport::Concern
 
   included do
-    before_action :set_user
-    before_action :set_item
     before_action :set_item_progress_column
 
     before_action :set_progress_update, only: [:update, :destroy]
@@ -60,10 +58,6 @@ module ProgressUpdateManagement
   end
 
   private
-
-  def set_item
-    @item = @user.items.find(params[:item_id])
-  end
 
   def set_item_progress_column
     @item_progress_column = @user.item_progress_columns.find(params[:item_progress_column_id])

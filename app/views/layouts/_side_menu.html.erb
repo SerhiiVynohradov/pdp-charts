@@ -15,7 +15,7 @@
     Helicopter View
   </div>
 
-  <div class="p-4 border-b border-gray-700 <%= 'bg-gray-700' if root_path_active? %>">
+  <div class="p-4 border-b border-gray-700 <%= 'bg-gray-500' if root_path_active? %>">
     <div class="flex items-center justify-between">
       <%= link_to  root_path, class: 'font-semibold hover:text-blue-300' do %>
         <%= '> ' if root_path_active? %>
@@ -24,15 +24,19 @@
     </div>
   </div>
 
-  <div class="p-4 border-b border-gray-700">
+  <div class="p-4 border-b border-gray-700 <%= 'bg-gray-500' if my_items_path_active? %>">
     <div class="flex items-center justify-between">
-      <%= link_to t('sidenav.my_personal_records'), my_items_path, class: 'font-semibold hover:text-blue-300' %>
+      <%= link_to my_items_path, class: 'font-semibold hover:text-blue-300' do %>
+        <%= '> ' if my_items_path_active? %>
+        <%= t('sidenav.my_personal_records') %>
+      <% end %>
+
       <div class="flex items-center space-x-2">
-        <%= link_to edit_my_settings_path, class: 'text-gray-400 hover:text-white', title: t('sidenav.my_settings') do %>
+        <%= link_to edit_my_settings_path, class: "text-gray-400 hover:text-white #{'text-white' if my_settings_path_active? }", title: t('sidenav.my_settings') do %>
           <%= heroicon 'cog-6-tooth', variant: :outline, options: { class: 'h-5 w-5' } %>
         <% end %>
 
-        <%= link_to my_events_path, class: 'text-gray-400 hover:text-white', title: t('sidenav.my_events') do %>
+        <%= link_to my_events_path, class: "text-gray-400 hover:text-white #{'text-white' if my_events_path_active? }", title: t('sidenav.my_events') do %>
           <%= heroicon "calendar", variant: :outline, options: { class: "h-5 w-5" } %>
         <% end %>
       </div>
@@ -125,7 +129,7 @@
 
                 <div x-show="openTeam" class="ml-4 border-l border-gray-500 pl-2 py-1 space-y-1 transition-all">
                   <% team.users.each do |user| %>
-                    <div class="flex items-center justify-between hover:bg-gray-700 text-sm <%= 'bg-gray-700' if user_path_active?(company, team, user) %>">
+                    <div class="flex items-center justify-between hover:bg-gray-700 text-sm <%= 'bg-gray-500' if user_path_active?(company, team, user) %>">
                       <div class="flex items-center space-x-1">
                         <%= link_to user_path(company, team, user), class: "hover:underline hover:text-blue-300" do %>
                           <%= '> ' if user_path_active?(company, team, user) %>
@@ -171,7 +175,7 @@
       <h3 class="font-bold mb-2 text-sm text-gray-400"><%= t('sidenav.found_users') %></h3>
       <ul data-search-filter-target="usersList" class="space-y-1">
         <% User.all.each do |user| %>
-          <li class="flex items-center justify-between text-sm <%= 'bg-gray-700' if user_path_active?(user&.team&.company, user&.team, user) %>" data-name="<%= user.name.downcase %>">
+          <li class="flex items-center justify-between text-sm <%= 'bg-gray-500' if user_path_active?(user&.team&.company, user&.team, user) %>" data-name="<%= user.name.downcase %>">
             <div class="flex items-center space-x-1">
               <%= link_to user_path(user&.team&.company, user&.team, user), class: 'hover:underline hover:text-blue-300' do %>
                 <%= '> ' if user_path_active?(user&.team&.company, user&.team, user) %>
@@ -207,7 +211,7 @@
       <h3 class="font-bold mb-2 text-sm text-gray-400"><%= t('sidenav.found_teams') %></h3>
       <ul data-search-filter-target="teamsList" class="space-y-1">
         <% Team.all.each do |team| %>
-          <li class="flex items-center justify-between text-sm <%= 'bg-gray-700' if team_path_active?(team.company, team) %>" data-name="<%= team.name.downcase %>">
+          <li class="flex items-center justify-between text-sm <%= 'bg-gray-500' if team_path_active?(team.company, team) %>" data-name="<%= team.name.downcase %>">
             <div class="flex items-center space-x-1">
               <%= link_to team_path(team.company, team), class: 'hover:underline hover:text-blue-300' do %>
                 <%= '> ' if team_path_active?(team.company, team) %>
@@ -238,7 +242,7 @@
       <h3 class="font-bold mb-2 text-sm text-gray-400"><%= t('sidenav.found_companies') %></h3>
       <ul data-search-filter-target="companiesList" class="space-y-1">
         <% Company.all.each do |c| %>
-          <li class="flex items-center justify-between text-sm <%= 'bg-gray-700' if company_path_active?(c) %>" data-name="<%= c.name.downcase %>">
+          <li class="flex items-center justify-between text-sm <%= 'bg-gray-500' if company_path_active?(c) %>" data-name="<%= c.name.downcase %>">
             <div class="flex items-center space-x-1">
               <%= link_to company_path(c), class: 'hover:underline hover:text-blue-300' do %>
                 <%= '> ' if company_path_active?(c) %>
