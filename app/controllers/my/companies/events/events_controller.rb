@@ -1,12 +1,12 @@
-module Manager
-  module Teams
+module My
+  module Companies
     module Events
-      class EventsController < Manager::Teams::BaseController
+      class EventsController < My::Companies::BaseController
         include EventManagement
 
         private
         def object
-          @team
+          @company
         end
       end
     end

@@ -25,6 +25,10 @@ class Ability
       can :manage, Event, eventable: user
       can :manage, Event, eventable: user.team
       can :manage, Event, eventable: user.team.users
+
+      if user&.team&.company_id.present?
+        can :read, Company, id: user.team.company_id, charts_visible: true
+      end
     end
 
     if user.company_owner?

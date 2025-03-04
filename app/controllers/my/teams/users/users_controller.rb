@@ -1,8 +1,9 @@
 module My
   module Teams
     module Users
-      class UsersController < My::Teams::Users::BaseController
+      class UsersController < My::Teams::BaseController
         include PdpChartsHelper
+        before_action :set_user, only: :show
 
         def index
           @users = @team.users
@@ -10,7 +11,7 @@ module My
           @chart_label = chart_label_index
           @events = set_events
 
-          render 'shared/users/index', locals: { read_only_mode: true }
+          render 'shared/users/index', locals: { read_only_mode: read_only_mode }
         end
 
         def show

@@ -63,7 +63,7 @@ module ApplicationHelper
       elsif @sidebar_context == :company_owner
         company_owner_company_team_path(company, team)
       else
-        my_team_path(team)
+        manager_team_path(team)
       end
     else
       '#'
@@ -97,7 +97,7 @@ module ApplicationHelper
       elsif @sidebar_context == :company_owner
         edit_company_owner_company_path(company)
       elsif @sidebar_context == :manager
-        edit_manager_company_path(company)
+        my_company_path(company) # all company links will point to my company
       else
         '#'
       end
@@ -153,7 +153,7 @@ module ApplicationHelper
       elsif @sidebar_context == :company_owner
         company_owner_company_events_path(company)
       elsif @sidebar_context == :manager
-        manager_company_events_path(company)
+        my_company_events_path(company)
       else
         '#'
       end
@@ -217,14 +217,27 @@ module ApplicationHelper
 
   def team_path_open?(company, team)
     return false unless company && team
-    request.path.include?(URI.parse(team_path(company, team)).path)
+
+    # this is the case because of which it made more sense to traverse the tree recursively instead of binding to URL
+    if current_user.manager? || current_user.user?
+      true
+    else
+      request.path.include?(URI.parse(team_path(company, team)).path)
+    end
   end
 
   def company_path_open?(company)
-    request.path.include?(URI.parse(company_path(company)).path)
+    return false unless company
+
+    if current_user.manager? || current_user.user?
+      true
+    else
+      request.path.include?(URI.parse(company_path(company)).path)
+    end
   end
 
   def company_path_active?(company)
+    return false unless company
     request.path == URI.parse(company_path(company)).path + '/teams'
   end
 
@@ -234,6 +247,7 @@ module ApplicationHelper
   end
 
   def company_settings_path_active?(company)
+    return false unless company
     request.path.include?(URI.parse(company_settings_path(company)).path)
   end
 
@@ -243,6 +257,7 @@ module ApplicationHelper
   end
 
   def company_events_path_active?(company)
+    return false unless company
     request.path.include?(URI.parse(company_events_path(company)).path)
   end
 
@@ -254,6 +269,7 @@ module ApplicationHelper
   def root_path_active?
     return request.path == URI.parse(superadmin_companies_path).path if current_user.superadmin?
     return request.path == URI.parse(company_owner_company_teams_path(current_user.company)).path if current_user.company_owner? && current_user.company.present?
+    return request.path == URI.parse(manager_team_users_path(current_user.team)).path if current_user.manager? && current_user.team.present?
   end
 
   def my_items_path_active?

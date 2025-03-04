@@ -7,7 +7,7 @@ module My
         private
 
         def set_user
-          @user = @team.users.find(params[:id])
+          @user = @team.users.find(params[:user_id])
         end
       end
     end

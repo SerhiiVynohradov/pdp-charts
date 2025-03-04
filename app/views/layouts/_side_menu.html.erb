@@ -45,28 +45,29 @@
 
   <div class="p-4 border-b border-gray-700">
     <input
-      type="text"
-      class="w-full bg-gray-700 text-white rounded px-3 py-2
-             focus:outline-none focus:ring-2 focus:ring-blue-500"
-      placeholder="<%= t('sidenav.search_placeholder') %>"
-      data-search-filter-target="searchInput"
-      data-action="input->search-filter#filter"
-    />
+        type="text"
+        class="w-full bg-gray-700 text-white rounded px-3 py-2
+               focus:outline-none focus:ring-2 focus:ring-blue-500"
+        placeholder="<%= t('sidenav.search_placeholder') %>"
+        data-search-filter-target="searchInput"
+        data-action="input->search-filter#filter"
+        />
   </div>
 
   <div data-search-filter-target="hierarchyContainer" class="p-4 space-y-4">
     <% if @sidebar_companies.present? %>
       <% @sidebar_companies.each do |company| %>
+        <% next unless can?(:read, company) %>
         <div x-data="{ openCompany: <%= company_path_open?(company) %> }" class="border border-gray-700 rounded">
           <div
-            @click="openCompany = !openCompany"
-            class="p-2 flex items-center justify-between hover:bg-gray-600 <%= company_path_active?(company) ? 'bg-gray-500' : 'bg-gray-700' %> cursor-pointer text-sm"
-          >
-            <div class="flex items-center space-x-2">
-              <%= heroicon "chevron-down", variant: :outline, options: {
-                   class: "h-4 w-4 transform transition-transform duration-200",
-                   'x-bind:class' => "openCompany ? 'rotate-180' : '-rotate-90'"
-                 } %>
+              @click="openCompany = !openCompany"
+              class="p-2 flex items-center justify-between hover:bg-gray-600 <%= company_path_active?(company) ? 'bg-gray-500' : 'bg-gray-700' %> cursor-pointer text-sm"
+              >
+              <div class="flex items-center space-x-2">
+                <%= heroicon "chevron-down", variant: :outline, options: {
+                  class: "h-4 w-4 transform transition-transform duration-200",
+                  'x-bind:class' => "openCompany ? 'rotate-180' : '-rotate-90'"
+                } %>
               <%= heroicon "building-office-2", variant: :outline, options: { class: "h-4 w-4 text-gray-300" } %>
               <span class="font-semibold"><%= company.name %></span>
               <% if company.items_finished_count && company.items_count %>
@@ -74,35 +75,41 @@
                   (<%= company.items_finished_count %>/<%= company.items_count %>)
                 </span>
               <% end %>
-            </div>
+              </div>
 
-            <div class="flex items-center space-x-2 whitespace-nowrap">
-              <%= link_to company_path(company), class: 'text-xs underline hover:text-blue-300' do %>
-                <%= t('sidenav.entire_company') %>
-              <% end %>
+              <div class="flex items-center space-x-2 whitespace-nowrap">
+                <%= link_to company_path(company), class: 'text-xs underline hover:text-blue-300' do %>
+                  <%= t('sidenav.entire_company') %>
+                <% end %>
 
-              <%= link_to company_settings_path(company), class: "text-gray-400 hover:text-white #{'text-white' if company_settings_path_active?(company)}", title: t('sidenav.company_settings') do %>
-                <%= heroicon 'cog-6-tooth', variant: :outline, options: { class: 'h-4 w-4' } %>
-              <% end %>
+                <% if can?(:manage, company) %>
+                  <%= link_to company_settings_path(company), class: "text-gray-400 hover:text-white #{'text-white' if company_settings_path_active?(company)}", title: t('sidenav.company_settings') do %>
+                    <%= heroicon 'cog-6-tooth', variant: :outline, options: { class: 'h-4 w-4' } %>
+                  <% end %>
+                <% end %>
 
-              <%= link_to company_events_path(company), class: "text-gray-400 hover:text-white #{'text-white' if company_events_path_active?(company)}", title: t('sidenav.company_events') do %>
-                <%= heroicon 'calendar', variant: :outline, options: { class: 'h-4 w-4' } %>
-              <% end %>
-            </div>
+                <% if can?(:read, company) %>
+                  <%= link_to company_events_path(company), class: "text-gray-400 hover:text-white #{'text-white' if company_events_path_active?(company)}", title: t('sidenav.company_events') do %>
+                    <%= heroicon 'calendar', variant: :outline, options: { class: 'h-4 w-4' } %>
+                  <% end %>
+                <% end %>
+              </div>
           </div>
 
           <div x-show="openCompany" class="transition-all">
             <% company.teams.each do |team| %>
+              <% next unless can?(:read, team) %>
+
               <div x-data="{ openTeam: <%= team_path_open?(company, team) %> }" class="ml-4 mt-1 border-l border-gray-600">
                 <div
-                  @click="openTeam = !openTeam"
-                  class="pl-2 py-1 flex items-center justify-between <%= team_path_active?(company, team) ? 'bg-gray-500' : 'bg-gray-700' %> hover:bg-gray-600 cursor-pointer text-sm"
-                >
-                  <div class="flex items-center space-x-2">
-                    <%= heroicon "chevron-down", variant: :outline, options: {
-                         class: "h-4 w-4 transform transition-transform duration-200",
-                         'x-bind:class' => "openTeam ? 'rotate-180' : '-rotate-90'"
-                       } %>
+                    @click="openTeam = !openTeam"
+                    class="pl-2 py-1 flex items-center justify-between <%= team_path_active?(company, team) ? 'bg-gray-500' : 'bg-gray-700' %> hover:bg-gray-600 cursor-pointer text-sm"
+                    >
+                    <div class="flex items-center space-x-2">
+                      <%= heroicon "chevron-down", variant: :outline, options: {
+                        class: "h-4 w-4 transform transition-transform duration-200",
+                        'x-bind:class' => "openTeam ? 'rotate-180' : '-rotate-90'"
+                      } %>
                     <%= heroicon "users", variant: :outline, options: { class: "h-4 w-4 text-gray-300" } %>
                     <span><%= team.name %></span>
                     <% if team.items_finished_count && team.items_count %>
@@ -110,25 +117,31 @@
                         (<%= team.items_finished_count %>/<%= team.items_count %>)
                       </span>
                     <% end %>
-                  </div>
+                    </div>
 
-                  <div class="flex items-center space-x-2 whitespace-nowrap">
-                    <%= link_to team_path(company, team), class: 'text-xs underline hover:text-blue-300' do %>
-                      <%= t('sidenav.entire_team') %>
-                    <% end %>
+                    <div class="flex items-center space-x-2 whitespace-nowrap">
+                      <%= link_to team_path(company, team), class: 'text-xs underline hover:text-blue-300' do %>
+                        <%= t('sidenav.entire_team') %>
+                      <% end %>
 
-                    <%= link_to team_settings_path(company, team), class: "text-gray-400 hover:text-white #{'text-white' if team_settings_path_active?(company, team)}", title: t('sidenav.team_settings') do %>
-                      <%= heroicon 'cog-6-tooth', variant: :outline, options: { class: 'h-4 w-4' } %>
-                    <% end %>
+                      <% if can?(:manage, team) %>
+                        <%= link_to team_settings_path(company, team), class: "text-gray-400 hover:text-white #{'text-white' if team_settings_path_active?(company, team)}", title: t('sidenav.team_settings') do %>
+                          <%= heroicon 'cog-6-tooth', variant: :outline, options: { class: 'h-4 w-4' } %>
+                        <% end %>
+                      <% end %>
 
-                    <%= link_to team_events_path(company, team), class: "text-gray-400 hover:text-white #{'text-white' if team_events_path_active?(company, team)}", title: t('sidenav.team_events') do %>
-                      <%= heroicon 'calendar', variant: :outline, options: { class: 'h-4 w-4' } %>
-                    <% end %>
-                  </div>
+                      <% if can?(:read, team) %>
+                        <%= link_to team_events_path(company, team), class: "text-gray-400 hover:text-white #{'text-white' if team_events_path_active?(company, team)}", title: t('sidenav.team_events') do %>
+                          <%= heroicon 'calendar', variant: :outline, options: { class: 'h-4 w-4' } %>
+                        <% end %>
+                      <% end %>
+                    </div>
                 </div>
 
                 <div x-show="openTeam" class="ml-4 border-l border-gray-500 pl-2 py-1 space-y-1 transition-all">
                   <% team.users.each do |user| %>
+                    <% next unless can?(:read, user) %>
+
                     <div class="flex items-center justify-between hover:bg-gray-700 text-sm <%= 'bg-gray-500' if user_path_active?(company, team, user) %>">
                       <div class="flex items-center space-x-1">
                         <%= link_to user_path(company, team, user), class: "hover:underline hover:text-blue-300" do %>
@@ -149,12 +162,16 @@
                         <% end %>
                       </div>
                       <div class="flex items-center space-x-1">
-                        <%= link_to user_settings_path(company, team, user), class: "text-gray-400 hover:text-white #{'text-white' if user_settings_path_active?(company, team, user)}", title: t('sidenav.user_settings') do %>
-                          <%= heroicon 'cog-6-tooth', variant: :outline, options: { class: 'h-4 w-4' } %>
+                        <% if can?(:manage, user) %>
+                          <%= link_to user_settings_path(company, team, user), class: "text-gray-400 hover:text-white #{'text-white' if user_settings_path_active?(company, team, user)}", title: t('sidenav.user_settings') do %>
+                            <%= heroicon 'cog-6-tooth', variant: :outline, options: { class: 'h-4 w-4' } %>
+                          <% end %>
                         <% end %>
 
-                        <%= link_to user_events_path(company, team, user), class: "text-gray-400 hover:text-white #{'text-white' if user_events_path_active?(company, team, user)}", title: t('sidenav.user_events') do %>
-                          <%= heroicon 'calendar', variant: :outline, options: { class: 'h-4 w-4' } %>
+                        <% if can?(:read, user) %>
+                          <%= link_to user_events_path(company, team, user), class: "text-gray-400 hover:text-white #{'text-white' if user_events_path_active?(company, team, user)}", title: t('sidenav.user_events') do %>
+                            <%= heroicon 'calendar', variant: :outline, options: { class: 'h-4 w-4' } %>
+                          <% end %>
                         <% end %>
                       </div>
                     </div>
@@ -194,12 +211,16 @@
               <% end %>
             </div>
             <div class="flex items-center space-x-1">
-              <%= link_to user_settings_path(user&.team&.company, user&.team, user), class: "text-gray-400 hover:text-white #{'text-white' if user_settings_path_active?(user&.team&.company, user&.team, user) }", title: t('sidenav.user_settings') do %>
-                <%= heroicon 'cog-6-tooth', variant: :outline, options: { class: 'h-4 w-4' } %>
+              <% if can?(:manage, user) %>
+                <%= link_to user_settings_path(user&.team&.company, user&.team, user), class: "text-gray-400 hover:text-white #{'text-white' if user_settings_path_active?(user&.team&.company, user&.team, user) }", title: t('sidenav.user_settings') do %>
+                  <%= heroicon 'cog-6-tooth', variant: :outline, options: { class: 'h-4 w-4' } %>
+                <% end %>
               <% end %>
 
-              <%= link_to user_events_path(user&.team&.company, user&.team, user), class: "text-gray-400 hover:text-white #{'text-white' if user_events_path_active?(user&.team&.company, user&.team, user) }", title: t('sidenav.user_events') do %>
-                <%= heroicon 'calendar', variant: :outline, options: { class: 'h-4 w-4' } %>
+              <% if can?(:read, user) %>
+                <%= link_to user_events_path(user&.team&.company, user&.team, user), class: "text-gray-400 hover:text-white #{'text-white' if user_events_path_active?(user&.team&.company, user&.team, user) }", title: t('sidenav.user_events') do %>
+                  <%= heroicon 'calendar', variant: :outline, options: { class: 'h-4 w-4' } %>
+                <% end %>
               <% end %>
             </div>
           </li>
@@ -225,12 +246,16 @@
               <% end %>
             </div>
             <div class="flex items-center space-x-1">
-              <%= link_to team_settings_path(team.company, team), class: "text-gray-400 hover:text-white #{'text-white' if team_settings_path_active?(team.company, team) }", title: t('sidenav.team_settings') do %>
-                <%= heroicon 'cog-6-tooth', variant: :outline, options: { class: 'h-4 w-4' } %>
+              <% if can?(:manage, team) %>
+                <%= link_to team_settings_path(team.company, team), class: "text-gray-400 hover:text-white #{'text-white' if team_settings_path_active?(team.company, team) }", title: t('sidenav.team_settings') do %>
+                  <%= heroicon 'cog-6-tooth', variant: :outline, options: { class: 'h-4 w-4' } %>
+                <% end %>
               <% end %>
 
-              <%= link_to team_events_path(team.company, team), class: "text-gray-400 hover:text-white #{'text-white' if team_events_path_active?(team.company, team) }", title: t('sidenav.team_events') do %>
-                <%= heroicon 'calendar', variant: :outline, options: { class: 'h-4 w-4' } %>
+              <% if can?(:read, team) %>
+                <%= link_to team_events_path(team.company, team), class: "text-gray-400 hover:text-white #{'text-white' if team_events_path_active?(team.company, team) }", title: t('sidenav.team_events') do %>
+                  <%= heroicon 'calendar', variant: :outline, options: { class: 'h-4 w-4' } %>
+                <% end %>
               <% end %>
             </div>
           </li>
@@ -256,12 +281,16 @@
               <% end %>
             </div>
             <div class="flex items-center space-x-1">
-              <%= link_to company_settings_path(c), class: "text-gray-400 hover:text-white #{'text-white' if company_settings_path_active?(c)}", title: t('sidenav.company_settings') do %>
-                <%= heroicon 'cog-6-tooth', variant: :outline, options: { class: 'h-4 w-4' } %>
+              <% if can?(:manage, c) %>
+                <%= link_to company_settings_path(c), class: "text-gray-400 hover:text-white #{'text-white' if company_settings_path_active?(c)}", title: t('sidenav.company_settings') do %>
+                  <%= heroicon 'cog-6-tooth', variant: :outline, options: { class: 'h-4 w-4' } %>
+                <% end %>
               <% end %>
 
-              <%= link_to company_events_path(c), class: "text-gray-400 hover:text-white #{'text-white' if company_events_path_active?(c)}", title: t('sidenav.company_events') do %>
-                <%= heroicon 'calendar', variant: :outline, options: { class: 'h-4 w-4' } %>
+              <% if can?(:read, c) %>
+                <%= link_to company_events_path(c), class: "text-gray-400 hover:text-white #{'text-white' if company_events_path_active?(c)}", title: t('sidenav.company_events') do %>
+                  <%= heroicon 'calendar', variant: :outline, options: { class: 'h-4 w-4' } %>
+                <% end %>
               <% end %>
             </div>
           </li>
