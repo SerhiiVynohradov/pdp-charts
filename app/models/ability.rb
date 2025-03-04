@@ -9,9 +9,20 @@ class Ability
     can :manage, Item, user_id: user.id
 
     if user.user?
-      can :manage, User, id: user.id
-
       can :manage, Event, eventable: user
+
+      if user&.team&.company_id.present? && user.team.company.charts_visible?
+        can :read, Company, id: user.team.company_id
+        can :read, Team, company_id: user.team.company_id
+        can :read, User, team_id: user.team.company.teams.pluck(:id)
+      end
+
+      if user&.team_id.present? && user.team.charts_visible?
+        can :read, Team, id: user.team_id
+        can :read, User, team_id: user.team_id
+      end
+
+      can :manage, User, id: user.id
     end
 
     if user.manager?

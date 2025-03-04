@@ -19,6 +19,9 @@ module My
         end
 
         private
+        def set_user
+          @user = @team.users.find(params[:id])
+        end
 
         def chart_data_index
           data = @team.users.map do |u|

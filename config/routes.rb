@@ -43,16 +43,17 @@ Rails.application.routes.draw do
     resources :item_progress_columns, only: [:new, :create, :edit, :update, :destroy]
 
     resources :teams, only: [:show], module: 'teams' do
-      resources :events, only: [:index, :show], module: 'events', module: 'events'
+      resources :events, only: [:index, :show], module: 'events'
       resources :users, only: [:index, :show], module: 'users' do
+        resources :events, only: [:index, :show], module: 'events'
         resources :items, only: [:index, :show], module: 'items'
       end
     end
 
     resources :companies, only: [:show], module: 'companies' do
-      resources :events, only: [:index, :show], module: 'events', module: 'events'
+      resources :events, only: [:index, :show], module: 'events'
       resources :teams, only: [:index, :show], module: 'teams' do
-        resources :events, only: [:index, :show], module: 'events', module: 'events'
+        resources :events, only: [:index, :show], module: 'events'
         resources :users, only: [:index, :show], module: 'users' do
           resources :items, only: [:index, :show], module: 'items'
         end

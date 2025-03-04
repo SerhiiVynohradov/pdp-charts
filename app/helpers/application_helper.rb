@@ -48,6 +48,8 @@ module ApplicationHelper
         superadmin_company_path(company)
       elsif @sidebar_context == :company_owner
         company_owner_company_path(company)
+      elsif @sidebar_context == :manager
+        my_company_path(company)
       else
         my_company_path(company)
       end
@@ -62,8 +64,10 @@ module ApplicationHelper
         superadmin_company_team_path(company, team)
       elsif @sidebar_context == :company_owner
         company_owner_company_team_path(company, team)
-      else
+      elsif @sidebar_context == :manager
         manager_team_path(team)
+      else
+        my_team_path(team)
       end
     else
       '#'
@@ -80,7 +84,11 @@ module ApplicationHelper
       elsif @sidebar_context == :manager
         manager_team_user_path(team, user)
       else
-        my_team_user_path(team, user)
+        if user == current_user
+          my_items_path
+        else
+          my_team_user_path(team, user)
+        end
       end
 
     else
@@ -136,7 +144,11 @@ module ApplicationHelper
       elsif @sidebar_context == :manager
         edit_manager_team_user_path(team, user)
       else
-        '#'
+        if user == current_user
+          edit_my_settings_path
+        else
+          '#'
+        end
       end
 
     else
@@ -155,7 +167,7 @@ module ApplicationHelper
       elsif @sidebar_context == :manager
         my_company_events_path(company)
       else
-        '#'
+        my_company_events_path(company)
       end
 
     else
@@ -174,7 +186,7 @@ module ApplicationHelper
       elsif @sidebar_context == :manager
         manager_team_events_path(team)
       else
-        '#'
+        my_team_events_path(team)
       end
 
     else
@@ -192,7 +204,11 @@ module ApplicationHelper
       elsif @sidebar_context == :manager
         manager_team_user_events_path(team, user)
       else
-        '#'
+        if user == current_user
+          my_events_path
+        else
+          my_team_user_events_path(team, user)
+        end
       end
 
     else
