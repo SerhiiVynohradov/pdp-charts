@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  include PdpChartsHelper
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   default_scope { order(:name) }
@@ -93,6 +94,26 @@ class User < ApplicationRecord
   end
 
   def performance
-    ['high', 'low', 'medium'].sample
+    # 1) Берём «готовый» метод, который вы уже вызываете в контроллерах
+    #    чтобы построить график по items этого пользователя.
+    stats = build_pdp_charts_data(self.items, label: self.name)
+    # => вернёт { label:..., items_data: [...], wa_data: [...], effort_data: [...] }
+
+    # 2) Берём effort_data – это массив точек [{ x: ..., y: ... }, ...]
+    effort_points = stats[:effort_data]
+
+    # 3) Предполагаем, что последний элемент массива соответствует текущему кварталу
+    #    (т.к. quarters сортируются от первого к текущему).
+    last_point = effort_points.last
+    current_value = last_point ? last_point[:y] : 0
+
+    # 4) Сравниваем с порогами 200 и 1000
+    if current_value < 200
+      "low"
+    elsif current_value > 1000
+      "high"
+    else
+      "medium"
+    end
   end
 end

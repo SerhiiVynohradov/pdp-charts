@@ -2,7 +2,7 @@ module My
   module Items
     module ItemProgressColumns
       module ProgressUpdates
-        class ProgressUpdatesController < My::BaseController
+        class ProgressUpdatesController < My::Items::BaseController
           include ProgressUpdateManagement
         end
       end

@@ -5,7 +5,7 @@ module CompanyOwner
         module Items
           module ItemProgressColumns
             module ProgressUpdates
-              class ProgressUpdatesController < CompanyOwner::Companies::Teams::Users::BaseController
+              class ProgressUpdatesController < CompanyOwner::Companies::Teams::Users::Items::BaseController
                 include ProgressUpdateManagement
               end
             end
