@@ -52,3 +52,6 @@ en:
     found_teams: 'Found Teams'
     found_companies: 'Found Companies'
     home: 'Home'
+    orphan_teams: 'Teams without a company'
+    orphan_users: 'Users without a team'
+    companies: 'Companies'

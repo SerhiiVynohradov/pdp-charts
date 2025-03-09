@@ -5,8 +5,13 @@ module Superadmin
 
       private
       def set_company_context!
-        @company = Company.find(params[:company_id])
-        redirect_to root_path unless can? :manage, @company
+        id = params[:company_id]
+        if id != 'na'
+          @company = Company.find(params[:company_id])
+          redirect_to root_path unless can? :manage, @company
+        else
+          @company = nil
+        end
       end
     end
   end

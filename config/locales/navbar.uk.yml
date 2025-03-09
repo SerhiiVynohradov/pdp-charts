@@ -52,3 +52,6 @@ uk:
     found_teams: 'Знайдені команди'
     found_companies: 'Знайдені компанії'
     home: 'Головна'
+    orphan_teams: 'Команди без компанії'
+    orphan_users: 'Користувачі без команди'
+    companies: 'Компанії'

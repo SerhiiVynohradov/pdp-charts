@@ -8,7 +8,12 @@ module Superadmin
           private
 
           def set_user_context!
-            @user = @team.users.find(params[:user_id])
+            if @team.nil?
+              @user = User.find(params[:user_id])
+            else
+              @user = @team.users.find(params[:user_id])
+            end
+
             redirect_to root_path unless can? :manage, @user
           end
         end

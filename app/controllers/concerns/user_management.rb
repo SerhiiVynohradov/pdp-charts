@@ -158,6 +158,12 @@ module UserManagement
   end
 
   def set_user
-    @user = @team.users.find(params[:id])
+    if @team.nil?
+      @user = User.find(params[:id])
+    else
+      @user = @team.users.find(params[:id])
+    end
+
+    redirect_to root_path unless can? :manage, @user
   end
 end

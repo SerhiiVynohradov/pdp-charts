@@ -10,6 +10,8 @@ module Superadmin
       @sidebar_context = :superadmin
 
       @sidebar_companies = Company.all
+      @orphan_teams = Team.where(company_id: nil)
+      @orphan_users = User.where(team_id: nil)
 
       @search_companies = Company.all
       @search_teams = Team.all
