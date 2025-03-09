@@ -18,14 +18,10 @@
     <!-- Верхнее меню -->
     <%= render "layouts/navbar" %>
 
-    <!-- Хлебные крошки, флэш-сообщения, если нужны -->
-    <%= render "layouts/breadcrumbs" %>
-    <%= render "layouts/flash_messages" %>
-
     <!-- Главная обёртка: боковое меню + основной контент -->
     <!-- x-data: хранит состояние (открыто/закрыто меню, строка поиска, списки для поиска) -->
     <div
-      class="flex min-h-screen"
+      class="flex min-h-screen pt-16"
       x-data="sideMenuState()"
       x-init="initData()"
     >
@@ -39,6 +35,9 @@
         class="flex-1 p-6 transition-all duration-300"
         :class="menuOpen ? 'ml-0 md:ml-80' : 'ml-0'"
       >
+        <%= render "layouts/breadcrumbs" %>
+        <%= render "layouts/flash_messages" %>
+
         <%= yield %>
       </div>
     </div>
