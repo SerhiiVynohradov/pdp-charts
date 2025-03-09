@@ -12,3 +12,24 @@
 }
 
 */
+
+@layer utilities {
+  .scrollbar-custom {
+    scrollbar-width: thin;
+    scrollbar-color: #4b5563 #1f2937; /* thumb и track для Firefox */
+  }
+
+  .scrollbar-custom::-webkit-scrollbar {
+    width: 4px;       /* Уже не 6px, а 4px */
+    height: 4px;      /* Аналогично, если есть горизонтальная полоса */
+  }
+  .scrollbar-custom::-webkit-scrollbar-track {
+    background: #1f2937;  /* bg-gray-800 */
+  }
+  .scrollbar-custom::-webkit-scrollbar-thumb {
+    background-color: #4b5563; /* gray-600 */
+    border-radius: 9999px;     /* скруглить максимально */
+    /* Убираем border, который давал «толщину» */
+    /* border: 2px solid #1f2937; */
+  }
+}
