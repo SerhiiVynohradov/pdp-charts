@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   allow_browser versions: :modern
 
+  before_action :set_sidenav_context!
   before_action :create_team_or_company
   before_action :redirect_to_www
   before_action :set_locale
@@ -25,6 +26,39 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def set_sidenav_context!
+    if current_user.superadmin?
+      @sidebar_context = :superadmin
+      @sidebar_companies = Company.all
+
+      @search_companies = Company.all
+      @search_teams = Team.all
+      @search_users = User.all
+    elsif current_user.company_owner?
+      @sidebar_context = :company_owner
+      @sidebar_companies = [current_user.company].compact
+
+      @search_companies = [current_user.company].compact
+      @search_teams = current_user.company ? current_user.company.teams : []
+      @search_users = current_user.company ? current_user.company.teams.map(&:users).flatten : []
+    elsif current_user.manager?
+      @sidebar_context = :manager
+      @sidebar_companies = [current_user.team&.company].compact
+
+      @search_companies = [current_user.team&.company].compact
+      @search_teams = [current_user.team].compact
+      @search_users = [current_user.team&.users].compact.flatten
+    else
+      @sidebar_context = :user
+      @sidebar_companies = [current_user.team&.company].compact
+
+      @search_companies = [current_user.team&.company].compact
+      @search_teams = [current_user.team].compact
+      @search_users = [current_user.team&.users].compact.flatten
+    end
+  end
+
+
   def redirect_to_www
     if request.host == 'pdpcharts.com'
       redirect_to("https://www.pdpcharts.com#{request.fullpath}", status: 301, allow_other_host: true)
@@ -40,8 +74,8 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def default_url_options
-    { locale: I18n.locale }
+  def default_url_options(options = {})
+    { locale: I18n.locale }.merge(options)
   end
 
   def set_events

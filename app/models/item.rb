@@ -5,7 +5,7 @@ class Item < ApplicationRecord
   has_many :progress_updates, dependent: :destroy
 
   validates :name, presence: true
-  validates :effort, numericality: { greater_than_or_equal_to: 0 }
+  validates :effort, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 5 }
 
   default_scope { order(position: :asc, created_at: :asc) }
 

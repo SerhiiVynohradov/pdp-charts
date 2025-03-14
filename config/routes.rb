@@ -60,7 +60,7 @@ Rails.application.routes.draw do
       end
     end
 
-    root to: "items#index"
+    root to: "items/items#index"
   end
 
   # Manager Namespace

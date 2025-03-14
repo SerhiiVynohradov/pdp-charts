@@ -57,9 +57,12 @@ class Ability
 
       # Nested Events
       can :manage, Event, eventable: user
-      can :manage, Event, eventable: user.company
-      can :manage, Event, eventable: user.company.teams
-      can :manage, Event, eventable: user.company.teams.map(&:users).flatten
+
+      if user.company.present?
+        can :manage, Event, eventable: user.company
+        can :manage, Event, eventable: user.company.teams
+        can :manage, Event, eventable: user.company.teams.map(&:users).flatten
+      end
     end
 
     if user.superadmin?

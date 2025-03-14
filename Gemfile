@@ -72,3 +72,21 @@ gem 'omniauth-facebook'
 gem 'dotenv'
 gem 'recaptcha'
 gem 'sendgrid-ruby'
+
+
+group :test do
+  gem 'capybara-email'
+  gem 'capybara-screenshot'
+  gem 'factory_bot_rails'
+  gem 'faker'
+  gem 'next_rails'
+  gem 'rails-controller-testing', '1.0.5'
+  gem 'rspec_n', require: false
+  gem 'rspec-rails'
+  gem 'rspec-retry'
+  gem 'rspec-wait'
+  gem 'selenium-webdriver'
+  gem 'shoulda-matchers'
+  gem 'simplecov'
+  gem 'database_cleaner'
+end
