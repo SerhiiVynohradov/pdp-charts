@@ -31,28 +31,78 @@ class ApplicationController < ActionController::Base
     if current_user.superadmin?
       @sidebar_context = :superadmin
       @sidebar_companies = Company.all
-
       @search_companies = Company.all
       @search_teams = Team.all
       @search_users = User.all
 
     elsif current_user.company_owner?
       @sidebar_context = :company_owner
-      @sidebar_companies = [current_user.company].compact
 
-      @search_companies = [current_user.company].compact
-      @search_teams = current_user.company ? current_user.company.teams : []
-      @search_users = current_user.company ? current_user.company.teams.map(&:users).flatten : []
+      # Владелец компании
+      if current_user.company.present?
+        @sidebar_companies = [current_user.company]
+        @search_companies = [current_user.company]
+        @search_teams = current_user.company.teams
+        @search_users = current_user.company.teams.map(&:users).flatten
+        @orphan_teams = []
+        @orphan_users = [current_user]
+      else
+        @sidebar_companies = []
+        @search_companies = []
+        @search_teams = []
+        @search_users = []
+        @orphan_teams = []
+        @orphan_users = [current_user]
+      end
 
     elsif current_user.manager?
       @sidebar_context = :manager
-      @sidebar_companies = [current_user.team&.company].compact
 
-      @search_companies = [current_user.team&.company].compact
-      @search_teams = [current_user.team].compact
-      @search_users = [current_user.team&.users].compact.flatten
+      # Логика для менеджера
+      if current_user.team.present?
+        if current_user.team.company.present?
+          @sidebar_companies = [current_user.team.company]
+          @orphan_teams = []
+          @orphan_users = []
+
+          # Менеджер всегда видит свою команду (полностью)
+          # Добавим базовый список
+          @search_teams = [current_user.team]
+          @search_users = current_user.team.users
+
+          # Если у компании charts_on, то позволяем видеть остальные команды (только если charts_visible)
+          if current_user.team.company.charts_visible?
+            all_teams = current_user.team.company.teams
+            @search_teams = all_teams
+            # Юзеры из команд, которые charts_visible = true
+            visible_teams = all_teams.where(charts_visible: true)
+            # Объединяем с собственной командой менеджера, т.к. он видит её всегда
+            all_manager_users = (current_user.team.users + visible_teams.map(&:users).flatten).uniq
+            @search_users = all_manager_users
+          end
+        else
+          # company absent?
+          @sidebar_companies = []
+          @orphan_teams = [current_user.team]
+          @orphan_users = []
+          @search_companies = []
+          @search_teams = [current_user.team]
+          @search_users = current_user.team.users
+        end
+      else
+        # manager без команды
+        @sidebar_companies = []
+        @orphan_teams = []
+        @orphan_users = []
+        @search_companies = []
+        @search_teams = []
+        @search_users = []
+      end
 
     else
+      # ---------------------------------
+      # Обычный user
+      # ---------------------------------
       @sidebar_context = :user
 
       if current_user.team.present?
@@ -64,7 +114,6 @@ class ApplicationController < ActionController::Base
 
             @search_companies = [current_user.team.company]
             all_teams = current_user.team.company.teams
-
             visible_teams = all_teams.where(charts_visible: true)
 
             @search_teams = all_teams
