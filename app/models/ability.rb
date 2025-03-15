@@ -12,45 +12,53 @@ class Ability
       can :manage, Event, eventable: user
 
       if user.team.present?
-        # team present
         if user.team.charts_visible?
-          # team charts on
           if user.team.company.present?
-            # company present
             if user.team.company.charts_visible?
-              # company charts on
+              can :sidenav, Company, id: user.team.company_id
               can :read, Company, id: user.team.company_id
+
               can :sidenav, Team, company_id: user.team.company_id
-              # can read all teams that enabled charts
+
               can :read, Team, company_id: user.team.company_id, charts_visible: true
-              # todo: finish later
+
+              can :sidenav_limited, Team, company_id: user.team.company_id, charts_visible: false
+
+              can :read, User do |u|
+                (u.team&.company_id == user.team.company_id) &&
+                  u.team&.charts_visible?
+              end
             else
-              # company charts off (if company forbids, teams can't override)
               can :sidenav, Company, id: user.team.company_id
               can :sidenav, Team, company_id: user.team.company_id
+              can :read, Team, id: user.team_id
+              can :read, User, team_id: user.team_id
             end
           else
-            # company absent
             can :read, Team, id: user.team_id
             can :read, User, team_id: user.team_id
           end
         else
-          # team charts off
           can :sidenav, Team, id: user.team_id
 
-          # can't read or manage anything else
+          if user.team.company.present?
+            if user.team.company.charts_visible?
+              can :read, Company, id: user.team.company_id
+              can :sidenav, Company, id: user.team.company_id
+
+              can :sidenav_limited, Team, id: user.team_id
+              can :read, Team, company_id: user.team.company_id, charts_visible: true
+            else
+              can :sidenav, Company, id: user.team.company_id
+              can :sidenav, Team, id: user.team_id
+            end
+          else
+            can :sidenav, Team, id: user.team_id
+          end
         end
       else
-        # no team
 
-        # can't read or manage anything else
       end
-
-      # if user&.team&.company_id.present? && user.team.company.charts_visible?
-      #   can :read, Company, id: user.team.company_id
-      #   can :read, Team, company_id: user.team.company_id
-      #   can :read, User, team_id: user.team.company.teams.pluck(:id)
-      # end
 
       can :manage, User, id: user.id
     end

@@ -28,7 +28,6 @@ RSpec.configure do |config|
   Capybara.app_host = 'http://localhost'
   Capybara.always_include_port = true
   # default timeout
-  Net::HTTP.default_read_timeout = 10
   Capybara.default_max_wait_time = 10
 
   config.include Devise::Test::ControllerHelpers, :type => :controller

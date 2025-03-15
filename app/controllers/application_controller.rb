@@ -26,6 +26,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
+
   def set_sidenav_context!
     if current_user.superadmin?
       @sidebar_context = :superadmin
@@ -34,6 +35,7 @@ class ApplicationController < ActionController::Base
       @search_companies = Company.all
       @search_teams = Team.all
       @search_users = User.all
+
     elsif current_user.company_owner?
       @sidebar_context = :company_owner
       @sidebar_companies = [current_user.company].compact
@@ -41,6 +43,7 @@ class ApplicationController < ActionController::Base
       @search_companies = [current_user.company].compact
       @search_teams = current_user.company ? current_user.company.teams : []
       @search_users = current_user.company ? current_user.company.teams.map(&:users).flatten : []
+
     elsif current_user.manager?
       @sidebar_context = :manager
       @sidebar_companies = [current_user.team&.company].compact
@@ -48,12 +51,37 @@ class ApplicationController < ActionController::Base
       @search_companies = [current_user.team&.company].compact
       @search_teams = [current_user.team].compact
       @search_users = [current_user.team&.users].compact.flatten
+
     else
       @sidebar_context = :user
 
       if current_user.team.present?
         if current_user.team.company.present?
+          if current_user.team.company.charts_visible?
+            @sidebar_companies = [current_user.team.company]
+            @orphan_teams = []
+            @orphan_users = []
 
+            @search_companies = [current_user.team.company]
+            all_teams = current_user.team.company.teams
+
+            visible_teams = all_teams.where(charts_visible: true)
+
+            @search_teams = all_teams
+            @search_users = visible_teams.map(&:users).flatten
+          else
+            @sidebar_companies = [current_user.team.company]
+            @orphan_teams = []
+            @orphan_users = []
+
+            @search_companies = [current_user.team.company]
+            @search_teams = [current_user.team]
+            if current_user.team.charts_visible?
+              @search_users = current_user.team.users
+            else
+              @search_users = [current_user]
+            end
+          end
         else
           if current_user.team.charts_visible?
             @sidebar_companies = []
@@ -62,16 +90,16 @@ class ApplicationController < ActionController::Base
             @orphan_users = []
 
             @search_companies = []
-            @search_teams = [current_user.team].compact
-            @search_users = [current_user.team.users].compact.flatten
+            @search_teams = [current_user.team]
+            @search_users = current_user.team.users
           else
             @sidebar_companies = []
             @orphan_teams = [current_user.team]
             @orphan_users = []
 
             @search_companies = []
-            @search_teams = [current_user.team].compact
-            @search_users = [current_user].compact
+            @search_teams = [current_user.team]
+            @search_users = [current_user]
           end
         end
       else
@@ -83,10 +111,8 @@ class ApplicationController < ActionController::Base
         @search_teams = []
         @search_users = []
       end
-
     end
   end
-
 
   def redirect_to_www
     if request.host == 'pdpcharts.com'

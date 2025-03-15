@@ -63,7 +63,7 @@
       <h3 class="font-bold text-sm text-gray-400"><%= t('sidenav.companies') %></h3>
 
       <% @sidebar_companies.each do |company| %>
-        <% next unless (can?(:read, company) || can?(:sidenav, company)) %>
+        <% next unless (can?(:read, company) || can?(:sidenav, company) || can?(:sidenav_limited, company)) %>
         <div x-data="{ openCompany: <%= company_path_open?(company) %> }" class="border border-gray-700 rounded">
           <div
               @click="openCompany = !openCompany"
@@ -106,7 +106,7 @@
 
           <div x-show="openCompany" class="transition-all">
             <% company.teams.each do |team| %>
-              <% next unless (can?(:read, team) || can?(:sidenav, team)) %>
+              <% next unless (can?(:read, team) || can?(:sidenav, team) || can?(:sidenav_limited, team)) %>
 
               <div x-data="{ openTeam: <%= team_path_open?(company, team) %> }" class="ml-4 mt-1 border-l border-gray-600">
                 <div
@@ -150,7 +150,7 @@
 
                 <div x-show="openTeam" class="ml-4 border-l border-gray-500 pl-2 py-1 space-y-1 transition-all">
                   <% team.users.each do |user| %>
-                    <% next unless (can?(:read, user) || can?(:sidenav, user)) %>
+                    <% next unless (can?(:read, user) || can?(:sidenav, user) || can?(:sidenav_limited, user)) %>
 
                     <div class="flex items-center justify-between hover:bg-gray-700 text-sm <%= 'bg-gray-500' if user_path_active?(company, team, user) %>">
                       <div class="flex items-center space-x-1">
@@ -198,7 +198,7 @@
       <h3 class="font-bold text-sm text-gray-400"><%= t('sidenav.orphan_teams') %></h3>
 
       <% @orphan_teams.each do |team| %>
-        <% next unless (can?(:read, team) || can?(:sidenav, team)) %>
+        <% next unless (can?(:read, team) || can?(:sidenav, team) || can?(:sidenav_limited, team)) %>
         <% company = :na %>
 
         <div x-data="{ openTeam: <%= team_path_open?(company, team) %> }" class="border border-gray-700 rounded">
@@ -243,7 +243,7 @@
 
           <div x-show="openTeam" class="ml-4 border-l border-gray-500 pl-2 py-1 space-y-1 transition-all">
             <% team.users.each do |user| %>
-              <% next unless (can?(:read, user) || can?(:sidenav, user)) %>
+              <% next unless (can?(:read, user) || can?(:sidenav, user) || can?(:sidenav_limited, user)) %>
 
               <div class="flex items-center justify-between hover:bg-gray-700 text-sm <%= 'bg-gray-500' if user_path_active?(company, team, user) %>">
                 <div class="flex items-center space-x-1">
@@ -291,7 +291,7 @@
         <% company = :na %>
         <% team = :na %>
 
-        <% next unless (can?(:read, user) || can?(:sidenav, user)) %>
+        <% next unless (can?(:read, user) || can?(:sidenav, user) || can?(:sidenav_limited, user)) %>
 
         <div class="flex items-center justify-between hover:bg-gray-700 text-sm <%= 'bg-gray-500' if user_path_active?(company, team, user) %>">
           <div class="flex items-center space-x-1">
