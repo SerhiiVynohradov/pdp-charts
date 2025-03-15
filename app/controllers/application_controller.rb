@@ -28,6 +28,8 @@ class ApplicationController < ActionController::Base
 
 
   def set_sidenav_context!
+    return unless user_signed_in?
+
     if current_user.superadmin?
       @sidebar_context = :superadmin
       @sidebar_companies = Company.all

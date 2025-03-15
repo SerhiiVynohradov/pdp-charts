@@ -42,7 +42,11 @@ class User < ApplicationRecord
     # Сценарий 2: у юзера есть команда, но нет компании => платит менеджер
     if self.team.company.nil?
       manager = self.team.manager
-      return "#{manager.name} (user/manager id: #{manager.id})"
+      if manager.nil?
+        return "No manager found for team id: #{self.team.id}"
+      else
+        return "#{manager.name} (user/manager id: #{manager.id})"
+      end
     end
 
     # Сценарий 3: у юзера есть компания => платит компания

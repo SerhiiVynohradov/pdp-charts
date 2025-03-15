@@ -75,6 +75,8 @@ module ApplicationHelper
   end
 
   def user_path(company, team, user)
+    return my_items_path if user == current_user
+
     if company && team && user
 
       if @sidebar_context == :superadmin
@@ -84,11 +86,7 @@ module ApplicationHelper
       elsif @sidebar_context == :manager
         manager_team_user_path(team, user)
       else
-        if user == current_user
-          my_items_path
-        else
-          my_team_user_path(team, user)
-        end
+        my_team_user_path(team, user)
       end
 
     else
