@@ -1,4 +1,5 @@
 <aside
+  id="sidenav"
   class="
     bg-gray-800 text-white
     w-96
@@ -44,23 +45,25 @@
     </div>
   </div>
 
-  <div class="p-4 border-b border-gray-700">
-    <input
-        type="text"
-        class="w-full bg-gray-700 text-white rounded px-3 py-2
-               focus:outline-none focus:ring-2 focus:ring-blue-500"
-        placeholder="<%= t('sidenav.search_placeholder') %>"
-        data-search-filter-target="searchInput"
-        data-action="input->search-filter#filter"
-        />
-  </div>
+  <% if @search_companies.present? || @search_teams.present? || @search_users.present? %>
+    <div class="p-4 border-b border-gray-700">
+      <input
+          type="text"
+          class="w-full bg-gray-700 text-white rounded px-3 py-2
+                 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="<%= t('sidenav.search_placeholder') %>"
+          data-search-filter-target="searchInput"
+          data-action="input->search-filter#filter"
+          />
+    </div>
+  <% end %>
 
   <div data-search-filter-target="hierarchyContainer" class="p-4 space-y-4">
     <% if @sidebar_companies.present? %>
       <h3 class="font-bold text-sm text-gray-400"><%= t('sidenav.companies') %></h3>
 
       <% @sidebar_companies.each do |company| %>
-        <% next unless can?(:read, company) %>
+        <% next unless (can?(:read, company) || can?(:sidenav, company)) %>
         <div x-data="{ openCompany: <%= company_path_open?(company) %> }" class="border border-gray-700 rounded">
           <div
               @click="openCompany = !openCompany"
@@ -81,8 +84,10 @@
               </div>
 
               <div class="flex items-center space-x-2 whitespace-nowrap">
-                <%= link_to company_path(company), class: 'text-xs underline hover:text-blue-300' do %>
-                  <%= t('sidenav.entire_company') %>
+                <% if can?(:read, company) %>
+                  <%= link_to company_path(company), class: 'text-xs underline hover:text-blue-300' do %>
+                    <%= t('sidenav.entire_company') %>
+                  <% end %>
                 <% end %>
 
                 <% if can?(:manage, company) %>
@@ -101,7 +106,7 @@
 
           <div x-show="openCompany" class="transition-all">
             <% company.teams.each do |team| %>
-              <% next unless can?(:read, team) %>
+              <% next unless (can?(:read, team) || can?(:sidenav, team)) %>
 
               <div x-data="{ openTeam: <%= team_path_open?(company, team) %> }" class="ml-4 mt-1 border-l border-gray-600">
                 <div
@@ -123,8 +128,10 @@
                     </div>
 
                     <div class="flex items-center space-x-2 whitespace-nowrap">
-                      <%= link_to team_path(company, team), class: 'text-xs underline hover:text-blue-300' do %>
-                        <%= t('sidenav.entire_team') %>
+                      <% if can?(:read, team) %>
+                        <%= link_to team_path(company, team), class: 'text-xs underline hover:text-blue-300' do %>
+                          <%= t('sidenav.entire_team') %>
+                        <% end %>
                       <% end %>
 
                       <% if can?(:manage, team) %>
@@ -143,7 +150,7 @@
 
                 <div x-show="openTeam" class="ml-4 border-l border-gray-500 pl-2 py-1 space-y-1 transition-all">
                   <% team.users.each do |user| %>
-                    <% next unless can?(:read, user) %>
+                    <% next unless (can?(:read, user) || can?(:sidenav, user)) %>
 
                     <div class="flex items-center justify-between hover:bg-gray-700 text-sm <%= 'bg-gray-500' if user_path_active?(company, team, user) %>">
                       <div class="flex items-center space-x-1">
@@ -191,7 +198,7 @@
       <h3 class="font-bold text-sm text-gray-400"><%= t('sidenav.orphan_teams') %></h3>
 
       <% @orphan_teams.each do |team| %>
-        <% next unless can?(:read, team) %>
+        <% next unless (can?(:read, team) || can?(:sidenav, team)) %>
         <% company = :na %>
 
         <div x-data="{ openTeam: <%= team_path_open?(company, team) %> }" class="border border-gray-700 rounded">
@@ -214,8 +221,10 @@
               </div>
 
               <div class="flex items-center space-x-2 whitespace-nowrap">
-                <%= link_to team_path(company, team), class: 'text-xs underline hover:text-blue-300' do %>
-                  <%= t('sidenav.entire_team') %>
+                <% if can?(:read, team) %>
+                  <%= link_to team_path(company, team), class: 'text-xs underline hover:text-blue-300' do %>
+                    <%= t('sidenav.entire_team') %>
+                  <% end %>
                 <% end %>
 
                 <% if can?(:manage, team) %>
@@ -234,7 +243,7 @@
 
           <div x-show="openTeam" class="ml-4 border-l border-gray-500 pl-2 py-1 space-y-1 transition-all">
             <% team.users.each do |user| %>
-              <% next unless can?(:read, user) %>
+              <% next unless (can?(:read, user) || can?(:sidenav, user)) %>
 
               <div class="flex items-center justify-between hover:bg-gray-700 text-sm <%= 'bg-gray-500' if user_path_active?(company, team, user) %>">
                 <div class="flex items-center space-x-1">
@@ -282,7 +291,7 @@
         <% company = :na %>
         <% team = :na %>
 
-        <% next unless can?(:read, user) %>
+        <% next unless (can?(:read, user) || can?(:sidenav, user)) %>
 
         <div class="flex items-center justify-between hover:bg-gray-700 text-sm <%= 'bg-gray-500' if user_path_active?(company, team, user) %>">
           <div class="flex items-center space-x-1">

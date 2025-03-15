@@ -50,11 +50,40 @@ class ApplicationController < ActionController::Base
       @search_users = [current_user.team&.users].compact.flatten
     else
       @sidebar_context = :user
-      @sidebar_companies = [current_user.team&.company].compact
 
-      @search_companies = [current_user.team&.company].compact
-      @search_teams = [current_user.team].compact
-      @search_users = [current_user.team&.users].compact.flatten
+      if current_user.team.present?
+        if current_user.team.company.present?
+
+        else
+          if current_user.team.charts_visible?
+            @sidebar_companies = []
+
+            @orphan_teams = [current_user.team]
+            @orphan_users = []
+
+            @search_companies = []
+            @search_teams = [current_user.team].compact
+            @search_users = [current_user.team.users].compact.flatten
+          else
+            @sidebar_companies = []
+            @orphan_teams = [current_user.team]
+            @orphan_users = []
+
+            @search_companies = []
+            @search_teams = [current_user.team].compact
+            @search_users = [current_user].compact
+          end
+        end
+      else
+        @sidebar_companies = []
+        @orphan_teams = []
+        @orphan_users = []
+
+        @search_companies = []
+        @search_teams = []
+        @search_users = []
+      end
+
     end
   end
 

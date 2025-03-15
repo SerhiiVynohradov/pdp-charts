@@ -1,7 +1,9 @@
 Capybara.register_driver :headless_chrome do |app|
   options = Selenium::WebDriver::Chrome::Options.new
 
-  options.add_argument('--headless=new')
+  unless ENV['NOHEADLESS'] == 'true'
+    options.add_argument('--headless=new')
+  end
   options.add_argument('--profile-directory=Default')
   options.add_argument('--disable-infobars')
   options.add_argument('--no-sandbox')

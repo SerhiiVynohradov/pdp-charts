@@ -27,6 +27,9 @@ Rails.root.glob('spec/requests/shared_examples/**/*.rb').each {|f| require f}
 RSpec.configure do |config|
   Capybara.app_host = 'http://localhost'
   Capybara.always_include_port = true
+  # default timeout
+  Net::HTTP.default_read_timeout = 10
+  Capybara.default_max_wait_time = 10
 
   config.include Devise::Test::ControllerHelpers, :type => :controller
   config.include Devise::Test::IntegrationHelpers, type: :request
@@ -43,6 +46,22 @@ RSpec.configure do |config|
   config.infer_spec_type_from_file_location!
 
   config.filter_rails_from_backtrace!
+
+  config.around(:each) do |example|
+    attempts = 3
+
+    begin
+      example.run
+    rescue Net::ReadTimeout => e
+      attempts -= 1
+      if attempts > 0
+        puts "Поймали Net::ReadTimeout, пробуем ещё раз (осталось попыток: #{attempts})"
+        retry
+      else
+        raise e
+      end
+    end
+  end
 end
 
 Shoulda::Matchers.configure do |config|
