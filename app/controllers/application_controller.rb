@@ -67,6 +67,7 @@ class ApplicationController < ActionController::Base
 
           # Менеджер всегда видит свою команду (полностью)
           # Добавим базовый список
+          @search_companies = [current_user.team.company]
           @search_teams = [current_user.team]
           @search_users = current_user.team.users
 
